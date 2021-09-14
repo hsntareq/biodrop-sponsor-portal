@@ -7,6 +7,7 @@ namespace Sponsor\Portal\Admin;
  */
 class SponsorForm {
 
+	public $errors = array();
 	/**
 	 * Function menu_function
 	 *
@@ -56,10 +57,42 @@ class SponsorForm {
 			wp_die( 'Are you cheating?' );
 		}
 
-		echo '<pre>';
-		var_dump( sp_po_insert_protocol() );
-		print_r( $_POST );
-		echo '</pre>';
-		die;
+		$name    = isset( $_POST['name'] ) ? sanitize_text_field( $_POST['name'] ) : '';
+		$address = isset( $_POST['address'] ) ? sanitize_textarea_field( $_POST['address'] ) : '';
+		$phone   = isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : '';
+
+		if ( empty( $name ) ) {
+			$this->errors['name'] = __( 'Please provide a name', 'sponsor-portal' );
+		}
+		if ( empty( $phone ) ) {
+			$this->errors['phone'] = __( 'Please provide a phone', 'sponsor-portal' );
+		}
+		if ( ! empty( $this->errors ) ) {
+			return;
+		}
+
+		$insert_id = sp_po_insert_protocol(
+			array(
+				'name'    => $name,
+				'address' => $address,
+				'phone'   => $phone,
+			)
+		);
+
+		if ( is_wp_error( $insert_id ) ) {
+			wp_die( $insert_id->get_error_messages() );
+		}
+
+		$redirect_to = add_query_arg(
+			array(
+				'page'     => 'biodrop-portal',
+				'inserted' => 'true',
+			),
+			admin_url( 'admin.php' )
+		);
+
+		wp_redirect( $redirect_to );
+
+		exit;
 	}
 }

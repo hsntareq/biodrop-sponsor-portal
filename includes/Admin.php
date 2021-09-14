@@ -13,8 +13,9 @@ class Admin {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->dispatch_actions();
-		new Admin\Menu();
+		$protocol = new Admin\SponsorForm();
+		$this->dispatch_actions( $protocol );
+		new Admin\Menu( $protocol );
 	}
 
 	/**
@@ -22,8 +23,7 @@ class Admin {
 	 *
 	 * @return void
 	 */
-	public function dispatch_actions() {
-		$protocol = new Admin\SponsorForm();
+	public function dispatch_actions( $protocol ) {
 		add_action( 'admin_init', array( $protocol, 'form_handler' ) );
 	}
 }

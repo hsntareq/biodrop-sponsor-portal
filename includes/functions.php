@@ -9,7 +9,7 @@
 function sp_po_insert_protocol( $args = array() ) {
 	global $wpdb;
 
-	if ( empty( $data['name'] ) ) {
+	if ( empty( $args['name'] ) ) {
 		return new \WP_Error( 'no-name', __( 'You must provide a name', 'sponsor-portal' ) );
 	}
 
@@ -20,8 +20,8 @@ function sp_po_insert_protocol( $args = array() ) {
 		'created_by' => get_current_user_id(),
 		'created_at' => current_time( 'mysql' ),
 	);
-	$format   = array( '%s', '%s', '%s', '%d', '%s' );
 	$data     = wp_parse_args( $args, $defaults );
+	$format   = array( '%s', '%s', '%s', '%d', '%s' );
 
 	$inserted = $wpdb->insert(
 		"{$wpdb->prefix}sponsor_protocol",
@@ -34,4 +34,29 @@ function sp_po_insert_protocol( $args = array() ) {
 	}
 
 	return $wpdb->insert_id;
+}
+
+
+function sp_po_get_protocol( $args = array() ) {
+	global $wpdb;
+
+	$defaults = array(
+		'number'  => 20,
+		'offset'  => 0,
+		'orderby' => 'id',
+		'order'   => 'ASC',
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+
+	$items = $wpdb->get_results(
+		$wpdb->prepare( "SELECT * FROM {$wpdb->prefix}sponsor_protocol ORDER BY %s %s LIMIT %d, %d", $args['orderby'], $args['order'], $args['offset'], $args['number'] )
+	);
+
+	return $items;
+}
+
+function sp_po_protocol_count() {
+	global $wpdb;
+	return (int) $wpdb->get_var( "SELECT count(id) FROM {$wpdb->prefix}sponsor_protocol" );
 }

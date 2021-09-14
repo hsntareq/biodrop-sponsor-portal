@@ -6,6 +6,9 @@ $url = add_query_arg(
 	),
 	admin_url( 'admin.php' )
 );
+echo '<pre>';
+var_dump( $this->errors );
+echo '</pre>';
 ?>
 <div class="wrap">
 	<h1 class="wp-heading-inline"><?php esc_html_e( 'Sponsor Protocol', 'sponsor-protocol' ); ?></h1>
