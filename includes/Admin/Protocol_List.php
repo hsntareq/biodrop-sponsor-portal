@@ -22,10 +22,19 @@ class Protocol_List extends \WP_List_Table {
 		return array(
 			'cb'         => '<input type="checkbox">',
 			'name'       => __( 'Name', 'sponsor-portal' ),
+			'address'    => __( 'Address', 'sponsor-portal' ),
 			'phone'      => __( 'Phone', 'sponsor-portal' ),
 			'created_at' => __( 'Date', 'sponsor-portal' ),
 		);
 
+	}
+
+	public function get_sortable_columns() {
+		$sortable_columns = array(
+			'name'       => array( 'name', true ),
+			'created_at' => array( 'created_at', true ),
+		);
+		return $sortable_columns;
 	}
 
 	protected function column_default( $item, $column_name ) {
@@ -102,14 +111,33 @@ class Protocol_List extends \WP_List_Table {
 		$per_page = 20;
 
 		$this->_column_headers = array( $column, $hidden, $sortable );
+		$current_page          = $this->get_pagenum();
+		$offset                = ( $current_page - 1 ) * $per_page;
 
-		$this->items = sp_po_get_protocol();
+		$args = array(
+			'number' => $per_page,
+			'offset' => $offset,
+		);
+		if ( isset( $_REQUEST['orderby'] ) && isset( $_REQUEST['order'] ) ) {
+			$args['orderby'] = $_REQUEST['orderby'];
+			$args['order']   = $_REQUEST['order'];
+		}
+
+		$this->items = sp_po_get_protocol( $args );
 		$this->set_pagination_args(
 			array(
 				'total_items' => sp_po_protocol_count(),
 				'per_page'    => $per_page,
 			)
 		);
+	}
+
+	public function has_error( $key ) {
+		return isset( $this->errors[ $key ] ) ? true : false;
+	}
+
+	public function get_error( $key ) {
+		return isset( $this->errors[ $key ] ) ? $this->errors[ $key ] : false;
 	}
 
 }

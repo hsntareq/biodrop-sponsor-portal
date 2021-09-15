@@ -50,7 +50,7 @@ function sp_po_get_protocol( $args = array() ) {
 	$args = wp_parse_args( $args, $defaults );
 
 	$items = $wpdb->get_results(
-		$wpdb->prepare( "SELECT * FROM {$wpdb->prefix}sponsor_protocol ORDER BY %s %s LIMIT %d, %d", $args['orderby'], $args['order'], $args['offset'], $args['number'] )
+		$wpdb->prepare( "SELECT * FROM {$wpdb->prefix}sponsor_protocol ORDER BY {$args['orderby']} {$args['order']} LIMIT %d, %d", $args['offset'], $args['number'] )
 	);
 
 	return $items;
@@ -59,4 +59,14 @@ function sp_po_get_protocol( $args = array() ) {
 function sp_po_protocol_count() {
 	global $wpdb;
 	return (int) $wpdb->get_var( "SELECT count(id) FROM {$wpdb->prefix}sponsor_protocol" );
+}
+
+function sp_po_get_a_protocol( $id ) {
+	global $wpdb;
+	$wpdb->prepare( "SELECT * FROM {$wpdb->prefix}sponsor_protocol WHERE id = %d", $id );
+}
+
+function sp_po_delete_a_protocol( $id ) {
+	global $wpdb;
+	$wpdb->delete( $wpdb->prefix . 'sponsor_protocol', array( 'id' => $id ), array( '%d' ) );
 }

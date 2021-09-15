@@ -23,6 +23,10 @@ echo '</pre>';
 					</th>
 					<td>
 						<input type="text" name="name" id="name" class="regular-text" value="">
+
+						<?php if ( $this->has_error( 'name' ) ) : ?>
+							<p class="description error"><?php echo $this->get_error( 'name' ); ?></p>
+						<?php endif; ?>
 					</td>
 				</tr>
 				<tr>
