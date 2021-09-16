@@ -23,14 +23,26 @@ function sp_po_insert_protocol( $args = array() ) {
 	$data     = wp_parse_args( $args, $defaults );
 	$format   = array( '%s', '%s', '%s', '%d', '%s' );
 
-	$inserted = $wpdb->insert(
-		"{$wpdb->prefix}sponsor_protocol",
-		$data,
-		$format
-	);
+	if ( isset( $data['id'] ) ) {
+		$id      = $data['id'];
+		$updated = $wpdb->update(
+			"{$wpdb->prefix}sponsor_protocol",
+			$data,
+			array( 'id' => $id ),
+			$format,
+			array( '%d' )
+		);
+		return $updated;
+	} else {
+		$inserted = $wpdb->insert(
+			"{$wpdb->prefix}sponsor_protocol",
+			$data,
+			$format
+		);
 
-	if ( ! $inserted ) {
-		return new \WP_Error( 'failed-to-insert', __( 'Failed to insert data', 'sponsor-portal' ) );
+		if ( ! $inserted ) {
+			return new \WP_Error( 'failed-to-insert', __( 'Failed to insert data', 'sponsor-portal' ) );
+		}
 	}
 
 	return $wpdb->insert_id;
@@ -63,12 +75,12 @@ function sp_po_protocol_count() {
 
 function sp_po_get_protocol( $id ) {
 	global $wpdb;
-	$wpdb->get_row(
+	return $wpdb->get_row(
 		$wpdb->prepare( "SELECT * FROM {$wpdb->prefix}sponsor_protocol WHERE id = %d", $id )
 	);
 }
 
 function sp_po_delete_protocol( $id ) {
 	global $wpdb;
-	$wpdb->delete( $wpdb->prefix . 'sponsor_protocol', array( 'id' => $id ), array( '%d' ) );
+	return $wpdb->delete( $wpdb->prefix . 'sponsor_protocol', array( 'id' => $id ), array( '%d' ) );
 }

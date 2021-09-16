@@ -20,7 +20,6 @@ class SponsorForm {
 	public function protocol_form() {
 		$action = isset( $_GET['action'] ) ? $_GET['action'] : 'list';
 		$id     = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0;
-		var_dump($id);
 
 		switch ( $action ) {
 			case 'new':
@@ -28,11 +27,7 @@ class SponsorForm {
 				break;
 
 			case 'edit':
-				$sprotocol = sp_po_get_protocol( $id );
-				echo '<pre>';
-				print_r( $sprotocol );
-				echo '</pre>';
-				die;
+				$protocol = sp_po_get_protocol( $id );
 				$template = __DIR__ . '/views/protocol-edit.php';
 				break;
 
@@ -68,6 +63,7 @@ class SponsorForm {
 			wp_die( 'Are you cheating?' );
 		}
 
+		$id      = isset( $_POST['id'] ) ? intval( $_POST['id'] ) : 0;
 		$name    = isset( $_POST['name'] ) ? sanitize_text_field( $_POST['name'] ) : '';
 		$address = isset( $_POST['address'] ) ? sanitize_textarea_field( $_POST['address'] ) : '';
 		$phone   = isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : '';
@@ -82,28 +78,72 @@ class SponsorForm {
 			return;
 		}
 
-		$insert_id = sp_po_insert_protocol(
-			array(
-				'name'    => $name,
-				'address' => $address,
-				'phone'   => $phone,
-			)
+		$args = array(
+			'name'    => $name,
+			'address' => $address,
+			'phone'   => $phone,
 		);
+
+		if ( $id ) {
+			$args['id']  = $id;
+			$redirect_to = add_query_arg(
+				array(
+					'page'    => 'biodrop-portal',
+					'action'  => 'edit',
+					'updated' => 'true',
+					'id'      => $id,
+				),
+				admin_url( 'admin.php' )
+			);
+		} else {
+			$redirect_to = add_query_arg(
+				array(
+					'page'     => 'biodrop-portal',
+					'inserted' => 'true',
+				),
+				admin_url( 'admin.php' )
+			);
+		}
+
+		$insert_id = sp_po_insert_protocol( $args );
 
 		if ( is_wp_error( $insert_id ) ) {
 			wp_die( $insert_id->get_error_messages() );
 		}
 
-		$redirect_to = add_query_arg(
-			array(
-				'page'     => 'biodrop-portal',
-				'inserted' => 'true',
-			),
-			admin_url( 'admin.php' )
-		);
-
 		wp_redirect( $redirect_to );
 
+		exit;
+	}
+
+	public function delete_protocol() {
+		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'sp-po-delete-action' ) ) {
+			wp_die( 'Are you cheating2?' );
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( 'Are you cheating1?' );
+		}
+		$id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
+
+		if ( sp_po_delete_protocol( $id ) ) {
+			$redirect_to = add_query_arg(
+				array(
+					'page'    => 'biodrop-portal',
+					'deleted' => 'true',
+				),
+				admin_url( 'admin.php' )
+			);
+		} else {
+			$redirect_to = add_query_arg(
+				array(
+					'page'    => 'biodrop-portal',
+					'deleted' => 'true',
+				),
+				admin_url( 'admin.php' )
+			);
+		}
+		wp_redirect( $redirect_to );
 		exit;
 	}
 }

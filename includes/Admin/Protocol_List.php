@@ -75,8 +75,8 @@ class Protocol_List extends \WP_List_Table {
 					admin_url( 'admin-post.php' )
 				)
 			),
-			__( 'Edit', 'sponsor' ),
-			__( 'Edit', 'sponsor' ),
+			__( 'Delete', 'sponsor' ),
+			__( 'Delete', 'sponsor' ),
 		);
 
 		return sprintf(
