@@ -6,9 +6,6 @@ $url = add_query_arg(
 	),
 	admin_url( 'admin.php' )
 );
-echo '<pre>';
-var_dump( $this->errors );
-echo '</pre>';
 ?>
 <div class="wrap">
 	<h1 class="wp-heading-inline"><?php esc_html_e( 'Sponsor Protocol', 'sponsor-protocol' ); ?></h1>
@@ -17,12 +14,12 @@ echo '</pre>';
 	<form action="" method="POST">
 		<table class="form-table">
 			<tbody>
-				<tr>
+				<tr class="row<?php echo $this->has_error( 'name' ) ? ' form-invalid' : ''; ?>">
 					<th scope="row">
 						<label for="name"><?php esc_html_e( 'Name', 'sponsor-protocol' ); ?></label>
 					</th>
 					<td>
-						<input type="text" name="name" id="name" class="regular-text" value="">
+						<input type="text" name="name" id="name" class="regular-text form-required" value="">
 
 						<?php if ( $this->has_error( 'name' ) ) : ?>
 							<p class="description error"><?php echo $this->get_error( 'name' ); ?></p>
@@ -37,12 +34,15 @@ echo '</pre>';
 						<textarea name="address" id="address" class="regular-text"></textarea>
 					</td>
 				</tr>
-				<tr>
+				<tr class="row<?php echo $this->has_error( 'phone' ) ? ' form-invalid' : ''; ?>">
 					<th scope="row">
 						<label for="phone"><?php esc_html_e( 'Phone', 'sponsor-protocol' ); ?></label>
 					</th>
 					<td>
-						<input type="text" name="phone" id="phone" class="regular-text" value="">
+						<input type="text" name="phone" id="phone" class="regular-text form-required" value="">
+						<?php if ( $this->has_error( 'phone' ) ) : ?>
+							<p class="description error"><?php echo $this->get_error( 'phone' ); ?></p>
+						<?php endif; ?>
 					</td>
 				</tr>
 			</tbody>

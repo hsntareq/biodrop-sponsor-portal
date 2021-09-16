@@ -2,10 +2,14 @@
 
 namespace Sponsor\Portal\Admin;
 
+use Sponsor\Portal\Traits\Form_Error;
+
 /**
  * Class BasePlugin
  */
 class SponsorForm {
+
+	use Form_Error;
 
 	public $errors = array();
 	/**
@@ -15,6 +19,8 @@ class SponsorForm {
 	 */
 	public function protocol_form() {
 		$action = isset( $_GET['action'] ) ? $_GET['action'] : 'list';
+		$id     = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0;
+		var_dump($id);
 
 		switch ( $action ) {
 			case 'new':
@@ -22,6 +28,11 @@ class SponsorForm {
 				break;
 
 			case 'edit':
+				$sprotocol = sp_po_get_protocol( $id );
+				echo '<pre>';
+				print_r( $sprotocol );
+				echo '</pre>';
+				die;
 				$template = __DIR__ . '/views/protocol-edit.php';
 				break;
 

@@ -21,10 +21,10 @@ class Protocol_List extends \WP_List_Table {
 	public function get_columns() {
 		return array(
 			'cb'         => '<input type="checkbox">',
-			'name'       => __( 'Name', 'sponsor-portal' ),
-			'address'    => __( 'Address', 'sponsor-portal' ),
-			'phone'      => __( 'Phone', 'sponsor-portal' ),
-			'created_at' => __( 'Date', 'sponsor-portal' ),
+			'name'       => __( 'Name', 'sponsor' ),
+			'address'    => __( 'Address', 'sponsor' ),
+			'phone'      => __( 'Phone', 'sponsor' ),
+			'created_at' => __( 'Date', 'sponsor' ),
 		);
 
 	}
@@ -60,8 +60,8 @@ class Protocol_List extends \WP_List_Table {
 				),
 				admin_url( 'admin.php' )
 			),
-			__( 'Edit', 'sponsor-portal' ),
-			__( 'Edit', 'sponsor-portal' ),
+			__( 'Edit', 'sponsor' ),
+			__( 'Edit', 'sponsor' ),
 		);
 		$actions['delete'] = sprintf(
 			'<a class="submitdelete" onclick="return confirm(\'Are you confirm?\');" href="%s" title="%s">%s</a>',
@@ -75,8 +75,8 @@ class Protocol_List extends \WP_List_Table {
 					admin_url( 'admin-post.php' )
 				)
 			),
-			__( 'Edit', 'sponsor-portal' ),
-			__( 'Edit', 'sponsor-portal' ),
+			__( 'Edit', 'sponsor' ),
+			__( 'Edit', 'sponsor' ),
 		);
 
 		return sprintf(
@@ -123,21 +123,13 @@ class Protocol_List extends \WP_List_Table {
 			$args['order']   = $_REQUEST['order'];
 		}
 
-		$this->items = sp_po_get_protocol( $args );
+		$this->items = sp_po_get_protocols( $args );
 		$this->set_pagination_args(
 			array(
 				'total_items' => sp_po_protocol_count(),
 				'per_page'    => $per_page,
 			)
 		);
-	}
-
-	public function has_error( $key ) {
-		return isset( $this->errors[ $key ] ) ? true : false;
-	}
-
-	public function get_error( $key ) {
-		return isset( $this->errors[ $key ] ) ? $this->errors[ $key ] : false;
 	}
 
 }
