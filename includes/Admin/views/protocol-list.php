@@ -15,7 +15,7 @@ $url = add_query_arg(
 	<?php } ?>
 	<form action="" method="POST">
 		<?php
-		$table = new \Sponsor\Portal\Admin\Protocol_List();
+		$table = new \Sponsor\Admin\Protocol_List();
 		$table->prepare_items();
 		$table->display();
 		?>

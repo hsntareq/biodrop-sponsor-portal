@@ -1,6 +1,6 @@
 <?php
 
-namespace Sponsor\Portal\Admin;
+namespace Sponsor\Admin;
 
 /**
  * Menu
@@ -26,9 +26,9 @@ class Menu {
 	public function admin_menu() {
 		$parent_slug = 'biodrop-portal';
 		$capability  = 'manage_options';
-		add_menu_page( __( 'Sponsor Portal', 'sponsor-portal' ), __( 'Sponsor Portal', 'sponsor-portal' ), $capability, $parent_slug, array( $this->protocol, 'protocol_form' ), 'dashicons-art', 2 );
-		add_submenu_page( $parent_slug, __( 'Sponsor Portal', 'sponsor-portal' ), __( 'Sponsor Portal', 'sponsor-portal' ), $capability, $parent_slug, array( $this->protocol, 'protocol_form' ) );
-		add_submenu_page( $parent_slug, __( 'Settings', 'sponsor-portal' ), __( 'Settings', 'sponsor-portal' ), $capability, 'biodrop-settings', array( $this, 'plugin_subpage' ) );
+		add_menu_page( __( 'Sponsor Portal', 'sponsor' ), __( 'Sponsor Portal', 'sponsor' ), $capability, $parent_slug, array( $this->protocol, 'protocol_form' ), 'dashicons-art', 2 );
+		add_submenu_page( $parent_slug, __( 'Sponsor Portal', 'sponsor' ), __( 'Sponsor Portal', 'sponsor' ), $capability, $parent_slug, array( $this->protocol, 'protocol_form' ) );
+		add_submenu_page( $parent_slug, __( 'Settings', 'sponsor' ), __( 'Settings', 'sponsor' ), $capability, 'biodrop-settings', array( $this, 'plugin_subpage' ) );
 
 	}
 

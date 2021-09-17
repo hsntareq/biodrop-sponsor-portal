@@ -1,6 +1,6 @@
 <?php
 
-namespace Sponsor\Portal;
+namespace Sponsor;
 
 class Installer {
 
@@ -10,11 +10,11 @@ class Installer {
 	}
 
 	public function add_version() {
-		$installed = get_option( 'sponsor_protocol_installed' );
+		$installed = get_option( 'sp_installed' );
 		if ( ! $installed ) {
-			update_option( 'sponsor_protocol_installed', time() );
+			update_option( 'sp_installed', time() );
 		}
-		update_option( 'sponsor_protocol_version', SPONSOR_PORTAL_VERSION );
+		update_option( 'sp_version', SPONSOR_VERSION );
 	}
 
 	public function create_tables() {

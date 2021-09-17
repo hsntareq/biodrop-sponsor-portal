@@ -1,6 +1,6 @@
 <?php
 
-namespace Sponsor\Portal;
+namespace Sponsor;
 
 /**
  * Admin

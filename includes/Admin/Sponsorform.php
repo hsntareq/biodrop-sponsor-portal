@@ -1,8 +1,8 @@
 <?php
 
-namespace Sponsor\Portal\Admin;
+namespace Sponsor\Admin;
 
-use Sponsor\Portal\Traits\Form_Error;
+use Sponsor\Traits\Form_Error;
 
 /**
  * Class BasePlugin
@@ -18,27 +18,8 @@ class SponsorForm {
 	 * @return void
 	 */
 	public function protocol_form() {
-		$action = isset( $_GET['action'] ) ? $_GET['action'] : 'list';
-		$id     = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0;
 
-		switch ( $action ) {
-			case 'new':
-				$template = __DIR__ . '/views/protocol-new.php';
-				break;
-
-			case 'edit':
-				$protocol = sp_po_get_protocol( $id );
-				$template = __DIR__ . '/views/protocol-edit.php';
-				break;
-
-			case 'view':
-				$template = __DIR__ . '/views/protocol-view.php';
-				break;
-
-			default:
-				$template = __DIR__ . '/views/protocol-list.php';
-				break;
-		}
+		$template = __DIR__ . '/views/protocol-main.php';
 
 		if ( file_exists( $template ) ) {
 			include $template;

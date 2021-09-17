@@ -1,5 +1,5 @@
 <?php
-namespace Sponsor\Portal\Traits;
+namespace Sponsor\Traits;
 
 trait Form_Error {
 

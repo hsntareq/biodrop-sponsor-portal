@@ -1,5 +1,5 @@
 <?php
-namespace Sponsor\Portal\Frontend;
+namespace Sponsor\Frontend;
 
 /**
  * Class Shortcode
