@@ -11,15 +11,128 @@ class SponsorForm {
 
 	use Form_Error;
 
-	public $errors = array();
+	public $errors           = array();
+	public $options_within   = array();
+	public $options_result   = array();
+	public $protocol_options = array();
+
+	public function __construct() {
+		// if(get_request('entry-status'))
+		$this->options_within = array(
+			'1_hour'                    => '1 hour',
+			'2_hours'                   => '2 hours',
+			'4_hours'                   => '4 hours',
+			'6_hours'                   => '6 hours',
+			'8_hours'                   => '8 hours',
+			'12_hours'                  => '12 hours',
+			'16_hours'                  => '16 hours',
+			'24_hours'                  => '24 hours',
+			'36_hours'                  => '36 hours',
+			'2_hours_and_prior_2_days'  => '2 hours and prior 2 days',
+			'4_hours_and_prior_2_days'  => '4 hours and prior 2 days',
+			'12_hours_and_prior_2_days' => '12 hours and prior 2 days',
+			'2_hours_and_prior_3_days'  => '2 hours and prior 3 days',
+			'4_hours_and_prior_3_days'  => '4 hours and prior 3 days',
+			'12_hours_and_prior_3_days' => '12 hours and prior 3 days',
+			'2_hours_and_prior_5_days'  => '2 hours and prior 5 days',
+			'4_hours_and_prior_5_days'  => '4 hours and prior 5 days',
+			'12_hours_and_prior_5_days' => '12 hours and prior 5 days',
+		);
+		$this->options_result = array(
+			'1_hour'   => '1 hour',
+			'2_hours'  => '2 hours',
+			'4_hours'  => '4 hours',
+			'6_hours'  => '6 hours',
+			'12_hours' => '12 hours',
+			'18_hours' => '18 hours',
+			'24_hours' => '24 hours',
+			'36_hours' => '36 hours',
+			'48_hours' => '48 hours',
+			'72_hours' => '72 hours',
+			'1_week'   => '1 week',
+			'2_weeks'  => '2 weeks',
+			'1_month'  => '1 month',
+		);
+	}
+
+
+	public function protocol_options() {
+		$options_within = $this->options_within;
+		$options_result = $this->options_result;
+		$attr           = array(
+			'sections' => array(
+				'unvaccinated' => array(
+					'heading'     => 'Unvaccinated',
+					'sub_heading' => '',
+					'fields'      => array(
+						'voice_test'    => array(
+							'label'  => 'Voice Test',
+							'switch' => 'on',
+							'value'  => array(
+								'type'    => 'switch',
+								'options' => $options_within,
+							),
+
+						),
+						'smell_test'    => array(
+							'label'  => 'Smell Test',
+							'switch' => 'off',
+							'value'  => array(
+								'type'    => 'switch',
+								'options' => $options_within,
+							),
+
+						),
+						'symptom_track' => array(
+							'label'  => 'Symptom Track',
+							'switch' => 'off',
+							'value'  => array(
+								'type'    => 'switch',
+								'options' => $options_within,
+							),
+
+						),
+						'saliva_direct' => array(
+							'label'  => 'Saliva Direct',
+							'switch' => 'off',
+							'value'  => array(
+								'type'    => 'switch',
+								'options' => $options_within,
+							),
+
+						),
+						'Do not admit'  => array(
+							'label'  => 'Do not admit',
+							'switch' => 'off',
+							'value'  => false,
+						),
+					),
+				),
+			),
+		);
+		return $attr;
+	}
+	/**
+	 * Function select_options
+	 *
+	 * @param  mixed $options
+	 * @return string
+	 */
+	public function select_options( $options = array() ) {
+		$output = '';
+		if ( $options ) {
+			foreach ( $options as $key => $option ) {
+				$output .= "<option value='{$key}'>{$option}</option>";
+			}
+		}
+		return $output;
+	}
 	/**
 	 * Function menu_function
 	 *
 	 * @return void
 	 */
 	public function protocol_form() {
-
-		// if(get_request('entry-status'))
 
 		switch ( get_request( 'nav' ) ) {
 			case 'entry-status':
