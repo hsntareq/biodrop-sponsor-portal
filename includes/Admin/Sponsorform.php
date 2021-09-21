@@ -19,11 +19,35 @@ class SponsorForm {
 	 */
 	public function protocol_form() {
 
-		$template = __DIR__ . '/views/protocol-main.php';
+		// if(get_request('entry-status'))
+
+		switch ( get_request( 'nav' ) ) {
+			case 'entry-status':
+				$template = __DIR__ . '/views/entry-status.php';
+				break;
+			case 'protocols':
+				$template = __DIR__ . '/views/protocols.php';
+				break;
+
+			default:
+				// $template = __DIR__ . '/views/protocol-main.php';
+				break;
+		}
 
 		if ( file_exists( $template ) ) {
 			include $template;
 		}
+	}
+
+	public function generate() {
+
+	}
+
+	public function plugin_main_page() {
+		// ob_start();
+		include __DIR__ . '/views/protocol-main.php';
+		// include tutor()->path . 'views/options/options_generator.php';.
+		// return ob_get_clean();
 	}
 
 	/**

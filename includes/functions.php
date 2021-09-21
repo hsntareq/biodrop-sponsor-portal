@@ -84,3 +84,20 @@ function sp_po_delete_protocol( $id ) {
 	global $wpdb;
 	return $wpdb->delete( $wpdb->prefix . 'sponsor_protocol', array( 'id' => $id ), array( '%d' ) );
 }
+
+function get_request( $key ) {
+	return isset( $_REQUEST[ $key ] ) ? $_REQUEST[ $key ] : false;
+}
+function get_url( $nav_slug ) {
+	return add_query_arg(
+		array(
+			'page' => 'sponsor',
+			'nav'  => $nav_slug,
+		),
+		admin_url( 'admin.php' )
+	);
+}
+
+function get_active( $key ) {
+	return $key === get_request( 'nav' ) ? ' active' : '';
+}
