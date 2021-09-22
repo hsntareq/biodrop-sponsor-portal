@@ -5,20 +5,21 @@ namespace Sponsor\Admin;
 use Sponsor\Traits\Form_Error;
 
 /**
- * Class BasePlugin
+ * SponsorForm
  */
 class SponsorForm {
 
 	use Form_Error;
 
-	public $errors           = array();
-	public $options_within   = array();
-	public $options_result   = array();
-	public $protocol_options = array();
+	public $errors            = array();
+	public $options_within    = array();
+	public $options_result    = array();
+	public $protocol_options  = array();
+	public $options_recovered = array();
 
 	public function __construct() {
 		// if(get_request('entry-status'))
-		$this->options_within = array(
+		$this->options_within    = array(
 			'1_hour'                    => '1 hour',
 			'2_hours'                   => '2 hours',
 			'4_hours'                   => '4 hours',
@@ -38,7 +39,7 @@ class SponsorForm {
 			'4_hours_and_prior_5_days'  => '4 hours and prior 5 days',
 			'12_hours_and_prior_5_days' => '12 hours and prior 5 days',
 		);
-		$this->options_result = array(
+		$this->options_result    = array(
 			'1_hour'   => '1 hour',
 			'2_hours'  => '2 hours',
 			'4_hours'  => '4 hours',
@@ -53,59 +54,142 @@ class SponsorForm {
 			'2_weeks'  => '2 weeks',
 			'1_month'  => '1 month',
 		);
+		$this->options_recovered = array(
+			'within_0_10_months'  => 'within 0 – 10 months',
+			'within_11_14_months' => 'within 11 – 14 months',
+		);
 	}
 
-
+	public function array_block( $label, $switch, $option ) {
+		return array(
+			'label'  => $label,
+			'switch' => $switch,
+			'value'  => array(
+				'type'    => 'switch',
+				'options' => $option,
+			),
+		);
+	}
+	/**
+	 * Function protocol_options
+	 *
+	 * @return array
+	 */
 	public function protocol_options() {
-		$options_within = $this->options_within;
-		$options_result = $this->options_result;
-		$attr           = array(
+		$options_within    = $this->options_within;
+		$options_result    = $this->options_result;
+		$options_recovered = $this->options_recovered;
+		$attr              = array(
 			'sections' => array(
-				'unvaccinated' => array(
-					'heading'     => 'Unvaccinated',
+				'unvaccinated'            => array(
+					'heading'     => __( 'Unvaccinated' ),
 					'sub_heading' => '',
 					'fields'      => array(
-						'voice_test'    => array(
-							'label'  => 'Voice Test',
-							'switch' => 'on',
-							'value'  => array(
-								'type'    => 'switch',
-								'options' => $options_within,
-							),
-
-						),
-						'smell_test'    => array(
-							'label'  => 'Smell Test',
-							'switch' => 'off',
-							'value'  => array(
-								'type'    => 'switch',
-								'options' => $options_within,
-							),
-
-						),
-						'symptom_track' => array(
-							'label'  => 'Symptom Track',
-							'switch' => 'off',
-							'value'  => array(
-								'type'    => 'switch',
-								'options' => $options_within,
-							),
-
-						),
-						'saliva_direct' => array(
-							'label'  => 'Saliva Direct',
-							'switch' => 'off',
-							'value'  => array(
-								'type'    => 'switch',
-								'options' => $options_within,
-							),
-
-						),
-						'Do not admit'  => array(
+						'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_within ),
+						'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_within ),
+						'symptom_track' => $this->array_block( 'Symptom Track', 'off', $options_within ),
+						'saliva_direct' => $this->array_block( 'Saliva Direct', 'off', $options_within ),
+						'do_not_admit'  => array(
 							'label'  => 'Do not admit',
 							'switch' => 'off',
 							'value'  => false,
 						),
+					),
+				),
+				'recovered_from_covid_19' => array(
+					'heading'     => __( 'Recovered from COVID-19' ),
+					'sub_heading' => __( 'Negative PCR test result after positive PCR test result', 'sponsor' ),
+					'blocks'      => array(
+						array(
+							'label'  => __( 'Recovered:' ),
+							'switch' => false,
+							'value'  => array(
+								'type'    => 'switch',
+								'options' => $options_recovered,
+							),
+							'fields' => array(
+								'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_result ),
+								'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_result ),
+								'symptom_track' => $this->array_block( 'Symptom Track', 'off', $options_result ),
+								'saliva_direct' => $this->array_block( 'Saliva Direct', 'off', $options_result ),
+							),
+						),
+						array(
+							'label'  => __( 'Recovered:' ),
+							'switch' => false,
+							'value'  => array(
+								'type'    => 'switch',
+								'options' => $options_recovered,
+							),
+							'fields' => array(
+								'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_result ),
+								'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_result ),
+								'symptom_track' => $this->array_block( 'Symptom Track', 'off', $options_result ),
+								'saliva_direct' => $this->array_block( 'Saliva Direct', 'off', $options_result ),
+							),
+						),
+					),
+				),
+				'm_rna_vaccinated'        => array(
+					'heading'     => 'mRNA Vaccinated',
+					'sub_heading' => __( 'Negative PCR test result after positive PCR test result', 'sponsor' ),
+					'blocks'      => array(
+						array(
+							'label'  => __( 'Fully Vaccinated' ),
+							'switch' => false,
+							'fields' => array(
+								'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_result ),
+								'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_result ),
+								'symptom_track' => $this->array_block( 'Symptom Track', 'off', $options_result ),
+								'saliva_direct' => $this->array_block( 'Saliva Direct', 'off', $options_result ),
+							),
+						),
+						array(
+							'label'  => __( '8+ Months Since Vaccination' ),
+							'switch' => false,
+							'fields' => array(
+								'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_result ),
+								'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_result ),
+								'symptom_track' => $this->array_block( 'Symptom Track', 'off', $options_result ),
+								'saliva_direct' => $this->array_block( 'Saliva Direct', 'off', $options_result ),
+							),
+						),
+					),
+				),
+				'single_dose_vaccination' => array(
+					'heading'     => 'Single Dose Vaccination',
+					'sub_heading' => __( '21+ days since vaccination or booster', 'sponsor' ),
+					'blocks'      => array(
+						array(
+							'label'  => __( 'Fully Vaccinated' ),
+							'switch' => false,
+							'fields' => array(
+								'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_result ),
+								'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_result ),
+								'symptom_track' => $this->array_block( 'Symptom Track', 'off', $options_result ),
+								'saliva_direct' => $this->array_block( 'Saliva Direct', 'off', $options_result ),
+							),
+						),
+						array(
+							'label'  => __( '8+ Months Since Vaccination' ),
+							'switch' => false,
+							'fields' => array(
+								'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_result ),
+								'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_result ),
+								'symptom_track' => $this->array_block( 'Symptom Track', 'off', $options_result ),
+								'saliva_direct' => $this->array_block( 'Saliva Direct', 'off', $options_result ),
+							),
+						),
+					),
+				),
+				'neg_pcr_test'            => array(
+					'heading'     => __( 'Neg. PCR Test' ),
+					'sub_heading' => '',
+					'fields'      => array(
+						'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_result ),
+						'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_result ),
+						'symptom_track' => $this->array_block( 'Symptom Track', 'off', $options_result ),
+						'saliva_direct' => $this->array_block( 'Saliva Direct', 'off', $options_result ),
 					),
 				),
 			),
