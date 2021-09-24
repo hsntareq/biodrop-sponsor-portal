@@ -31,6 +31,7 @@ final class SponsorPortal {
 	 */
 	const version = '1.0';
 	private $assets;
+	private $utils;
 
 	/**
 	 * Class __construct.
@@ -38,12 +39,32 @@ final class SponsorPortal {
 	private function __construct() {
 		$this->define_constants();
 		$this->assets = new Sponsor\Classes\Assets();
+		// $this->utils  = new Sponsor\Classes\Utils();
 
 		register_activation_hook( __FILE__, array( $this, 'activate' ) );
 
 		add_action( 'plugins_loaded', array( $this, 'init_plugin' ) );
+		add_action( 'init', array( $this, 'update_anyone_can_register' ) );
+		add_filter( 'login_init', array( $this, 'sponsor_registration_redirect' ) );
 	}
 
+
+	function sponsor_registration_redirect() {
+		if ( ! is_user_logged_in() ) {
+			wp_redirect( '/sponsor-registration' );
+			exit;
+		}
+	}
+	/**
+	 * Update_anyone_can_register
+	 *
+	 * @return void
+	 */
+	function update_anyone_can_register() {
+		if ( ! get_option( 'users_can_register' ) ) {
+			update_option( 'users_can_register', true );
+		}
+	}
 	/**
 	 * Initializes a singleton instance
 	 *
@@ -115,36 +136,38 @@ if ( ! function_exists( 'sponsor' ) ) {
 	 * @return object
 	 */
 	function sponsor() {
-		$path    = plugin_dir_path( SPONSOR_FILE );
-		$has_pro = defined( 'SPONSOR_PRO_VERSION' );
+		$path = plugin_dir_path( SPONSOR_FILE );
 
 		// Prepare the basepath.
-		$home_url  = get_home_url();
-		$parsed    = wp_parse_url( $home_url );
-		$base_path = ( is_array( $parsed ) && isset( $parsed['path'] ) ) ? $parsed['path'] : '/';
-		$base_path = rtrim( $base_path, '/' ) . '/';
+		$home_url              = get_home_url();
+		$parsed                = wp_parse_url( $home_url );
+		$base_path             = ( is_array( $parsed ) && isset( $parsed['path'] ) ) ? $parsed['path'] : '/';
+		$base_path             = rtrim( $base_path, '/' ) . '/';
+		$bootstrap_admin_pages = array( 'sponsor', 'biodrop-settings' );
 
 		// Get current URL.
-		$current_url = $home_url . '/' . substr( $_SERVER['REQUEST_URI'], strlen( $base_path ) );
+		$current_url = $home_url . '/' . substr( get_server( 'REQUEST_URI' ), strlen( $base_path ) );
 
 		$info = array(
-			'path'                 => $path,
-			'url'                  => plugin_dir_url( SPONSOR_FILE ),
-			'current_url'          => $current_url,
-			'assets'               => SPONSOR_ASSETS,
-			'basename'             => plugin_basename( SPONSOR_FILE ),
-			'basepath'             => $base_path,
-			'version'              => SPONSOR_VERSION,
-			'nonce_action'         => 'sponsor_nonce_action',
-			'nonce'                => '_sponsor_nonce',
-			'course_post_type'     => apply_filters( 'sponsor_course_post_type', 'courses' ),
-			'lesson_post_type'     => apply_filters( 'sponsor_lesson_post_type', 'lesson' ),
-			'instructor_role'      => apply_filters( 'sponsor_instructor_role', 'sponsor_instructor' ),
-			'instructor_role_name' => apply_filters( 'sponsor_instructor_role_name', __( 'Tutor Instructor', 'sponsor' ) ),
-			'template_path'        => apply_filters( 'sponsor_template_path', 'sponsor/' ),
-			'has_pro'              => apply_filters( 'sponsor_has_pro', $has_pro ),
+			'path'                   => $path,
+			'url'                    => plugin_dir_url( SPONSOR_FILE ),
+			'current_url'            => $current_url,
+			'assets'                 => SPONSOR_ASSETS,
+			'basename'               => plugin_basename( SPONSOR_FILE ),
+			'basepath'               => $base_path,
+			'alowed_bootstrap_pages' => $bootstrap_admin_pages,
+			'version'                => SPONSOR_VERSION,
+			'nonce_action'           => 'sponsor_nonce_action',
+			'nonce'                  => '_sponsor_nonce',
+			'template_path'          => apply_filters( 'sponsor_template_path', 'sponsor/' ),
 		);
 
 		return (object) $info;
 	}
 }
+
+
+/*
+ if ( ! get_option( 'users_can_register' ) ) {
+	update_option( 'users_can_register', true );
+} */

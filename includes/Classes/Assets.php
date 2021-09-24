@@ -18,6 +18,8 @@ class Assets {
 	 */
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+		add_action( 'admin_init', array( $this, 'admin_bootstrap_init' ) );
+
 	}
 
 	/**
@@ -42,9 +44,18 @@ class Assets {
 	 *
 	 * @return void
 	 */
-	public function admin_scripts() {
+	public function admin_bootstrap_init() {
 
+		if ( in_array( get_request( 'page' ), sponsor()->alowed_bootstrap_pages ) ) {
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_bootstrap_style' ) );
+		}
+	}
+
+	public function admin_bootstrap_style() {
 		wp_enqueue_style( 'sponsor-bootstrap', sponsor()->url . 'assets/css/bootstrap.min.css', array(), sponsor()->version );
+	}
+
+	public function admin_scripts() {
 		wp_enqueue_style( 'sponsor-admin', sponsor()->url . 'assets/css/sponsor-admin.css', array(), sponsor()->version );
 		wp_enqueue_style( 'sponsor-fontawesome', sponsor()->url . 'assets/css/fontawesome/all.css', array(), sponsor()->version );
 		wp_enqueue_script( 'sponsor-admin', sponsor()->url . 'assets/js/sponsor-admin.js', array(), sponsor()->version, true );

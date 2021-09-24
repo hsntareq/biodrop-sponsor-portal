@@ -88,6 +88,9 @@ function sp_po_delete_protocol( $id ) {
 function get_request( $key ) {
 	return isset( $_REQUEST[ $key ] ) ? $_REQUEST[ $key ] : false;
 }
+function get_server( $key ) {
+	return isset( $_SERVER[ $key ] ) ? $_SERVER[ $key ] : false;
+}
 function get_url( $nav_slug ) {
 	return add_query_arg(
 		array(
@@ -99,5 +102,38 @@ function get_url( $nav_slug ) {
 }
 
 function get_active( $key ) {
-	return $key === get_request( 'nav' ) ? ' active' : '';
+	return $key === get_request( 'nav' ) ? ' active' : null;
 }
+
+
+if ( ! function_exists( 'pr' ) ) {
+	/**
+	 * Function to print_r
+	 *
+	 * @param  array $var .
+	 * @return array
+	 */
+	function pr( $var ) {
+		$template = PHP_SAPI !== 'cli' && PHP_SAPI !== 'phpdbg' ? '<pre class="pr">%s</pre>' : "\n%s\n\n";
+		printf( $template, trim( print_r( $var, true ) ) );
+
+		return $var;
+	}
+}
+
+if ( ! function_exists( 'vr' ) ) {
+	/**
+	 * Function to var_dump
+	 *
+	 * @param  array $var .
+	 * @return array
+	 */
+	function vr( $var ) {
+		$template = PHP_SAPI !== 'cli' && PHP_SAPI !== 'phpdbg' ? '<pre class="pr">%s</pre>' : "\n%s\n\n";
+		printf( $template, trim( var_dump( $var, true ) ) );
+
+		return $var;
+	}
+}
+
+

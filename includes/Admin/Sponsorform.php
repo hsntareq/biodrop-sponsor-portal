@@ -194,6 +194,7 @@ class SponsorForm {
 				),
 			),
 		);
+
 		return $attr;
 	}
 	/**
@@ -219,6 +220,9 @@ class SponsorForm {
 	public function protocol_form() {
 
 		switch ( get_request( 'nav' ) ) {
+			case '':
+				$template = __DIR__ . '/views/entry-status.php';
+				break;
 			case 'entry-status':
 				$template = __DIR__ . '/views/entry-status.php';
 				break;
@@ -227,11 +231,12 @@ class SponsorForm {
 				break;
 
 			default:
-				// $template = __DIR__ . '/views/protocol-main.php';
+				$template = __DIR__ . '/views/entry-status.php';
 				break;
 		}
 
 		if ( file_exists( $template ) ) {
+
 			include $template;
 		}
 	}
@@ -257,7 +262,7 @@ class SponsorForm {
 			return;
 		}
 
-		if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'new-protocol' ) ) {
+		if ( ! wp_verify_nonce( get_request( '_wpnonce' ), 'new-protocol' ) ) {
 			wp_die( 'Are you cheating?' );
 		}
 
@@ -265,10 +270,10 @@ class SponsorForm {
 			wp_die( 'Are you cheating?' );
 		}
 
-		$id      = isset( $_POST['id'] ) ? intval( $_POST['id'] ) : 0;
-		$name    = isset( $_POST['name'] ) ? sanitize_text_field( $_POST['name'] ) : '';
-		$address = isset( $_POST['address'] ) ? sanitize_textarea_field( $_POST['address'] ) : '';
-		$phone   = isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : '';
+		$id      = isset( $_POST['id'] ) ? intval( get_request( 'id' ) ) : 0;
+		$name    = isset( $_POST['name'] ) ? sanitize_text_field( get_request( 'name' ) ) : '';
+		$address = isset( $_POST['address'] ) ? sanitize_textarea_field( get_request( 'address' ) ) : '';
+		$phone   = isset( $_POST['phone'] ) ? sanitize_text_field( get_request( 'phone' ) ) : '';
 
 		if ( empty( $name ) ) {
 			$this->errors['name'] = __( 'Please provide a name', 'sponsor-portal' );

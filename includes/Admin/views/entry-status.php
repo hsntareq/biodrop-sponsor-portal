@@ -25,7 +25,7 @@
 			</div> -->
 		</div>
 		<div class="col">
-			<div class="bg-success rounded-3 p-4 text-white">
+			<div class="bg-success rounded-3 p-4 text-white ">
 				<h5>ACTIVE PROTOCOLS:</h5>
 				<ul class="list-group list-group-flush">
 					<a href="#" class="list-group-item list-group-item-success">1. On-Campus Students</a>
@@ -35,7 +35,9 @@
 					<a href="#" class="list-group-item list-group-item-light">5. Science Students</a>
 				</ul>
 			</div>
-			<img src="<?php echo sponsor()->assets; ?>/images/good_to_go_icon.svg" alt="good to go">
 		</div>
+	</div>
+	<div class="d-flex justify-content-end mt-5">
+		<img width="300" src="<?php echo esc_url	( sponsor()->assets ); ?>/images/good_to_go_icon.svg" alt="good to go">
 	</div>
 </div>

@@ -18,7 +18,7 @@
 
 
 				<a href="<?php echo esc_url( get_url( 'entry-status' ) ); ?>"
-					class="list-group-item list-group-item-action<?php echo esc_attr( get_active( 'entry-status' ) ); ?>">
+					class="list-group-item list-group-item-action<?php echo esc_attr( get_active( 'entry-status' ) ) . ( ! get_request( 'nav' ) ? ' active' : '' ); ?>">
 					<i class="fas fa-door-open"></i>
 					<?php echo esc_html( 'Entry Status' ); ?>
 				</a>
@@ -43,6 +43,9 @@
 
 			<?php
 			switch ( get_request( 'nav' ) ) {
+				case null:
+					include __DIR__ . '/entry-status.php';
+					break;
 				case 'entry-status':
 					include __DIR__ . '/entry-status.php';
 					break;
