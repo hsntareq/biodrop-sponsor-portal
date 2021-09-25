@@ -121,6 +121,7 @@ if ( ! function_exists( 'pr' ) ) {
 	}
 }
 
+
 if ( ! function_exists( 'vr' ) ) {
 	/**
 	 * Function to var_dump

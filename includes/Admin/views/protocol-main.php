@@ -15,8 +15,6 @@
 	<div class="sp-main p-5 row g-0">
 		<div class="sp-nav col-lg-2 col-3">
 			<div class="list-group list-group-flush">
-
-
 				<a href="<?php echo esc_url( get_url( 'entry-status' ) ); ?>"
 					class="list-group-item list-group-item-action<?php echo esc_attr( get_active( 'entry-status' ) ) . ( ! get_request( 'nav' ) ? ' active' : '' ); ?>">
 					<i class="fas fa-door-open"></i>
@@ -32,7 +30,7 @@
 					<i class="far fa-cog"></i>
 					<?php echo esc_html( 'Settings' ); ?>
 				</a>
-				<a href="<?php echo esc_url( get_url( 'logout' ) ); ?>"
+				<a href="<?php echo esc_url( wp_logout_url() ); ?>"
 					class="list-group-item list-group-item-action<?php echo esc_attr( get_active( 'logout' ) ); ?>">
 					<i class="fas fa-sign-out-alt"></i>
 					<?php echo esc_html( 'Logout' ); ?>
@@ -40,7 +38,6 @@
 			</div>
 		</div>
 		<div class="sp-body col-lg-7 col-9 ps-4 pt-3">
-
 			<?php
 			switch ( get_request( 'nav' ) ) {
 				case null:
@@ -61,13 +58,6 @@
 					break;
 			}
 			?>
-
 		</div>
-
-
-
-
-
-
-
 	</div>
+</div>

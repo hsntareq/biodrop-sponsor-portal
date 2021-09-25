@@ -30,7 +30,18 @@ class Menu {
 		add_menu_page( __( 'Sponsor Portal', 'sponsor' ), __( 'Sponsor Portal', 'sponsor' ), $capability, $parent_slug, array( $this->protocol, $callable ), 'dashicons-art', 2 );
 		add_submenu_page( $parent_slug, __( 'Sponsor Portal', 'sponsor' ), __( 'Sponsor Portal', 'sponsor' ), $capability, $parent_slug, array( $this->protocol, $callable ) );
 		add_submenu_page( $parent_slug, __( 'Settings', 'sponsor' ), __( 'Settings', 'sponsor' ), $capability, 'biodrop-settings', array( $this, 'plugin_subpage' ) );
-
+		if ( current_user_can( 'sponsor' ) ) {
+			// remove_menu_page( 'profile.php' );
+			remove_menu_page( 'edit.php' );
+			remove_menu_page( 'upload.php' );
+			remove_menu_page( 'edit.php?post_type=page' );
+			remove_menu_page( 'edit-comments.php' );
+			remove_menu_page( 'themes.php' );
+			remove_menu_page( 'plugins.php' );
+			// remove_menu_page( 'users.php' );
+			remove_menu_page( 'tools.php' );
+			remove_menu_page( 'options-general.php' );
+		}
 	}
 
 	/**

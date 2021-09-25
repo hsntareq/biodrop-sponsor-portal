@@ -56,9 +56,9 @@ class Assets {
 	}
 
 	public function admin_scripts() {
-		wp_enqueue_style( 'sponsor-admin', sponsor()->url . 'assets/css/sponsor-admin.css', array(), sponsor()->version );
+		wp_enqueue_style( 'sponsor-admin', sponsor()->url . 'assets/css/sponsor.css', array(), sponsor()->version );
 		wp_enqueue_style( 'sponsor-fontawesome', sponsor()->url . 'assets/css/fontawesome/all.css', array(), sponsor()->version );
-		wp_enqueue_script( 'sponsor-admin', sponsor()->url . 'assets/js/sponsor-admin.js', array(), sponsor()->version, true );
+		wp_enqueue_script( 'sponsor-admin', sponsor()->url . 'assets/js/sponsor.js', array(), sponsor()->version, true );
 		// wp_enqueue_media();
 
 		/*

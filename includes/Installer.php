@@ -7,8 +7,21 @@ class Installer {
 	public function run() {
 		$this->add_version();
 		$this->create_tables();
+		$this->add_roles();
 	}
 
+	public function add_roles() {
+		add_role(
+			'sponsor',
+			'Sponsor',
+			array(
+				'read'           => true,
+				'delete_posts'   => false,
+				'manage_options' => true,
+				'manage_sponsor' => true,
+			),
+		);
+	}
 	public function add_version() {
 		$installed = get_option( 'sp_installed' );
 		if ( ! $installed ) {

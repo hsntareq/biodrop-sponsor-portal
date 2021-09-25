@@ -50,9 +50,13 @@ final class SponsorPortal {
 
 
 	function sponsor_registration_redirect() {
-		if ( ! is_user_logged_in() ) {
-			wp_redirect( '/sponsor-registration' );
-			exit;
+		global $pagenow;
+		$login_action = get_request( 'action' );
+		if ( ( strtolower( $pagenow ) == 'wp-login.php' ) && ( strtolower( $login_action ) == 'register' ) ) {
+
+			include SPONSOR_PATH . '/templates/sponsor-registration-template.php';
+
+			// wp_redirect( home_url( '/sponsor-registration' ) );
 		}
 	}
 	/**
@@ -113,6 +117,69 @@ final class SponsorPortal {
 	public function activate() {
 		$installer = new \Sponsor\Installer();
 		$installer->run();
+	}
+
+	public function state_list( $list_id = '' ) {
+		$state_list = array(
+			'AL' => 'Alabama',
+			'AK' => 'Alaska',
+			'AZ' => 'Arizona',
+			'AR' => 'Arkansas',
+			'CA' => 'California',
+			'CO' => 'Colorado',
+			'CT' => 'Connecticut',
+			'DE' => 'Delaware',
+			'DC' => 'District Of Columbia',
+			'FL' => 'Florida',
+			'GA' => 'Georgia',
+			'HI' => 'Hawaii',
+			'ID' => 'Idaho',
+			'IL' => 'Illinois',
+			'IN' => 'Indiana',
+			'IA' => 'Iowa',
+			'KS' => 'Kansas',
+			'KY' => 'Kentucky',
+			'LA' => 'Louisiana',
+			'ME' => 'Maine',
+			'MD' => 'Maryland',
+			'MA' => 'Massachusetts',
+			'MI' => 'Michigan',
+			'MN' => 'Minnesota',
+			'MS' => 'Mississippi',
+			'MO' => 'Missouri',
+			'MT' => 'Montana',
+			'NE' => 'Nebraska',
+			'NV' => 'Nevada',
+			'NH' => 'New Hampshire',
+			'NJ' => 'New Jersey',
+			'NM' => 'New Mexico',
+			'NY' => 'New York',
+			'NC' => 'North Carolina',
+			'ND' => 'North Dakota',
+			'OH' => 'Ohio',
+			'OK' => 'Oklahoma',
+			'OR' => 'Oregon',
+			'PA' => 'Pennsylvania',
+			'RI' => 'Rhode Island',
+			'SC' => 'South Carolina',
+			'SD' => 'South Dakota',
+			'TN' => 'Tennessee',
+			'TX' => 'Texas',
+			'UT' => 'Utah',
+			'VT' => 'Vermont',
+			'VA' => 'Virginia',
+			'WA' => 'Washington',
+			'WV' => 'West Virginia',
+			'WI' => 'Wisconsin',
+			'WY' => 'Wyoming',
+		);
+		$output     = "<datalist id='{$list_id}'>";
+		foreach ( $state_list as $key => $state ) {
+			$output .= "<option value='{$state}'>";
+		}
+		$output = '</datalist>';
+
+		return $output;
 	}
 
 }

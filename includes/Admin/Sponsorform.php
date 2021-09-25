@@ -58,7 +58,25 @@ class SponsorForm {
 			'within_0_10_months'  => 'within 0 – 10 months',
 			'within_11_14_months' => 'within 11 – 14 months',
 		);
+
+		add_action( 'admin_init', array( $this, 'add_capability' ) );
+
 	}
+
+	/**
+	 * Add_capability
+	 *
+	 * @return void
+	 */
+	public function add_capability() {
+		remove_role( 'sponsor_role' );
+		$role = get_role( 'sponsor' );
+		 $role->add_cap( 'manage_sponsor' );
+
+		 $role2 = get_role( 'administrator' );
+		 $role2->add_cap( 'manage_sponsor' );
+	}
+
 
 	public function array_block( $label, $switch, $option ) {
 		return array(
@@ -217,12 +235,9 @@ class SponsorForm {
 	 *
 	 * @return void
 	 */
-	public function protocol_form() {
+	public function protocol_formmmmmm() {
 
 		switch ( get_request( 'nav' ) ) {
-			case '':
-				$template = __DIR__ . '/views/entry-status.php';
-				break;
 			case 'entry-status':
 				$template = __DIR__ . '/views/entry-status.php';
 				break;
