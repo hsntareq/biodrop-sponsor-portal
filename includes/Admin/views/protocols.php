@@ -60,39 +60,68 @@
 </div>
 
 <div class="sp-blocks">
-<?php
-$protocol_options = $this->protocol_options()['sections'];
-foreach ( $protocol_options as $options ) :
-	?>
-	<div class="sp-block">
-		<div class="sp-block-heading d-flex mb-4">
-			<i class="fad fa-users me-3 fa-2x mt-1"></i>
-			<div>
-				<h5 class="mb-0 text-dark"><?php echo esc_html( $options['heading'] ) ?? null; ?></h5>
-				<p class="text-secondary"><?php echo esc_html( $options['sub_heading'] ) ?? null; ?></p>
-			</div>
-		</div>
+	<form id="protocol_form">
+		<?php
+		$protocol_options = $this->protocol_options()['sections'];
+		foreach ( $protocol_options as $options ) :
+			?>
+			<div class="sp-block">
+				<div class="sp-block-heading d-flex mb-4">
+					<i class="fad fa-users me-3 fa-2x mt-1"></i>
+					<div>
+						<h5 class="mb-0 text-dark"><?php echo esc_html( $options['heading'] ) ?? null; ?></h5>
+						<p class="text-secondary"><?php echo esc_html( $options['sub_heading'] ) ?? null; ?></p>
+					</div>
+				</div>
 
-		<div class="form-row ms-auto w-lg-75">
-			<?php
-			if ( isset( $options['blocks'] ) ) :
-				foreach ( $options['blocks'] as $key => $blocks ) :
-					if ( isset( $blocks['fields'] ) ) :
-						?>
-						<div class="d-flex justify-content-between align-items-center mb-4">
-							<div><strong><?php echo $blocks['label']; ?></strong></div>
-							<?php if ( isset( $blocks['value'] ) ) : ?>
-								<div class="d-flex">
-									<div class="input-group">
-										<select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
-										<?php echo $this->select_options( $blocks['value']['options'] ); ?>
-										</select>
-									</div>
+				<div class="form-row ms-auto w-lg-75">
+					<?php
+					if ( isset( $options['blocks'] ) ) :
+						foreach ( $options['blocks'] as $key => $blocks ) :
+							if ( isset( $blocks['fields'] ) ) :
+								pr( $blocks );
+								?>
+								<div class="d-flex justify-content-between align-items-center mb-4">
+									<div><strong><?php echo $blocks['label']; ?></strong></div>
+									<?php if ( isset( $blocks['value'] ) ) : ?>
+										<div class="d-flex">
+											<div class="input-group">
+												<select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+												<?php echo $this->select_options( $blocks['value']['options'] ); ?>
+												</select>
+											</div>
+										</div>
+									<?php endif; ?>
 								</div>
-							<?php endif; ?>
-						</div>
-						<?php
-						foreach ( $blocks['fields'] as $key => $fields ) :
+								<?php
+								foreach ( $blocks['fields'] as $key => $fields ) :
+									?>
+									<div class="sp-row d-flex align-items-center mb-4 justify-content-between">
+										<label class="form-toggle mr-1">
+											<input type="hidden" name="radio_option[<?php echo $key; ?>]" value="off">
+											<input type="checkbox" name="radio_option[<?php echo $key; ?>]" value="on" class="form-toggle-input" <?php echo ( 'off' === $fields['switch'] ) ? '' : 'checked'; ?>>
+											<span class="form-toggle-control"></span>
+											<span class="label-before text-nowrap ms-3"><?php echo $fields['label']; ?></span>
+										</label>
+										<?php if ( false !== $fields['value'] ) : ?>
+										<div class="d-flex align-items-center">
+											<label class="mx-3">within</label>
+											<select class="form-control">
+													<?php echo $this->select_options( $fields['value']['options'] ); ?>
+											</select>
+										</div>
+										<?php endif; ?>
+									</div>
+									<?php
+							endforeach;
+						endif;
+					endforeach;
+					endif;
+					if ( isset( $options['fields'] ) ) :
+						foreach ( $options['fields'] as $key => $fields ) :
+							echo '<pre>';
+							// print_r( $fields );
+							echo '</pre>';
 							?>
 							<div class="sp-row d-flex align-items-center mb-4 justify-content-between">
 								<label class="form-toggle mr-1">
@@ -111,346 +140,12 @@ foreach ( $protocol_options as $options ) :
 								<?php endif; ?>
 							</div>
 							<?php
-					endforeach;
-				endif;
-			endforeach;
-			endif;
-			if ( isset( $options['fields'] ) ) :
-				foreach ( $options['fields'] as $key => $fields ) :
-					echo '<pre>';
-					// print_r( $fields );
-					echo '</pre>';
+						endforeach;
+					endif;
 					?>
-					<div class="sp-row d-flex align-items-center mb-4 justify-content-between">
-						<label class="form-toggle mr-1">
-							<input type="hidden" name="radio_option[<?php echo $key; ?>]" value="off">
-							<input type="checkbox" name="radio_option[<?php echo $key; ?>]" value="on" class="form-toggle-input" <?php echo ( 'off' === $fields['switch'] ) ? '' : 'checked'; ?>>
-							<span class="form-toggle-control"></span>
-							<span class="label-before text-nowrap ms-3"><?php echo $fields['label']; ?></span>
-						</label>
-						<?php if ( false !== $fields['value'] ) : ?>
-						<div class="d-flex align-items-center">
-							<label class="mx-3">within</label>
-							<select class="form-control">
-									<?php echo $this->select_options( $fields['value']['options'] ); ?>
-							</select>
-						</div>
-						<?php endif; ?>
-					</div>
-					<?php
-				endforeach;
-			endif;
-			?>
 
-		<hr>
-	</div>
-<?php endforeach; ?>
-
-
-
-	<div class="sp-block">
-		<div class="sp-block-heading d-flex">
-			<i class="fad fa-users me-3 fa-2x mt-1"></i>
-			<div>
-				<h5 class="mb-0 text-dark">Neg. PCR Test</h5>
-				<p class="text-secondary"></p>
+				<hr>
 			</div>
-		</div>
-
-		<div class="form-row ms-auto w-lg-75">
-			<div class="sp-row d-flex align-items-center justify-content-between mb-4">
-				<label class="form-toggle mr-1"></label>
-				<div class="d-flex align-items-center">
-					<label class="mx-3">within</label>
-					<select class="form-control">
-						<option>36 hours</option>
-						<option>Option value</option>
-						<option>Option value one</option>
-						<option>Option value two</option>
-						<option>Option value three</option>
-					</select>
-				</div>
-			</div>
-			<div class="sp-row d-flex align-items-center justify-content-between mb-4">
-				<label class="form-toggle mr-1">
-					<input type="hidden" name="radio_option[radio_key]" value="off">
-					<input type="checkbox" class="form-toggle-input" name="radio_option[radio_key]" value="on" class="form-toggle-input" checked>
-					<span class="form-toggle-control"></span>
-					<span class="label-before text-nowrap ms-3">Voice Test</span>
-				</label>
-				<div class="d-flex align-items-center">
-					<label class="mx-3">within</label>
-					<select class="form-control">
-						<option>Select</option>
-						<option>Option value</option>
-						<option>Option value one</option>
-						<option>Option value two</option>
-						<option>Option value three</option>
-					</select>
-				</div>
-			</div>
-			<div class="sp-row d-flex align-items-center justify-content-between mb-4">
-				<label class="form-toggle mr-1">
-					<input type="hidden" name="radio_option[radio_key]" value="off">
-					<input type="checkbox" class="form-toggle-input" name="radio_option[radio_key]" value="on" class="form-toggle-input">
-					<span class="form-toggle-control"></span>
-					<span class="label-before text-nowrap ms-3">Smell Test</span>
-				</label>
-				<div class="d-flex align-items-center">
-					<label class="mx-3">within</label>
-					<select class="form-control">
-						<option>Select</option>
-						<option>Option value</option>
-						<option>Option value one</option>
-						<option>Option value two</option>
-						<option>Option value three</option>
-					</select>
-				</div>
-			</div>
-			<div class="sp-row d-flex align-items-center justify-content-between mb-4">
-				<label class="form-toggle mr-1">
-					<input type="hidden" name="radio_option[radio_key]" value="off">
-					<input type="checkbox" class="form-toggle-input" name="radio_option[radio_key]" value="on" class="form-toggle-input">
-					<span class="form-toggle-control"></span>
-					<span class="label-before text-nowrap ms-3">Symptom Track</span>
-				</label>
-				<div class="d-flex align-items-center">
-					<label class="mx-3">within</label>
-					<select class="form-control">
-						<option>Select</option>
-						<option>Option value</option>
-						<option>Option value one</option>
-						<option>Option value two</option>
-						<option>Option value three</option>
-					</select>
-				</div>
-			</div>
-			<div class="sp-row d-flex align-items-center justify-content-between mb-4">
-				<label class="form-toggle mr-1">
-					<input type="hidden" name="radio_option[radio_key]" value="off">
-					<input type="checkbox" class="form-toggle-input" name="radio_option[radio_key]" value="on" class="form-toggle-input">
-					<span class="form-toggle-control"></span>
-					<span class="label-before text-nowrap ms-3">Saliva Direct</span>
-				</label>
-				<div class="d-flex align-items-center">
-					<label class="mx-3">within</label>
-					<select class="form-control">
-						<option>Select</option>
-						<option>Option value</option>
-						<option>Option value one</option>
-						<option>Option value two</option>
-						<option>Option value three</option>
-					</select>
-				</div>
-			</div>
-		</div>
-
-	</div><!-- sp-block -->
-
-	<hr>
-
-	<div class="sp-block">
-		<div class="sp-block-heading d-flex">
-			<i class="fad fa-users me-3 fa-2x mt-1"></i>
-			<div>
-				<h5 class="mb-0 text-dark">Neg. Antigen Test</h5>
-				<p class="text-secondary"></p>
-			</div>
-		</div>
-
-		<div class="form-row ms-auto w-lg-75">
-			<div class="sp-row d-flex align-items-center justify-content-between mb-4">
-				<label class="form-toggle mr-1"></label>
-				<div class="d-flex align-items-center">
-					<label class="mx-3">within</label>
-					<select class="form-control">
-						<option>24 hours</option>
-						<option>Option value</option>
-						<option>Option value one</option>
-						<option>Option value two</option>
-						<option>Option value three</option>
-					</select>
-				</div>
-			</div>
-			<div class="sp-row d-flex align-items-center justify-content-between mb-4">
-				<label class="form-toggle mr-1">
-					<input type="hidden" name="radio_option[radio_key]" value="off">
-					<input type="checkbox" class="form-toggle-input" name="radio_option[radio_key]" value="on" class="form-toggle-input" checked>
-					<span class="form-toggle-control"></span>
-					<span class="label-before text-nowrap ms-3">Voice Test</span>
-				</label>
-				<div class="d-flex align-items-center">
-					<label class="mx-3">within</label>
-					<select class="form-control">
-						<option>Select</option>
-						<option>Option value</option>
-						<option>Option value one</option>
-						<option>Option value two</option>
-						<option>Option value three</option>
-					</select>
-				</div>
-			</div>
-			<div class="sp-row d-flex align-items-center justify-content-between mb-4">
-				<label class="form-toggle mr-1">
-					<input type="hidden" name="radio_option[radio_key]" value="off">
-					<input type="checkbox" class="form-toggle-input" name="radio_option[radio_key]" value="on" class="form-toggle-input">
-					<span class="form-toggle-control"></span>
-					<span class="label-before text-nowrap ms-3">Smell Test</span>
-				</label>
-				<div class="d-flex align-items-center">
-					<label class="mx-3">within</label>
-					<select class="form-control">
-						<option>Select</option>
-						<option>Option value</option>
-						<option>Option value one</option>
-						<option>Option value two</option>
-						<option>Option value three</option>
-					</select>
-				</div>
-			</div>
-			<div class="sp-row d-flex align-items-center justify-content-between mb-4">
-				<label class="form-toggle mr-1">
-					<input type="hidden" name="radio_option[radio_key]" value="off">
-					<input type="checkbox" class="form-toggle-input" name="radio_option[radio_key]" value="on" class="form-toggle-input">
-					<span class="form-toggle-control"></span>
-					<span class="label-before text-nowrap ms-3">Symptom Track</span>
-				</label>
-				<div class="d-flex align-items-center">
-					<label class="mx-3">within</label>
-					<select class="form-control">
-						<option>Select</option>
-						<option>Option value</option>
-						<option>Option value one</option>
-						<option>Option value two</option>
-						<option>Option value three</option>
-					</select>
-				</div>
-			</div>
-			<div class="sp-row d-flex align-items-center justify-content-between mb-4">
-				<label class="form-toggle mr-1">
-					<input type="hidden" name="radio_option[radio_key]" value="off">
-					<input type="checkbox" class="form-toggle-input" name="radio_option[radio_key]" value="on" class="form-toggle-input">
-					<span class="form-toggle-control"></span>
-					<span class="label-before text-nowrap ms-3">Saliva Direct</span>
-				</label>
-				<div class="d-flex align-items-center">
-					<label class="mx-3">within</label>
-					<select class="form-control">
-						<option>Select</option>
-						<option>Option value</option>
-						<option>Option value one</option>
-						<option>Option value two</option>
-						<option>Option value three</option>
-					</select>
-				</div>
-			</div>
-		</div>
-
-	</div><!-- sp-block -->
-
-	<hr>
-
-	<div class="sp-block">
-		<div class="sp-block-heading d-flex">
-			<i class="fad fa-users me-3 fa-2x mt-1"></i>
-			<div>
-				<h5 class="mb-0 text-dark">Rapid Home Test</h5>
-				<p class="text-secondary"></p>
-			</div>
-		</div>
-
-		<div class="form-row ms-auto w-lg-75">
-			<div class="sp-row d-flex align-items-center justify-content-between mb-4">
-			<label class="form-toggle mr-1"></label>
-
-			<div class="d-flex align-items-center">
-					<label class="mx-3">within</label>
-					<select class="form-control">
-						<option>24 hours</option>
-						<option>Option value</option>
-						<option>Option value one</option>
-						<option>Option value two</option>
-						<option>Option value three</option>
-					</select>
-				</div>
-			</div>
-			<div class="sp-row d-flex align-items-center justify-content-between mb-4">
-				<label class="form-toggle mr-1">
-					<input type="hidden" name="radio_option[radio_key]" value="off">
-					<input type="checkbox" class="form-toggle-input" name="radio_option[radio_key]" value="on" class="form-toggle-input" checked>
-					<span class="form-toggle-control"></span>
-					<span class="label-before text-nowrap ms-3">Voice Test</span>
-				</label>
-				<div class="d-flex align-items-center">
-					<label class="mx-3">within</label>
-					<select class="form-control">
-						<option>Select</option>
-						<option>Option value</option>
-						<option>Option value one</option>
-						<option>Option value two</option>
-						<option>Option value three</option>
-					</select>
-				</div>
-			</div>
-			<div class="sp-row d-flex align-items-center justify-content-between mb-4">
-				<label class="form-toggle mr-1">
-					<input type="hidden" name="radio_option[radio_key]" value="off">
-					<input type="checkbox" class="form-toggle-input" name="radio_option[radio_key]" value="on" class="form-toggle-input">
-					<span class="form-toggle-control"></span>
-					<span class="label-before text-nowrap ms-3">Smell Test</span>
-				</label>
-				<div class="d-flex align-items-center">
-					<label class="mx-3">within</label>
-					<select class="form-control">
-						<option>Select</option>
-						<option>Option value</option>
-						<option>Option value one</option>
-						<option>Option value two</option>
-						<option>Option value three</option>
-					</select>
-				</div>
-			</div>
-			<div class="sp-row d-flex align-items-center justify-content-between mb-4">
-				<label class="form-toggle mr-1">
-					<input type="hidden" name="radio_option[radio_key]" value="off">
-					<input type="checkbox" class="form-toggle-input" name="radio_option[radio_key]" value="on" class="form-toggle-input">
-					<span class="form-toggle-control"></span>
-					<span class="label-before text-nowrap ms-3">Symptom Track</span>
-				</label>
-				<div class="d-flex align-items-center">
-					<label class="mx-3">within</label>
-					<select class="form-control">
-						<option>Select</option>
-						<option>Option value</option>
-						<option>Option value one</option>
-						<option>Option value two</option>
-						<option>Option value three</option>
-					</select>
-				</div>
-			</div>
-			<div class="sp-row d-flex align-items-center justify-content-between mb-4">
-				<label class="form-toggle mr-1">
-					<input type="hidden" name="radio_option[radio_key]" value="off">
-					<input type="checkbox" class="form-toggle-input" name="radio_option[radio_key]" value="on" class="form-toggle-input">
-					<span class="form-toggle-control"></span>
-					<span class="label-before text-nowrap ms-3">Saliva Direct</span>
-				</label>
-				<div class="d-flex align-items-center">
-					<label class="mx-3">within</label>
-					<select class="form-control">
-						<option>Select</option>
-						<option>Option value</option>
-						<option>Option value one</option>
-						<option>Option value two</option>
-						<option>Option value three</option>
-					</select>
-				</div>
-			</div>
-		</div>
-
-	</div><!-- sp-block -->
-
-	<hr>
-
-
+		<?php endforeach; ?>
+	</form>
 </div>

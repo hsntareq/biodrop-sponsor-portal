@@ -1,27 +1,22 @@
-"use strict";
-// alert("not working");
-const element = (el) => {
-  return document.querySelector(el);
-};
-const elements = (el) => {
-  return document.querySelectorAll(el);
-};
-
-const toogle_disabler = (elem) => {
-  let select = elem.closest(".sp-row").querySelector("select");
-  if (null != select) {
-    if (elem.checked == false) {
-      select.disabled = true;
-    } else {
-      select.disabled = false;
-    }
-  }
-};
-
-let toggles = elements("input.form-toggle-input");
+let toggles = selectElements("input.form-toggle-input");
 for (let i = 0; i < toggles.length; i++) {
   toggles[i].onchange = (event) => {
-    toogle_disabler(event.target);
+    toogleDisabler(event.target);
   };
-  toogle_disabler(toggles[i]);
+  toogleDisabler(toggles[i]);
 }
+
+const saveProtocol = selectElement("#save_protocol");
+saveProtocol.onclick = (e) => {
+  var formData = new FormData();
+  formData.append("action", "save_protocols");
+  formData.append(_appObject.nonce_key, _appObject._sponsor_nonce);
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("POST", _appObject.ajaxUrl, true);
+  xhttp.send(formData);
+  xhttp.onreadystatechange = function () {
+    if (xhttp.readyState === 4) {
+      console.log(xhttp.response);
+    }
+  };
+};

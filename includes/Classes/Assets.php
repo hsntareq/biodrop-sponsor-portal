@@ -19,8 +19,22 @@ class Assets {
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 		add_action( 'admin_init', array( $this, 'admin_bootstrap_init' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'load_meta_data' ) );
 
 	}
+
+
+	public function load_meta_data() {
+		// Localize scripts
+		$localize_data = apply_filters( 'sponsor_localize_data', $this->get_default_localized_data() );
+		wp_localize_script( 'sponsor-admin', '_appObject', $localize_data );
+		wp_localize_script( 'sponsor-builder', '_appObject', $localize_data );
+
+		// Inline styles
+		// wp_add_inline_style( 'sponsor-frontend', $this->load_color_palette() );
+		// wp_add_inline_style( 'sponsor-admin', $this->load_color_palette() );
+	}
+
 
 	/**
 	 * Function get_default_localized_data
@@ -29,7 +43,7 @@ class Assets {
 	 */
 	private function get_default_localized_data() {
 		return array(
-			'ajaxurl'          => admin_url( 'admin-ajax.php' ),
+			'ajaxUrl'          => admin_url( 'admin-ajax.php' ),
 			'home_url'         => get_home_url(),
 			'base_path'        => sponsor()->basepath,
 			'sponsor_url'      => sponsor()->url,
@@ -58,6 +72,7 @@ class Assets {
 	public function admin_scripts() {
 		wp_enqueue_style( 'sponsor-admin', sponsor()->url . 'assets/css/sponsor.css', array(), sponsor()->version );
 		wp_enqueue_style( 'sponsor-fontawesome', sponsor()->url . 'assets/css/fontawesome/all.css', array(), sponsor()->version );
+		wp_enqueue_script( 'sponsor-lib', sponsor()->url . 'assets/js/lib.js', array(), sponsor()->version, true );
 		wp_enqueue_script( 'sponsor-admin', sponsor()->url . 'assets/js/sponsor.js', array(), sponsor()->version, true );
 		// wp_enqueue_media();
 
