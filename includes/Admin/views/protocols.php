@@ -79,7 +79,7 @@
 					if ( isset( $options['blocks'] ) ) :
 						foreach ( $options['blocks'] as $key => $blocks ) :
 							if ( isset( $blocks['fields'] ) ) :
-								pr( $blocks );
+								// pr( $blocks );
 								?>
 								<div class="d-flex justify-content-between align-items-center mb-4">
 									<div><strong><?php echo $blocks['label']; ?></strong></div>
