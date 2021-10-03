@@ -35,7 +35,7 @@ class Installer {
 
 		$charset_collate = $wpdb->get_charset_collate();
 
-		  $schema = "CREATE TABLE `{$wpdb->prefix}sponsor_protocol` (
+		  $schema_protocol = "CREATE TABLE `{$wpdb->prefix}sp_protocol` (
 			`id` int unsigned NOT NULL AUTO_INCREMENT,
 			`user_id` bigint DEFAULT NULL,
 			`DoNotReportData` int DEFAULT NULL,
@@ -101,9 +101,51 @@ class Installer {
 			PRIMARY KEY (`id`)
 		  ) $charset_collate";
 
+		$schema_sponsors = "CREATE TABLE `{$wpdb->prefix}sp_sponsors` (
+			`id` int unsigned NOT NULL AUTO_INCREMENT,
+			`username` varchar(100) DEFAULT NULL,
+			`protocol_id` bigint NOT NULL,
+			`sponsor_id` bigint NOT NULL,
+			`email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
+			`current_status` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
+			`last_activity` varchar(100) NOT NULL DEFAULT '',
+			`created_at` datetime DEFAULT NULL,
+			PRIMARY KEY (`id`)
+			) $charset_collate";
+
+		  $schema_data_block = "CREATE TABLE `{$wpdb->prefix}sp_data_block` (
+			`id` int unsigned NOT NULL AUTO_INCREMENT,
+			`protocol_id` bigint NOT NULL,
+			`block_heading` varchar(100) DEFAULT NULL,
+			`block_within` varchar(100) DEFAULT NULL,
+			`voice_test` varchar(100) DEFAULT NULL,
+			`smell_test` varchar(100) DEFAULT NULL,
+			`symptom_track` varchar(100) DEFAULT NULL,
+			`saliva_direct` varchar(100) DEFAULT NULL,
+			`not_admit` int DEFAULT NULL,
+			`created_at` datetime DEFAULT NULL,
+			`created_by` bigint DEFAULT NULL,
+			PRIMARY KEY (`id`)
+		  ) $charset_collate";
+
+		  $schema_status = "CREATE TABLE `{$wpdb->prefix}sp_status` (
+			`id` int unsigned NOT NULL AUTO_INCREMENT,
+			`username` varchar(100) DEFAULT NULL,
+			`protocol_id` bigint NOT NULL,
+			`sponsor_id` bigint NOT NULL,
+			`email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
+			`current_status` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
+			`last_activity` varchar(100) NOT NULL DEFAULT '',
+			`created_at` datetime DEFAULT NULL,
+			PRIMARY KEY (`id`)
+			) $charset_collate";
+
 		if ( ! function_exists( 'dbdelta' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		}
-		dbDelta( $schema );
+		dbDelta( $schema_protocol );
+		dbDelta( $schema_data_block );
+		dbDelta( $schema_sponsors );
+		dbDelta( $schema_status );
 	}
 }

@@ -6,11 +6,13 @@ const selectElements = (el) => {
 };
 const toogleDisabler = (elem) => {
   let select = elem.closest(".sp-row").querySelector("select");
-  if (null != select) {
-    if (elem.checked == false) {
-      select.disabled = true;
-    } else {
-      select.disabled = false;
-    }
-  }
+  return null != select
+    ? elem.checked == false
+      ? (select.disabled = true)
+      : (select.disabled = false)
+    : false;
+};
+
+const toogleInputValue = (elem) => {
+  elem.previousElementSibling.value = elem.checked == true ? "on" : "off";
 };

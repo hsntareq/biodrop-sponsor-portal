@@ -63,7 +63,7 @@
 	<form id="protocol_form">
 		<?php
 		$protocol_options = $this->protocol_options()['sections'];
-		foreach ( $protocol_options as $options ) :
+		foreach ( $protocol_options as $secKey => $options ) :
 			?>
 			<div class="sp-block">
 				<div class="sp-block-heading d-flex mb-4">
@@ -98,16 +98,16 @@
 									?>
 									<div class="sp-row d-flex align-items-center mb-4 justify-content-between">
 										<label class="form-toggle mr-1">
-											<input type="hidden" name="radio_option[<?php echo $key; ?>]" value="off">
-											<input type="checkbox" name="radio_option[<?php echo $key; ?>]" value="on" class="form-toggle-input" <?php echo ( 'off' === $fields['switch'] ) ? '' : 'checked'; ?>>
+											<input type="hidden" name="radio_<?php echo $secKey . '_' . $key; ?>" value="off">
+											<input type="checkbox" value="on" class="form-toggle-input" <?php echo ( 'off' === $fields['switch'] ) ? '' : 'checked'; ?>>
 											<span class="form-toggle-control"></span>
 											<span class="label-before text-nowrap ms-3"><?php echo $fields['label']; ?></span>
 										</label>
 										<?php if ( false !== $fields['value'] ) : ?>
 										<div class="d-flex align-items-center">
 											<label class="mx-3">within</label>
-											<select class="form-control">
-													<?php echo $this->select_options( $fields['value']['options'] ); ?>
+											<select class="form-control" name="select_<?php echo $secKey . '_' . $key; ?>" id="<?php echo $secKey . '_' . $key; ?>">
+											<?php echo $this->select_options( $fields['value']['options'] ); ?>
 											</select>
 										</div>
 										<?php endif; ?>
@@ -119,21 +119,20 @@
 					endif;
 					if ( isset( $options['fields'] ) ) :
 						foreach ( $options['fields'] as $key => $fields ) :
-							echo '<pre>';
-							// print_r( $fields );
-							echo '</pre>';
 							?>
 							<div class="sp-row d-flex align-items-center mb-4 justify-content-between">
 								<label class="form-toggle mr-1">
-									<input type="hidden" name="radio_option[<?php echo $key; ?>]" value="off">
-									<input type="checkbox" name="radio_option[<?php echo $key; ?>]" value="on" class="form-toggle-input" <?php echo ( 'off' === $fields['switch'] ) ? '' : 'checked'; ?>>
+									<input type="hidden" name="radio_<?php echo $secKey . '_' . $key; ?>" value="off">
+									<input type="checkbox" class="form-toggle-input" <?php echo ( 'off' === $fields['switch'] ) ? '' : 'checked'; ?>>
 									<span class="form-toggle-control"></span>
 									<span class="label-before text-nowrap ms-3"><?php echo $fields['label']; ?></span>
 								</label>
-								<?php if ( false !== $fields['value'] ) : ?>
+								<?php
+								if ( false !== $fields['value'] ) :
+									?>
 								<div class="d-flex align-items-center">
 									<label class="mx-3">within</label>
-									<select class="form-control">
+									<select class="form-control" name="select_<?php echo $secKey . '_' . $key; ?>" id="<?php echo $secKey . '_' . $key; ?>">
 											<?php echo $this->select_options( $fields['value']['options'] ); ?>
 									</select>
 								</div>

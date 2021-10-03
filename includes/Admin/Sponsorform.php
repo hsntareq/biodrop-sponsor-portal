@@ -60,12 +60,18 @@ class SponsorForm {
 		);
 
 		add_action( 'admin_init', array( $this, 'add_capability' ) );
+		// add_action( 'admin_init', array( $this, 'sponsor_user_settings' ) );
 		add_action( 'wp_ajax_save_protocols', array( $this, 'save_protocols' ) );
 
 	}
 
+	public function get_protocols() {
+		global $wpdb;
+
+	}
 
 	public function save_protocols() {
+
 		wp_send_json_success( $_REQUEST );
 	}
 	/**

@@ -104,6 +104,12 @@ function get_url( $nav_slug ) {
 function get_active( $key ) {
 	return $key === get_request( 'nav' ) ? ' active' : null;
 }
+if ( ! function_exists( 'get_current_url' ) ) {
+
+function get_current_url(): string {
+	return admin_url( sprintf( basename( $_SERVER['REQUEST_URI'] ) ) );
+}
+}
 
 
 if ( ! function_exists( 'pr' ) ) {
