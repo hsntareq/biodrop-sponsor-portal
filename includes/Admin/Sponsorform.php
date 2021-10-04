@@ -110,6 +110,32 @@ class SponsorForm {
 		$options_recovered = $this->options_recovered;
 		$attr              = array(
 			'sections' => array(
+				'm_rna_vaccinated'        => array(
+					'heading'     => 'mRNA Vaccinated',
+					'sub_heading' => __( 'Negative PCR test result after positive PCR test result', 'sponsor' ),
+					'blocks'      => array(
+						array(
+							'label'  => __( 'Fully Vaccinated' ),
+							'switch' => false,
+							'fields' => array(
+								'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_result ),
+								'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_result ),
+								'symptom_track' => $this->array_block( 'Symptom Track', 'off', $options_result ),
+								'saliva_direct' => $this->array_block( 'Saliva Direct', 'off', $options_result ),
+							),
+						),
+						array(
+							'label'  => __( '8+ Months Since Vaccination' ),
+							'switch' => false,
+							'fields' => array(
+								'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_result ),
+								'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_result ),
+								'symptom_track' => $this->array_block( 'Symptom Track', 'off', $options_result ),
+								'saliva_direct' => $this->array_block( 'Saliva Direct', 'off', $options_result ),
+							),
+						),
+					),
+				),
 				'unvaccinated'            => array(
 					'heading'     => __( 'Unvaccinated' ),
 					'sub_heading' => '',
@@ -150,32 +176,6 @@ class SponsorForm {
 								'type'    => 'switch',
 								'options' => $options_recovered,
 							),
-							'fields' => array(
-								'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_result ),
-								'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_result ),
-								'symptom_track' => $this->array_block( 'Symptom Track', 'off', $options_result ),
-								'saliva_direct' => $this->array_block( 'Saliva Direct', 'off', $options_result ),
-							),
-						),
-					),
-				),
-				'm_rna_vaccinated'        => array(
-					'heading'     => 'mRNA Vaccinated',
-					'sub_heading' => __( 'Negative PCR test result after positive PCR test result', 'sponsor' ),
-					'blocks'      => array(
-						array(
-							'label'  => __( 'Fully Vaccinated' ),
-							'switch' => false,
-							'fields' => array(
-								'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_result ),
-								'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_result ),
-								'symptom_track' => $this->array_block( 'Symptom Track', 'off', $options_result ),
-								'saliva_direct' => $this->array_block( 'Saliva Direct', 'off', $options_result ),
-							),
-						),
-						array(
-							'label'  => __( '8+ Months Since Vaccination' ),
-							'switch' => false,
 							'fields' => array(
 								'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_result ),
 								'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_result ),

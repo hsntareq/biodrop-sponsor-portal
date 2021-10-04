@@ -20,16 +20,6 @@
 	<div class="sp-main p-5 row g-0">
 		<div class="sp-nav col-3">
 			<div class="list-group list-group-flush">
-				<?php
-				/*
-				?>
-				<a href="<?php echo esc_url( add_query_arg( 'page', 'sponsor', admin_url( 'admin.php' ) ) ); ?>"
-					class="hidden list-group-item list-group-item-action<?php echo ( ! get_request( 'nav' ) ? ' active' : '' ); ?>">
-					<i class="fas fa-door-open"></i>
-					<?php echo esc_html( 'Home' ); ?>
-				</a>
-				<?php  */
-				?>
 				<a href="<?php echo esc_url( get_url( 'entry-status' ) ); ?>"
 					class="list-group-item list-group-item-action<?php echo esc_attr( get_active( 'entry-status' ) ); ?>">
 					<i class="fas fa-door-open"></i>
@@ -53,13 +43,18 @@
 			</div>
 		</div>
 		<div class="sp-body col-9 ps-4 pt-3">
+			lorem
 			<?php
-			switch ( get_request( 'nav' ) ) {
+								require __DIR__ . '/protocols.php';
+								/*
+			 switch ( get_request( 'nav' ) ) {
 				case null:
 					include __DIR__ . '/welcome.php';
 					break;
 				case 'entry-status':
+					ob_flush();
 					include __DIR__ . '/entry-status.php';
+					ob_end_flush();
 					break;
 				case 'protocols':
 					include __DIR__ . '/protocols.php';
@@ -71,7 +66,7 @@
 				default:
 					include __DIR__ . '/404.php';
 					break;
-			}
+			} */
 			?>
 		</div>
 	</div>
