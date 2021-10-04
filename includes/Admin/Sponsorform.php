@@ -110,120 +110,236 @@ class SponsorForm {
 		$options_recovered = $this->options_recovered;
 		$attr              = array(
 			'sections' => array(
-				'm_rna_vaccinated'        => array(
-					'heading'     => 'mRNA Vaccinated',
-					'sub_heading' => __( 'Negative PCR test result after positive PCR test result', 'sponsor' ),
-					'blocks'      => array(
-						array(
-							'label'  => __( 'Fully Vaccinated' ),
-							'switch' => false,
-							'fields' => array(
-								'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_result ),
-								'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_result ),
-								'symptom_track' => $this->array_block( 'Symptom Track', 'off', $options_result ),
-								'saliva_direct' => $this->array_block( 'Saliva Direct', 'off', $options_result ),
+				'immunity_scale'  => array(
+					'label'  => 'Immunity Scale',
+					'blocks' => array(
+						'mrna'        => array(
+							'slug'        => 'mrna',
+							'heading'     => 'mRNA Vaccinated',
+							'sub_heading' => __( 'Negative PCR test result after positive PCR test result', 'sponsor' ),
+							'fields'      => array(
+								'first_injection'  => array(
+									'label'   => 'First injection',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 1,
+								),
+								'second_injection' => array(
+									'label'   => 'Second injection',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 2,
+								),
+								'twentyone_days_since_second_injection' => array(
+									'label'   => 'Twentyone days since second injection',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 6,
+								),
+								'three_months_since_second_injection' => array(
+									'label'   => 'Three months since second injection',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 5,
+								),
+								'five_months_since_second_injection' => array(
+									'label'   => 'Five months since second injection',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 4,
+								),
+								'eight_months_since_second_injection' => array(
+									'label'   => 'Eight months since second injection',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 3,
+								),
+
 							),
 						),
-						array(
-							'label'  => __( '8+ Months Since Vaccination' ),
-							'switch' => false,
-							'fields' => array(
-								'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_result ),
-								'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_result ),
-								'symptom_track' => $this->array_block( 'Symptom Track', 'off', $options_result ),
-								'saliva_direct' => $this->array_block( 'Saliva Direct', 'off', $options_result ),
+						'single_dose' => array(
+							'slug'        => 'single_dose',
+							'heading'     => 'Single Dose Vaccinated',
+							'sub_heading' => __( 'Negative PCR test result after positive PCR test result', 'sponsor' ),
+							'fields'      => array(
+								'injection' => array(
+									'label'   => 'Injection',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 1,
+								),
+								'twentyone_days_since_injection' => array(
+									'label'   => 'Twentyone days since injection',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 6,
+								),
+								'three_months_since_injection' => array(
+									'label'   => 'Three months since injection',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 5,
+								),
+								'five_months_since_injection' => array(
+									'label'   => 'Five months since injection',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 4,
+								),
+								'eight_months_since_injection' => array(
+									'label'   => 'Eight months since injection',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 3,
+								),
+
+							),
+						),
+						'booster'     => array(
+							'slug'        => 'booster',
+							'heading'     => 'Booster Vaccinated',
+							'sub_heading' => __( 'Negative PCR test result after positive PCR test result', 'sponsor' ),
+							'fields'      => array(
+								'injection' => array(
+									'label'   => 'Injection',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 1,
+								),
+								'twentyone_days_since_injection' => array(
+									'label'   => 'Twentyone days since injection',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 6,
+								),
+								'three_months_since_injection' => array(
+									'label'   => 'Three months since injection',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 5,
+								),
+								'five_months_since_injection' => array(
+									'label'   => 'Five months since injection',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 4,
+								),
+								'eight_months_since_injection' => array(
+									'label'   => 'Eight months since injection',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 3,
+								),
+
+							),
+						),
+						'recovery'    => array(
+							'slug'        => 'recovery',
+							'heading'     => 'Recovery from COVID-19 positive test',
+							'sub_heading' => __( 'Negative PCR test result after positive PCR test result', 'sponsor' ),
+							'fields'      => array(
+								'negative_test_after_positive_test' => array(
+									'label'   => 'Negative test after positive test',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 7,
+								),
+								'six_months_after_negative_test' => array(
+									'label'   => 'Six months after negative test',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 6,
+								),
+								'ten_months_after_negative_test' => array(
+									'label'   => 'Ten months after negative test',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 5,
+								),
+								'fourteen_months_since_negative_test' => array(
+									'label'   => 'Fourteen months since negative test',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 4,
+								),
+								'eighteen_months_since_negative_test' => array(
+									'label'   => 'Eighteen months since negative test',
+									'type'    => 'number',
+									'default' => 0,
+									'remark'  => 3,
+								),
+
 							),
 						),
 					),
 				),
-				'unvaccinated'            => array(
-					'heading'     => __( 'Unvaccinated' ),
-					'sub_heading' => '',
-					'fields'      => array(
-						'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_within ),
-						'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_within ),
-						'symptom_track' => $this->array_block( 'Symptom Track', 'off', $options_within ),
-						'saliva_direct' => $this->array_block( 'Saliva Direct', 'off', $options_within ),
-						'do_not_admit'  => array(
-							'label'  => 'Do not admit',
-							'switch' => 'off',
-							'value'  => false,
-						),
-					),
-				),
-				'recovered_from_covid_19' => array(
-					'heading'     => __( 'Recovered from COVID-19' ),
-					'sub_heading' => __( 'Negative PCR test result after positive PCR test result', 'sponsor' ),
-					'blocks'      => array(
-						array(
-							'label'  => __( 'Recovered:' ),
-							'switch' => false,
-							'value'  => array(
-								'type'    => 'switch',
-								'options' => $options_recovered,
-							),
-							'fields' => array(
-								'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_result ),
-								'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_result ),
-								'symptom_track' => $this->array_block( 'Symptom Track', 'off', $options_result ),
-								'saliva_direct' => $this->array_block( 'Saliva Direct', 'off', $options_result ),
+				'immunity_result' => array(
+					'label'  => 'Immunity Result',
+					'blocks' => array(
+						'pcr'        => array(
+							'slug'        => 'pcr ',
+							'heading'     => 'Negative PCR Test',
+							'sub_heading' => __( 'Negative PCR test result after positive PCR test result', 'sponsor' ),
+							'fields'      => array(
+								'smell_test' => array(
+									'label'   => 'Voice Test',
+									'type'    => 'number',
+									'default' => array( '36', 'hr' ),
+									'remark'  => array( '36', 'hr' ),
+								),
+								'smell_test' => array(
+									'label'   => 'Smell Test',
+									'type'    => 'number',
+									'default' => array( '4', 'hr' ),
+									'remark'  => array( '4', 'hr' ),
+								),
+
 							),
 						),
-						array(
-							'label'  => __( 'Recovered:' ),
-							'switch' => false,
-							'value'  => array(
-								'type'    => 'switch',
-								'options' => $options_recovered,
-							),
-							'fields' => array(
-								'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_result ),
-								'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_result ),
-								'symptom_track' => $this->array_block( 'Symptom Track', 'off', $options_result ),
-								'saliva_direct' => $this->array_block( 'Saliva Direct', 'off', $options_result ),
-							),
-						),
-					),
-				),
-				'single_dose_vaccination' => array(
-					'heading'     => 'Single Dose Vaccination',
-					'sub_heading' => __( '21+ days since vaccination or booster', 'sponsor' ),
-					'blocks'      => array(
-						array(
-							'label'  => __( 'Fully Vaccinated' ),
-							'switch' => false,
-							'fields' => array(
-								'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_result ),
-								'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_result ),
-								'symptom_track' => $this->array_block( 'Symptom Track', 'off', $options_result ),
-								'saliva_direct' => $this->array_block( 'Saliva Direct', 'off', $options_result ),
+						'antigen'    => array(
+							'slug'        => 'Antigen',
+							'heading'     => 'Negative Antigen Test',
+							'sub_heading' => __( 'Negative Antigen test result after positive PCR test result', 'sponsor' ),
+							'fields'      => array(
+								'smell_test' => array(
+									'label'   => 'Voice Test',
+									'type'    => 'number',
+									'default' => array( '24', 'hr' ),
+									'remark'  => array( '24', 'hr' ),
+								),
+								'smell_test' => array(
+									'label'   => 'Smell Test',
+									'type'    => 'number',
+									'default' => array( '4', 'hr' ),
+									'remark'  => array( '4', 'hr' ),
+								),
+
 							),
 						),
-						array(
-							'label'  => __( '8+ Months Since Vaccination' ),
-							'switch' => false,
-							'fields' => array(
-								'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_result ),
-								'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_result ),
-								'symptom_track' => $this->array_block( 'Symptom Track', 'off', $options_result ),
-								'saliva_direct' => $this->array_block( 'Saliva Direct', 'off', $options_result ),
+						'home_rapid' => array(
+							'slug'        => 'home_rapid',
+							'heading'     => 'Negative Home Rapid Test',
+							'sub_heading' => __( 'Negative Home Rapid test result after positive PCR test result', 'sponsor' ),
+							'fields'      => array(
+								'smell_test' => array(
+									'label'   => 'Voice Test',
+									'type'    => 'number',
+									'default' => array( '3', 'day' ),
+									'remark'  => array( '3', 'day' ),
+								),
+								'smell_test' => array(
+									'label'   => 'Smell Test',
+									'type'    => 'number',
+									'default' => array( '4', 'hr' ),
+									'remark'  => array( '4', 'hr' ),
+								),
+
 							),
 						),
-					),
-				),
-				'neg_pcr_test'            => array(
-					'heading'     => __( 'Neg. PCR Test' ),
-					'sub_heading' => '',
-					'fields'      => array(
-						'voice_test'    => $this->array_block( 'Voice Test', 'on', $options_result ),
-						'smell_test'    => $this->array_block( 'Smell Test', 'on', $options_result ),
-						'symptom_track' => $this->array_block( 'Symptom Track', 'off', $options_result ),
-						'saliva_direct' => $this->array_block( 'Saliva Direct', 'off', $options_result ),
 					),
 				),
 			),
 		);
-
 		return $attr;
 	}
 	/**
