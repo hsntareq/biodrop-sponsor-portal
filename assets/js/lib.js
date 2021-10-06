@@ -16,3 +16,10 @@ const toogleDisabler = (elem) => {
 const toogleInputValue = (elem) => {
   elem.previousElementSibling.value = elem.checked == true ? "on" : "off";
 };
+
+var tooltipTriggerList = [].slice.call(
+  document.querySelectorAll('[data-bs-toggle="tooltip"]')
+);
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl);
+});

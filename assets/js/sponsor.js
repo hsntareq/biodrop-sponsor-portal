@@ -10,16 +10,18 @@ for (let i = 0; i < toggles.length; i++) {
 
 const saveProtocol = selectElement("#save_protocol");
 const protocolForm = selectElement("#protocol_form");
-saveProtocol.onclick = (e) => {
-  var formData = new FormData(protocolForm);
-  formData.append("action", "save_protocols");
-  formData.append(_appObject.nonce_key, _appObject._sponsor_nonce);
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("POST", _appObject.ajaxUrl, true);
-  xhttp.send(formData);
-  xhttp.onreadystatechange = function () {
-    if (xhttp.readyState === 4) {
-      console.log(xhttp.response);
-    }
+if (saveProtocol) {
+  saveProtocol.onclick = (e) => {
+    var formData = new FormData(protocolForm);
+    formData.append("action", "save_protocols");
+    formData.append(_appObject.nonce_key, _appObject._sponsor_nonce);
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("POST", _appObject.ajaxUrl, true);
+    xhttp.send(formData);
+    xhttp.onreadystatechange = function () {
+      if (xhttp.readyState === 4) {
+        console.log(JSON.parse(xhttp.response));
+      }
+    };
   };
-};
+}

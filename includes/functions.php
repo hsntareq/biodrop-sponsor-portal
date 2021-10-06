@@ -88,6 +88,9 @@ function sp_po_delete_protocol( $id ) {
 function get_request( $key ) {
 	return isset( $_REQUEST[ $key ] ) ? $_REQUEST[ $key ] : false;
 }
+function get_result( $key ) {
+	return isset( $key ) ? $key : null;
+}
 function get_server( $key ) {
 	return isset( $_SERVER[ $key ] ) ? $_SERVER[ $key ] : false;
 }
@@ -106,9 +109,9 @@ function get_active( $key ) {
 }
 if ( ! function_exists( 'get_current_url' ) ) {
 
-function get_current_url(): string {
-	return admin_url( sprintf( basename( $_SERVER['REQUEST_URI'] ) ) );
-}
+	function get_current_url(): string {
+		return admin_url( sprintf( basename( $_SERVER['REQUEST_URI'] ) ) );
+	}
 }
 
 

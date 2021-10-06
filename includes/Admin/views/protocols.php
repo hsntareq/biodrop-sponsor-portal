@@ -62,88 +62,74 @@
 <div class="sp-blocks">
 	<form id="protocol_form">
 		<?php
-		$protocol_options = $this->protocol_options()['sections'];
-		foreach ( $protocol_options as $secKey => $options ) :
+		$protocol_options = $this->protocol_options();
+		foreach ( $protocol_options as $option_key => $options ) :
 			?>
-			<div class="sp-block">
-				<div class="sp-block-heading d-flex mb-4">
+			<div class="sp-block" id="option_ <?php echo esc_attr( $option_key ); ?>">
+				<div class="sp-block-heading d-flex mt-4">
 					<i class="fad fa-users me-3 fa-2x mt-1"></i>
 					<div>
-						<h5 class="mb-0 text-dark"><?php echo esc_html( $options['heading'] ) ?? null; ?></h5>
-						<p class="text-secondary"><?php echo esc_html( $options['sub_heading'] ) ?? null; ?></p>
+						<h5 class="mb-0 text-dark"><?php echo esc_html( get_result( $options['label'] ) ); ?></h5>
+						<p class="text-secondary mb-0"><?php echo esc_html( get_result( $options['desc'] ) ); ?></p>
 					</div>
 				</div>
 
-				<div class="form-row ms-auto w-lg-75">
+				<div class="form-data-row">
 					<?php
+
 					if ( isset( $options['blocks'] ) ) :
-						foreach ( $options['blocks'] as $key => $blocks ) :
-							if ( isset( $blocks['fields'] ) ) :
-								// pr( $blocks );
-								?>
-								<div class="d-flex justify-content-between align-items-center mb-4">
-									<div><strong><?php echo $blocks['label']; ?></strong></div>
-									<?php if ( isset( $blocks['value'] ) ) : ?>
-										<div class="d-flex">
-											<div class="input-group">
-												<select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
-												<?php echo $this->select_options( $blocks['value']['options'] ); ?>
-												</select>
-											</div>
-										</div>
-									<?php endif; ?>
-								</div>
-								<?php
-								foreach ( $blocks['fields'] as $key => $fields ) :
+						foreach ( $options['blocks'] as $block_key => $block ) :
+							?>
+							<div class="card p-0 mw-100">
+							<div class="card-header">
+								<h5 class="m-0"><?php echo esc_html( $block['heading'] ); ?></h5>
+							</div>
+							<div class="card-body">
+
+							<?php
+							if ( isset( $block['fields'] ) ) :
+								foreach ( $block['fields'] as $field_key => $field ) :
+									// pr( $field );
 									?>
 									<div class="sp-row d-flex align-items-center mb-4 justify-content-between">
 										<label class="form-toggle mr-1">
-											<input type="hidden" name="radio_<?php echo $secKey . '_' . $key; ?>" value="off">
-											<input type="checkbox" value="on" class="form-toggle-input" <?php echo ( 'off' === $fields['switch'] ) ? '' : 'checked'; ?>>
+											<input type="hidden" name="radio_<?php echo esc_attr( get_result( $block_key ) ) . '_' . esc_attr( get_result( $field_key ) ); ?>" value="off">
+											<input type="checkbox" value="on" class="form-toggle-input" <?php echo ( 'off' === $field['switch'] ) ? '' : 'checked'; ?>>
 											<span class="form-toggle-control"></span>
-											<span class="label-before text-nowrap ms-3"><?php echo $fields['label']; ?></span>
+											<span class="label-before text-nowrap ms-3"><?php echo esc_attr( get_result( $field['label'] ) ); ?></span>
 										</label>
-										<?php if ( false !== $fields['value'] ) : ?>
-										<div class="d-flex align-items-center">
-											<label class="mx-3">within</label>
-											<select class="form-control" name="select_<?php echo $secKey . '_' . $key; ?>" id="<?php echo $secKey . '_' . $key; ?>">
-											<?php echo $this->select_options( $fields['value']['options'] ); ?>
-											</select>
+										<?php // if ( false !== $field['value'] ) : ?>
+										<div class="d-flex align-items-center justify-content-end">
+										<i class="far me-2 fa-info-circle" data-bs-toggle="tooltip" title="<?php echo esc_attr( get_result( $field['label'] ) ); ?>"></i>
+
+										<?php if ( $field['type'] == 'group' ) { ?>
+											<div class="input-group input-gr-mw">
+												<input type="number" class="form-control" value="<?php echo $field['default'][0]; ?>">
+												<select class="form-select" id="inputGroupSelect02">
+													<option <?php echo $field['default'][1] == 'hour' ? 'selected' : ''; ?> value="hour">Hour</option>
+													<option <?php echo $field['default'][1] == 'day' ? 'selected' : ''; ?> value="day">Day</option>
+												</select>
+											</div>
+											<?php
+										} else {
+											?>
+										<input type="number" class="form-control input-mw text-right" placeholder="<?php echo esc_attr( 'input...' ); ?>" name="<?php echo esc_attr( get_result( $block_key ) ) . '_' . esc_attr( get_result( $field_key ) ); ?>" value="<?php echo esc_attr( get_result( $field['default'] ) ); ?>">
+										<?php } ?>
+
 										</div>
-										<?php endif; ?>
+										<?php // endif; ?>
 									</div>
 									<?php
-							endforeach;
-						endif;
-					endforeach;
-					endif;
-					if ( isset( $options['fields'] ) ) :
-						foreach ( $options['fields'] as $key => $fields ) :
-							?>
-							<div class="sp-row d-flex align-items-center mb-4 justify-content-between">
-								<label class="form-toggle mr-1">
-									<input type="hidden" name="radio_<?php echo $secKey . '_' . $key; ?>" value="off">
-									<input type="checkbox" class="form-toggle-input" <?php echo ( 'off' === $fields['switch'] ) ? '' : 'checked'; ?>>
-									<span class="form-toggle-control"></span>
-									<span class="label-before text-nowrap ms-3"><?php echo $fields['label']; ?></span>
-								</label>
-								<?php
-								if ( false !== $fields['value'] ) :
-									?>
-								<div class="d-flex align-items-center">
-									<label class="mx-3">within</label>
-									<select class="form-control" name="select_<?php echo $secKey . '_' . $key; ?>" id="<?php echo $secKey . '_' . $key; ?>">
-											<?php echo $this->select_options( $fields['value']['options'] ); ?>
-									</select>
-								</div>
-								<?php endif; ?>
-							</div>
-							<?php
+								endforeach;
+
+							endif;
+							echo '</div>';
+							echo '</div>';
 						endforeach;
 					endif;
+
 					?>
 
-				<hr>
 			</div>
 		<?php endforeach; ?>
 	</form>

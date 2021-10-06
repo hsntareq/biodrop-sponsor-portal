@@ -1,6 +1,6 @@
 <div class="sp-wrap">
 	<header class="bg-secondary bg-gradient shadow">
-		<div class="sp-header d-flex justify-content-between align-items-center w-75">
+		<div class="sp-header d-flex justify-content-between align-items-center">
 			<div class="d-flex align-items-center h-100">
 				<img class="p-3" height="100%" src="<?php echo sponsor()->assets . '/images/logo.png'; ?>" alt="logo">
 				<h1 class="ms-2 fs-3 mb-0 text-white fw-bold"><?php esc_html_e( 'Administrative Portal', 'sponsor' ); ?>
@@ -18,7 +18,7 @@
 	</header>
 
 	<div class="sp-main p-5 row g-0">
-		<div class="sp-nav col-3">
+		<div class="sp-nav col-3 shadow">
 			<div class="list-group list-group-flush">
 				<a href="<?php echo esc_url( get_url( 'entry-status' ) ); ?>"
 					class="list-group-item list-group-item-action<?php echo esc_attr( get_active( 'entry-status' ) ); ?>">
@@ -43,11 +43,10 @@
 			</div>
 		</div>
 		<div class="sp-body col-9 ps-4 pt-3">
-			lorem
 			<?php
-								require __DIR__ . '/protocols.php';
-								/*
-			 switch ( get_request( 'nav' ) ) {
+			// require __DIR__ . '/protocols.php';
+
+			switch ( get_request( 'nav' ) ) {
 				case null:
 					include __DIR__ . '/welcome.php';
 					break;
@@ -66,7 +65,7 @@
 				default:
 					include __DIR__ . '/404.php';
 					break;
-			} */
+			}
 			?>
 		</div>
 	</div>

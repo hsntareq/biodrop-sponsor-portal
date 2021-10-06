@@ -50,7 +50,6 @@ body {
   padding: 20px 0;
   min-height: 600px;
   margin-bottom: 200px;
-  box-shadow: 1px 1px 8px -5px #000;
 }
 .sp-nav ul li {
   margin-bottom: 0;
@@ -277,4 +276,13 @@ select.form-control {
 
 .next_btn:hover img {
   filter: drop-shadow(-2px 2px 2px #000);
+}
+.input-mw {
+  width: 80px!important;
+  min-width: 80px;
+}
+
+.input-gr-mw {
+  width: 120px!important;
+  min-width: 120px;
 }
