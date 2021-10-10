@@ -8,7 +8,7 @@
 			</div>
 			<div>
 				<?php if ( get_request( 'nav' ) == 'protocols' ) : ?>
-				<button class="btn btn-success shadow border btn-lg" id="save_protocol">
+				<button class="btn btn-success bg-gradient shadow border btn-lg" id="save_protocol">
 					<i class="fas fa-save me-2"></i>
 					<?php esc_html_e( 'Save Sponsor', 'sponsor' ); ?>
 				</button>
@@ -44,8 +44,6 @@
 		</div>
 		<div class="sp-body col-9 ps-4 pt-3">
 			<?php
-			// require __DIR__ . '/protocols.php';
-
 			switch ( get_request( 'nav' ) ) {
 				case null:
 					include __DIR__ . '/welcome.php';
@@ -61,7 +59,6 @@
 				case 'settings':
 					include __DIR__ . '/settings.php';
 					break;
-
 				default:
 					include __DIR__ . '/404.php';
 					break;
@@ -69,4 +66,18 @@
 			?>
 		</div>
 	</div>
+
+	<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+		<div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+			<div class="toast-header bg-success text-white bg-opacity-75 border-0">
+			<i class="far fa-tint me-2"></i>
+			<strong class="me-auto">Success!</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+			</div>
+			<div class="toast-body bg-success text-dark bg-opacity-25">
+			Hello, world! This is a toast message.
+			</div>
+		</div>
+	</div>
+
 </div>

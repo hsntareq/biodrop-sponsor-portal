@@ -12,6 +12,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
 
+use Sponsor\Admin;
+use Sponsor\Admin\SponsorForm;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -39,7 +41,7 @@ final class SponsorPortal {
 	private function __construct() {
 		$this->define_constants();
 		$this->assets = new Sponsor\Classes\Assets();
-		// $this->utils  = new Sponsor\Classes\Utils();
+		$this->utils  = new Sponsor\Classes\Utils();
 
 		register_activation_hook( __FILE__, array( $this, 'activate' ) );
 

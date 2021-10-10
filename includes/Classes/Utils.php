@@ -20,7 +20,7 @@ class Utils {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->includes();
+		//$this->includes();
 
 	}
 

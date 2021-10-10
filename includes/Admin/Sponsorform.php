@@ -62,18 +62,63 @@ class SponsorForm {
 		add_action( 'admin_init', array( $this, 'add_capability' ) );
 		// add_action( 'admin_init', array( $this, 'sponsor_user_settings' ) );
 		add_action( 'wp_ajax_save_protocols', array( $this, 'save_protocols' ) );
+		add_action( 'wp_ajax_get_protocol_by_id', array( $this, 'get_protocol_by_id' ) );
 
 	}
 
 	public function get_protocols() {
 		global $wpdb;
-
+		$results = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}sp_protocol" );
+		return $results;
 	}
 
+	/**
+	 * Function to get_protocol_by_id
+	 *
+	 * @param  mixed $id .
+	 * @return array
+	 */
+	public function get_protocol_by_id( $id ) {
+		global $wpdb;
+		$result = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}sp_protocol` WHERE `id` = %d", $id ) );
+		return $result;
+	}
+
+	/**
+	 * Function to save_protocols
+	 *
+	 * @return array
+	 */
 	public function save_protocols() {
+
+		global $wpdb;
+		$tablename = $wpdb->prefix . 'sp_protocol';
+		$data      = array(
+			'mRNAvaxFirstInjectionRate' => $_POST['mrna_first_injection'],
+			'mRNAvaxSecondIncetionRate' => $_POST['mrna_second_injection'],
+		);
+		$wpdb->insert( $tablename, $data );
 
 		wp_send_json_success( $_REQUEST );
 	}
+
+	public function update_protocols( $id ) {
+
+		global $wpdb;
+		$tablename = $wpdb->prefix . 'sp_protocol';
+		$data      = array(
+			'user_id'                   => get_current_user_id(),
+			'mRNAvaxFirstInjectionRate' => sanitize_text_field( wp_unslash( $_POST['mrna_first_injection'] ) ),
+			'mRNAvaxSecondIncetionRate' => sanitize_text_field( $_POST['mrna_second_injection'] ),
+		);
+		$where     = array( 'id' => $id );
+		pr( $data );
+		die;
+		$wpdb->update( $tablename, $data, $where );
+
+		wp_send_json_success( $_REQUEST );
+	}
+
 	/**
 	 * Add_capability
 	 *
@@ -81,11 +126,12 @@ class SponsorForm {
 	 */
 	public function add_capability() {
 		remove_role( 'sponsor_role' );
-		$role = get_role( 'sponsor' );
-		 $role->add_cap( 'manage_sponsor' );
 
-		 $role2 = get_role( 'administrator' );
-		 $role2->add_cap( 'manage_sponsor' );
+		$role = get_role( 'sponsor' );
+		$role->add_cap( 'manage_sponsor' );
+
+		$role2 = get_role( 'administrator' );
+		$role2->add_cap( 'manage_sponsor' );
 	}
 
 
@@ -98,6 +144,18 @@ class SponsorForm {
 				'options' => $option,
 			),
 		);
+	}
+
+	public function protocol_fields() {
+		$fields = array();
+		foreach ( $this->protocol_options() as $sec_key => $blocks ) {
+			foreach ( $blocks['blocks'] as $block_key => $blocks ) {
+				foreach ( $blocks['fields'] as $field_key => $field ) {
+					$fields[ $block_key . '_' . $field_key ] = $field;
+				}
+			}
+		}
+		return $fields;
 	}
 	/**
 	 * Function protocol_options
@@ -369,10 +427,33 @@ class SponsorForm {
 		);
 		return $attr;
 	}
+
+
+
+
+
+	/**
+	 * Function select_options_by_key
+	 *
+	 * @param  array  $options .
+	 * @param  string $field .
+	 * @return html
+	 */
+	public function select_options_by_key( $options = array(), $field ) {
+		$output = '';
+		if ( $options ) {
+			foreach ( $options as $key => $option ) {
+				if ( ! empty( $option->name ) ) {
+					$output .= "<option value='{$option->id}'>{$option->name}</option>";
+				}
+			}
+		}
+		return $output;
+	}
 	/**
 	 * Function select_options
 	 *
-	 * @param  mixed $options
+	 * @param  mixed $options .
 	 * @return string
 	 */
 	public function select_options( $options = array() ) {
@@ -405,8 +486,9 @@ class SponsorForm {
 		}
 
 		if ( file_exists( $template ) ) {
-
+			ob_start();
 			include $template;
+			return ob_get_clean();
 		}
 	}
 
@@ -415,10 +497,7 @@ class SponsorForm {
 	}
 
 	public function plugin_main_page() {
-		// ob_start();
 		include __DIR__ . '/views/protocol-main.php';
-		// include tutor()->path . 'views/options/options_generator.php';.
-		// return ob_get_clean();
 	}
 
 	/**

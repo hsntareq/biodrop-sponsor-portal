@@ -11,5 +11,6 @@ class Settings {
 
 	public function menu_page() {
 		include __DIR__ . '/views/settings/main.php';
+
 	}
 }

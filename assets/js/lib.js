@@ -5,12 +5,15 @@ const selectElements = (el) => {
   return document.querySelectorAll(el);
 };
 const toogleDisabler = (elem) => {
-  let select = elem.closest(".sp-row").querySelector("select");
-  return null != select
-    ? elem.checked == false
-      ? (select.disabled = true)
-      : (select.disabled = false)
-    : false;
+  let toBeChange = elem.closest(".sp-row").querySelectorAll(".change-field");
+
+  for (let i = 0; i < toBeChange.length; i++) {
+    null != toBeChange[i]
+      ? elem.checked == false
+        ? (toBeChange[i].disabled = true)
+        : (toBeChange[i].disabled = false)
+      : false;
+  }
 };
 
 const toogleInputValue = (elem) => {
@@ -23,3 +26,10 @@ var tooltipTriggerList = [].slice.call(
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl);
 });
+
+const toastTrigger = (type, message) => {
+  var toastLiveExample = document.getElementById("liveToast");
+  var toast = new bootstrap.Toast(toastLiveExample);
+  toastLiveExample.querySelector(".toast-body").innerText = message;
+  toast.show();
+};

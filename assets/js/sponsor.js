@@ -20,8 +20,12 @@ if (saveProtocol) {
     xhttp.send(formData);
     xhttp.onreadystatechange = function () {
       if (xhttp.readyState === 4) {
+        toastTrigger("success", "The protocol is saveed successfully");
         console.log(JSON.parse(xhttp.response));
       }
     };
   };
 }
+$(document).ready(function () {
+  $(".select2").select2();
+});

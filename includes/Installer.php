@@ -2,6 +2,8 @@
 
 namespace Sponsor;
 
+use Sponsor\Admin\SponsorForm;
+
 class Installer {
 
 	public function run() {
@@ -37,6 +39,7 @@ class Installer {
 
 		  $schema_protocol = "CREATE TABLE `{$wpdb->prefix}sp_protocol` (
 			`id` int unsigned NOT NULL AUTO_INCREMENT,
+			`name` varchar(100) DEFAULT NULL,
 			`user_id` bigint DEFAULT NULL,
 			`DoNotReportData` int DEFAULT NULL,
 			`mRNAvaxFirstInjectionRate` int DEFAULT NULL,

@@ -6,22 +6,20 @@
 	<h6 class="m-0">Your Protocol: <span class="text-success fw-bold">UF 243.Arts&Science</span></h6>
 </div>
 
-
-
-
+<?php $protocols = $this->get_protocols();
+?>
+<?php // pr( $this->protocol_fields() ); ?>
 <hr>
 
 <div class="sp-block mb-4">
-	<div class="d-flex justify-content-start align-items-center">
-		<h4 class="m-0">Current Protocol:</h4>
+	<div class="d-flex justify-content-between align-items-center">
+		<h4 class="m-0">Select your Protocol:</h4>
 
 		<div class="d-flex ms-3">
 			<div class="input-group">
-				<select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
-					<?php echo $this->select_options( $this->options_within ); ?>
+				<select class="form-select select2" id="inputGroupSelect04" aria-label="Example select with button addon">
+					<?php echo $this->select_options_by_key( $protocols, 'name' ); ?>
 				</select>
-				<button class="btn btn-success" type="button"><i class="fas fa-plus me-2"></i> New
-					Protocol</button>
 			</div>
 		</div>
 	</div>
@@ -66,8 +64,8 @@
 		foreach ( $protocol_options as $option_key => $options ) :
 			?>
 			<div class="sp-block" id="option_ <?php echo esc_attr( $option_key ); ?>">
-				<div class="sp-block-heading d-flex mt-4">
-					<i class="fad fa-users me-3 fa-2x mt-1"></i>
+				<div class="sp-block-heading d-flex mt-4 align-items-center">
+					<i class="fad fa-users me-3 fa-2x"></i>
 					<div>
 						<h5 class="mb-0 text-dark"><?php echo esc_html( get_result( $options['label'] ) ); ?></h5>
 						<p class="text-secondary mb-0"><?php echo esc_html( get_result( $options['desc'] ) ); ?></p>
@@ -93,7 +91,7 @@
 									?>
 									<div class="sp-row d-flex align-items-center mb-4 justify-content-between">
 										<label class="form-toggle mr-1">
-											<input type="hidden" name="radio_<?php echo esc_attr( get_result( $block_key ) ) . '_' . esc_attr( get_result( $field_key ) ); ?>" value="off">
+											<input type="hidden" value="off">
 											<input type="checkbox" value="on" class="form-toggle-input" <?php echo ( 'off' === $field['switch'] ) ? '' : 'checked'; ?>>
 											<span class="form-toggle-control"></span>
 											<span class="label-before text-nowrap ms-3"><?php echo esc_attr( get_result( $field['label'] ) ); ?></span>
@@ -104,8 +102,9 @@
 
 										<?php if ( $field['type'] == 'group' ) { ?>
 											<div class="input-group input-gr-mw">
-												<input type="number" class="form-control" value="<?php echo $field['default'][0]; ?>">
-												<select class="form-select" id="inputGroupSelect02">
+												<input type="hidden" class="change-field" name="<?php echo esc_attr( get_result( $block_key ) ) . '_' . esc_attr( get_result( $field_key ) ); ?>">
+												<input type="number" class="form-control change-field" value="<?php echo $field['default'][0]; ?>">
+												<select class="form-select change-field" id="inputGroupSelect02">
 													<option <?php echo $field['default'][1] == 'hour' ? 'selected' : ''; ?> value="hour">Hour</option>
 													<option <?php echo $field['default'][1] == 'day' ? 'selected' : ''; ?> value="day">Day</option>
 												</select>
@@ -113,7 +112,7 @@
 											<?php
 										} else {
 											?>
-										<input type="number" class="form-control input-mw text-right" placeholder="<?php echo esc_attr( 'input...' ); ?>" name="<?php echo esc_attr( get_result( $block_key ) ) . '_' . esc_attr( get_result( $field_key ) ); ?>" value="<?php echo esc_attr( get_result( $field['default'] ) ); ?>">
+										<input type="number" class="form-control input-mw change-field text-right" placeholder="<?php echo esc_attr( 'input...' ); ?>" name="<?php echo esc_attr( get_result( $block_key ) ) . '_' . esc_attr( get_result( $field_key ) ); ?>" value="<?php echo esc_attr( get_result( $field['default'] ) ); ?>">
 										<?php } ?>
 
 										</div>
