@@ -13,15 +13,14 @@
 
 <div class="sp-block mb-4">
 	<div class="d-flex justify-content-between align-items-center">
-		<h4 class="m-0">Select your Protocol:</h4>
-
-		<div class="d-flex ms-3">
-			<div class="input-group">
-				<select class="form-select select2" id="inputGroupSelect04" aria-label="Example select with button addon">
-					<?php echo $this->select_options_by_key( $protocols, 'name' ); ?>
-				</select>
-			</div>
+		<div class="d-flex align-items-center">
+			<h4 class="m-0 text-nowrap">Select your Protocol:</h4>
+			<select class="form-select select2 ms-2" id="inputGroupSelect04" aria-label="Example select with button addon">
+				<?php echo $this->select_options_by_key( $protocols, 'name' ); ?>
+			</select>
 		</div>
+
+		<button class="btn btn-success"><i class="fa fa-plus me-2"></i> New Protocol</button>
 	</div>
 </div>
 

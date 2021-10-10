@@ -9,8 +9,8 @@
 			<div>
 				<?php if ( get_request( 'nav' ) == 'protocols' ) : ?>
 				<button class="btn btn-success bg-gradient shadow border btn-lg" id="save_protocol">
-					<i class="fas fa-save me-2"></i>
-					<?php esc_html_e( 'Save Sponsor', 'sponsor' ); ?>
+					<i class="fad fa-edit me-2"></i>
+					<?php esc_html_e( 'Update Protocol', 'sponsor' ); ?>
 				</button>
 				<?php endif; ?>
 			</div>
