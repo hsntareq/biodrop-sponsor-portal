@@ -13,7 +13,6 @@ if ( $_POST ) {
 		'user_email' => get_request( 'email' ),   // (string) The user email address.
 		'first_name' => get_request( 'first_name' ),   // (string) The user's first name.
 		'last_name'  => get_request( 'last_name' ),   // (string) The user's last name.
-
 	);
 	$reg_metadata = array(
 		'organization'  => sanitize_text_field( get_request( 'organization' ) ),

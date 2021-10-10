@@ -1,21 +1,22 @@
 <div class="sp-heading d-flex justify-content-between align-items-end">
 	<div>
-		<h2 class="page-heading">Protocol Settings</h2>
+		<h2 class="page-heading">Protocol Settings</h2> <?php echo get_current_user_id(); ?>
 		<p class="m-0">Set entry protocol requirements and thresholds</p>
 	</div>
 	<h6 class="m-0">Your Protocol: <span class="text-success fw-bold">UF 243.Arts&Science</span></h6>
 </div>
 
-<?php $protocols = $this->get_protocols();
+<?php
+$protocols = $this->get_protocols();
+// pr( $protocols );
 ?>
-<?php // pr( $this->protocol_fields() ); ?>
 <hr>
 
 <div class="sp-block mb-4">
 	<div class="d-flex justify-content-between align-items-center">
 		<div class="d-flex align-items-center">
 			<h4 class="m-0 text-nowrap">Select your Protocol:</h4>
-			<select class="form-select select2 ms-2" id="inputGroupSelect04" aria-label="Example select with button addon">
+			<select class="form-select select2 ms-2" id="select_protocol">
 				<?php echo $this->select_options_by_key( $protocols, 'name' ); ?>
 			</select>
 		</div>

@@ -26,6 +26,22 @@ if (saveProtocol) {
     };
   };
 }
-$(document).ready(function () {
-  $(".select2").select2();
-});
+
+const selectProtocol = selectElement("#select_protocol");
+if (selectProtocol) {
+  selectProtocol.onchange = (e) => {
+    var formData = new FormData();
+    formData.append("protocol_id", e.target.value);
+    formData.append("action", "get_selected_protocol");
+    formData.append(_appObject.nonce_key, _appObject._sponsor_nonce);
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("POST", _appObject.ajaxUrl, true);
+    xhttp.send(formData);
+    xhttp.onreadystatechange = function () {
+      if (xhttp.readyState === 4) {
+        toastTrigger("success", "The protocol is changed successfully");
+        console.log(JSON.parse(xhttp.response));
+      }
+    };
+  };
+}

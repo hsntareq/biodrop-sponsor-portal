@@ -63,6 +63,7 @@ class SponsorForm {
 		// add_action( 'admin_init', array( $this, 'sponsor_user_settings' ) );
 		add_action( 'wp_ajax_save_protocols', array( $this, 'save_protocols' ) );
 		add_action( 'wp_ajax_get_protocol_by_id', array( $this, 'get_protocol_by_id' ) );
+		add_action( 'wp_ajax_get_selected_protocol', array( $this, 'get_selected_protocol' ) );
 
 	}
 
@@ -70,6 +71,18 @@ class SponsorForm {
 		global $wpdb;
 		$results = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}sp_protocol" );
 		return $results;
+	}
+
+	/**
+	 * Function to get_protocol_by_id
+	 *
+	 * @param  mixed $id .
+	 * @return array
+	 */
+	public function get_selected_protocol() {
+		global $wpdb;
+		$result = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}sp_protocol` WHERE `id` = %d", $_POST['protocol_id'] ) );
+		wp_send_json_success( $result );
 	}
 
 	/**
@@ -357,18 +370,18 @@ class SponsorForm {
 				'desc'   => 'Immunity Result description',
 				'blocks' => array(
 					'pcr'        => array(
-						'slug'        => 'pcr ',
+						'slug'        => 'pcr',
 						'heading'     => 'Negative PCR Test',
 						'sub_heading' => __( 'Negative PCR test result after positive PCR test result', 'sponsor' ),
 						'fields'      => array(
-							'voice_test' => array(
+							'voice_test_hour' => array(
 								'label'   => 'Voice Test',
 								'type'    => 'group',
 								'switch'  => 'on',
 								'default' => array( '36', 'hour' ),
 								'remark'  => array( '36', 'hour' ),
 							),
-							'smell_test' => array(
+							'smell_test_hour' => array(
 								'label'   => 'Smell Test',
 								'type'    => 'group',
 								'switch'  => 'on',
@@ -379,18 +392,18 @@ class SponsorForm {
 						),
 					),
 					'antigen'    => array(
-						'slug'        => 'Antigen',
+						'slug'        => 'antigen',
 						'heading'     => 'Negative Antigen Test',
 						'sub_heading' => __( 'Negative Antigen test result after positive PCR test result', 'sponsor' ),
 						'fields'      => array(
-							'voice_test' => array(
+							'voice_test_hour' => array(
 								'label'   => 'Voice Test',
 								'type'    => 'group',
 								'switch'  => 'on',
 								'default' => array( '24', 'hour' ),
 								'remark'  => array( '24', 'hour' ),
 							),
-							'smell_test' => array(
+							'smell_test_hour' => array(
 								'label'   => 'Smell Test',
 								'type'    => 'group',
 								'switch'  => 'on',
@@ -405,14 +418,14 @@ class SponsorForm {
 						'heading'     => 'Negative Home Rapid Test',
 						'sub_heading' => __( 'Negative Home Rapid test result after positive PCR test result', 'sponsor' ),
 						'fields'      => array(
-							'voice_test' => array(
+							'voice_test_hour' => array(
 								'label'   => 'Voice Test',
 								'type'    => 'group',
 								'switch'  => 'on',
 								'default' => array( '3', 'day' ),
 								'remark'  => array( '3', 'day' ),
 							),
-							'smell_test' => array(
+							'smell_test_hour' => array(
 								'label'   => 'Smell Test',
 								'type'    => 'group',
 								'switch'  => 'on',
@@ -440,11 +453,12 @@ class SponsorForm {
 	 * @return html
 	 */
 	public function select_options_by_key( $options = array(), $field ) {
-		$output = '';
+		$current_user = get_current_user_id();
+		$output       = '';
 		if ( $options ) {
 			foreach ( $options as $key => $option ) {
-				if ( ! empty( $option->name ) ) {
-					$output .= "<option value='{$option->id}'>{$option->name}</option>";
+				if ( ! empty( $option->name ) && (int) $option->user_id === (int) $current_user ) {
+					$output .= "<option value='{$option->id}'>{$option->name} - {$current_user} - {$option->user_id}</option>";
 				}
 			}
 		}
