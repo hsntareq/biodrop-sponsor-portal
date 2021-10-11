@@ -106,11 +106,14 @@ class SponsorForm {
 
 		global $wpdb;
 		$tablename = $wpdb->prefix . 'sp_protocol';
-		$data      = array(
-			'mRNAvaxFirstInjectionRate' => $_POST['mrna_first_injection'],
-			'mRNAvaxSecondIncetionRate' => $_POST['mrna_second_injection'],
-		);
-		$wpdb->insert( $tablename, $data );
+		$fields    = array( 'mrna_first_injection', 'mrna_second_injection', 'mrna_twentyone_days_since_second_injection', 'mrna_three_months_since_second_injection', 'mrna_five_months_since_second_injection', 'mrna_eight_months_since_second_injection', 'single_dose_injection', 'single_dose_twentyone_days_since_injection', 'single_dose_three_months_since_injection', 'single_dose_five_months_since_injection', 'single_dose_eight_months_since_injection', 'booster_injection', 'booster_twentyone_days_since_injection', 'booster_three_months_since_injection', 'booster_five_months_since_injection', 'booster_eight_months_since_injection', 'recovery_negative_test_after_positive_test', 'recovery_six_months_after_negative_test', 'recovery_ten_months_after_negative_test', 'recovery_fourteen_months_since_negative_test', 'recovery_eighteen_months_since_negative_test', 'pcr_voice_test_within_hour', 'pcr_smell_test_within_hour', 'antigen_voice_test_within_hour', 'antigen_smell_test_within_hour', 'home_rapid_voice_test_within_hour', 'home_rapid_smell_test_within_hour' );
+
+		$data_array = array();
+		foreach ( $fields as $key => $field ) {
+			$data_array[ $field ] = $_POST[ $field ];
+		}
+
+		$wpdb->insert( $tablename, $data_array );
 
 		wp_send_json_success( $_REQUEST );
 	}
@@ -374,19 +377,17 @@ class SponsorForm {
 						'heading'     => 'Negative PCR Test',
 						'sub_heading' => __( 'Negative PCR test result after positive PCR test result', 'sponsor' ),
 						'fields'      => array(
-							'voice_test_hour' => array(
+							'voice_test_within_hour' => array(
 								'label'   => 'Voice Test',
 								'type'    => 'group',
 								'switch'  => 'on',
-								'default' => array( '36', 'hour' ),
-								'remark'  => array( '36', 'hour' ),
+								'default' => 0,
 							),
-							'smell_test_hour' => array(
+							'smell_test_within_hour' => array(
 								'label'   => 'Smell Test',
 								'type'    => 'group',
 								'switch'  => 'on',
-								'default' => array( '4', 'hour' ),
-								'remark'  => array( '4', 'hour' ),
+								'default' => 0,
 							),
 
 						),
@@ -396,19 +397,17 @@ class SponsorForm {
 						'heading'     => 'Negative Antigen Test',
 						'sub_heading' => __( 'Negative Antigen test result after positive PCR test result', 'sponsor' ),
 						'fields'      => array(
-							'voice_test_hour' => array(
+							'voice_test_within_hour' => array(
 								'label'   => 'Voice Test',
 								'type'    => 'group',
 								'switch'  => 'on',
-								'default' => array( '24', 'hour' ),
-								'remark'  => array( '24', 'hour' ),
+								'default' => 0,
 							),
-							'smell_test_hour' => array(
+							'smell_test_within_hour' => array(
 								'label'   => 'Smell Test',
 								'type'    => 'group',
 								'switch'  => 'on',
-								'default' => array( '4', 'hour' ),
-								'remark'  => array( '4', 'hour' ),
+								'default' => 0,
 							),
 
 						),
@@ -418,19 +417,17 @@ class SponsorForm {
 						'heading'     => 'Negative Home Rapid Test',
 						'sub_heading' => __( 'Negative Home Rapid test result after positive PCR test result', 'sponsor' ),
 						'fields'      => array(
-							'voice_test_hour' => array(
+							'voice_test_within_hour' => array(
 								'label'   => 'Voice Test',
 								'type'    => 'group',
 								'switch'  => 'on',
-								'default' => array( '3', 'day' ),
-								'remark'  => array( '3', 'day' ),
+								'default' => 0,
 							),
-							'smell_test_hour' => array(
+							'smell_test_within_hour' => array(
 								'label'   => 'Smell Test',
 								'type'    => 'group',
 								'switch'  => 'on',
-								'default' => array( '4', 'hour' ),
-								'remark'  => array( '4', 'hour' ),
+								'default' => 0,
 							),
 
 						),
@@ -458,7 +455,7 @@ class SponsorForm {
 		if ( $options ) {
 			foreach ( $options as $key => $option ) {
 				if ( ! empty( $option->name ) && (int) $option->user_id === (int) $current_user ) {
-					$output .= "<option value='{$option->id}'>{$option->name} - {$current_user} - {$option->user_id}</option>";
+					$output .= "<option value='{$option->id}'>{$option->name} </option>";
 				}
 			}
 		}

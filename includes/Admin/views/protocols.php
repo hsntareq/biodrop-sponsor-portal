@@ -1,6 +1,6 @@
 <div class="sp-heading d-flex justify-content-between align-items-end">
 	<div>
-		<h2 class="page-heading">Protocol Settings</h2> <?php echo get_current_user_id(); ?>
+		<h2 class="page-heading">Protocol Settings</h2>
 		<p class="m-0">Set entry protocol requirements and thresholds</p>
 	</div>
 	<h6 class="m-0">Your Protocol: <span class="text-success fw-bold">UF 243.Arts&Science</span></h6>
@@ -99,15 +99,10 @@ $protocols = $this->get_protocols();
 										<?php // if ( false !== $field['value'] ) : ?>
 										<div class="d-flex align-items-center justify-content-end">
 										<i class="far me-2 fa-info-circle" data-bs-toggle="tooltip" title="<?php echo esc_attr( get_result( $field['label'] ) ); ?>"></i>
-
 										<?php if ( $field['type'] == 'group' ) { ?>
-											<div class="input-group input-gr-mw">
-												<input type="hidden" class="change-field" name="<?php echo esc_attr( get_result( $block_key ) ) . '_' . esc_attr( get_result( $field_key ) ); ?>">
-												<input type="number" class="form-control change-field" value="<?php echo $field['default'][0]; ?>">
-												<select class="form-select change-field" id="inputGroupSelect02">
-													<option <?php echo $field['default'][1] == 'hour' ? 'selected' : ''; ?> value="hour">Hour</option>
-													<option <?php echo $field['default'][1] == 'day' ? 'selected' : ''; ?> value="day">Day</option>
-												</select>
+											<div class="input-group">
+												<input type="number" class="form-control border change-field input-mw" name="<?php echo esc_attr( get_result( $block_key ) ) . '_' . esc_attr( get_result( $field_key ) ); ?>" value="<?php echo $field['default']; ?>">
+												<span class="input-group-text"> Within Hour</span>
 											</div>
 											<?php
 										} else {
