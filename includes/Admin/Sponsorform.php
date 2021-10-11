@@ -109,9 +109,11 @@ class SponsorForm {
 		$fields    = array( 'mrna_first_injection', 'mrna_second_injection', 'mrna_twentyone_days_since_second_injection', 'mrna_three_months_since_second_injection', 'mrna_five_months_since_second_injection', 'mrna_eight_months_since_second_injection', 'single_dose_injection', 'single_dose_twentyone_days_since_injection', 'single_dose_three_months_since_injection', 'single_dose_five_months_since_injection', 'single_dose_eight_months_since_injection', 'booster_injection', 'booster_twentyone_days_since_injection', 'booster_three_months_since_injection', 'booster_five_months_since_injection', 'booster_eight_months_since_injection', 'recovery_negative_test_after_positive_test', 'recovery_six_months_after_negative_test', 'recovery_ten_months_after_negative_test', 'recovery_fourteen_months_since_negative_test', 'recovery_eighteen_months_since_negative_test', 'pcr_voice_test_within_hour', 'pcr_smell_test_within_hour', 'antigen_voice_test_within_hour', 'antigen_smell_test_within_hour', 'home_rapid_voice_test_within_hour', 'home_rapid_smell_test_within_hour' );
 
 		$data_array = array();
-		foreach ( $fields as $key => $field ) {
+		foreach ( $fields as $field ) {
 			$data_array[ $field ] = $_POST[ $field ];
 		}
+
+		$data_array['user_id'] = get_current_user_id();
 
 		$wpdb->insert( $tablename, $data_array );
 
@@ -454,8 +456,8 @@ class SponsorForm {
 		$output       = '';
 		if ( $options ) {
 			foreach ( $options as $key => $option ) {
-				if ( ! empty( $option->name ) && (int) $option->user_id === (int) $current_user ) {
-					$output .= "<option value='{$option->id}'>{$option->name} </option>";
+				if ( ! empty( $option->name ) && ( $option->user_id == $current_user ) ) {
+					$output .= "<option value='{$option->id}'>{$option->$field} </option>";
 				}
 			}
 		}

@@ -1,9 +1,14 @@
-const selectElement = (el) => {
+const singleElement = (el) => {
   return document.querySelector(el);
 };
-const selectElements = (el) => {
+const multipleElement = (el) => {
   return document.querySelectorAll(el);
 };
+
+const nameElement = (name) => {
+  return document.getElementsByName(name);
+};
+
 const toogleDisabler = (elem) => {
   let toBeChange = elem.closest(".sp-row").querySelectorAll(".change-field");
 

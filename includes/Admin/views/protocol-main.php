@@ -25,10 +25,10 @@
 					<i class="fas fa-door-open"></i>
 					<?php echo esc_html( 'Entry Status' ); ?>
 				</a>
-				<a href="<?php echo esc_url( get_url( 'protocols' ) ); ?>"
-					class="list-group-item list-group-item-action<?php echo esc_attr( get_active( 'protocols' ) ); ?>">
+				<a href="<?php echo esc_url( get_url( 'protocol' ) ); ?>"
+					class="list-group-item list-group-item-action<?php echo esc_attr( get_active( 'protocol' ) ); ?>">
 					<i class="far fa-shield-check"></i>
-					<?php echo esc_html( 'Protocols' ); ?>
+					<?php echo esc_html( 'Protocol' ); ?>
 				</a>
 				<a href="<?php echo esc_url( get_url( 'settings' ) ); ?>"
 					class="list-group-item list-group-item-action<?php echo esc_attr( get_active( 'settings' ) ); ?>">
@@ -53,8 +53,11 @@
 					include __DIR__ . '/entry-status.php';
 					ob_end_flush();
 					break;
-				case 'protocols':
-					include __DIR__ . '/protocols.php';
+				case 'protocol-new':
+					include __DIR__ . '/protocol/new.php';
+					break;
+				case 'protocol':
+					include __DIR__ . '/protocol/edit.php';
 					break;
 				case 'settings':
 					include __DIR__ . '/settings.php';
