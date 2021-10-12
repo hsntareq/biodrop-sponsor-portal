@@ -32,25 +32,25 @@
 	<div class="sp-preset">
 		<div class="row">
 			<div class="col">
-				<span class="d-block present-item active">
+				<span class="d-block preset-item active">
 					<img src="<?php echo sponsor()->assets; ?>/images/protocol_incl_button_unchecked@2x.png"
 						alt="preset1">
 				</span>
 			</div>
 			<div class="col">
-				<span class="d-block present-item">
+				<span class="d-block preset-item">
 					<img src="<?php echo sponsor()->assets; ?>/images/protocol_mod_button_unchecked@2x.png"
 						alt="preset1">
 				</span>
 			</div>
 			<div class="col">
-				<span class="d-block present-item">
+				<span class="d-block preset-item">
 					<img src="<?php echo sponsor()->assets; ?>/images/protocol_vig_button_unchecked@2x.png"
 						alt="preset1">
 				</span>
 			</div>
 			<div class="col">
-				<span class="d-block present-item">
+				<span class="d-block preset-item">
 					<img src="<?php echo sponsor()->assets; ?>/images/protocol_cust_button_unchecked@2x.png"
 						alt="preset1">
 				</span>

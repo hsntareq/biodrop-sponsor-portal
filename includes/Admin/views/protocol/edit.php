@@ -30,38 +30,6 @@ $protocols = $this->get_protocols();
 	</div>
 </div>
 
-<div class="sp-block bg-secondary p-3 rounded-3 mb-4 shadow-sm">
-	<h5 class="text-white">Protocol Presets</h5>
-	<div class="sp-preset">
-		<div class="row">
-			<div class="col">
-				<span class="d-block present-item active">
-					<img src="<?php echo sponsor()->assets; ?>/images/protocol_incl_button_unchecked@2x.png"
-						alt="preset1">
-				</span>
-			</div>
-			<div class="col">
-				<span class="d-block present-item">
-					<img src="<?php echo sponsor()->assets; ?>/images/protocol_mod_button_unchecked@2x.png"
-						alt="preset1">
-				</span>
-			</div>
-			<div class="col">
-				<span class="d-block present-item">
-					<img src="<?php echo sponsor()->assets; ?>/images/protocol_vig_button_unchecked@2x.png"
-						alt="preset1">
-				</span>
-			</div>
-			<div class="col">
-				<span class="d-block present-item">
-					<img src="<?php echo sponsor()->assets; ?>/images/protocol_cust_button_unchecked@2x.png"
-						alt="preset1">
-				</span>
-			</div>
-		</div>
-	</div>
-</div>
-
 <div class="sp-blocks">
 	<form id="protocol_form">
 		<?php

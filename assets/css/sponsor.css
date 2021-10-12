@@ -143,15 +143,15 @@ select.form-control {
 .sp-preset img {
   width: 100%;
 }
-.present-item {
+.preset-item {
   cursor: pointer;
   border-radius: 18px;
   background-color: #a8a8a8;
   padding: 6px;
   transition: all 0.3s;
 }
-.present-item.active,
-.present-item:hover {
+.preset-item.active,
+.preset-item:hover {
   background-color: #fff;
 }
 

@@ -61,9 +61,10 @@ class SponsorForm {
 
 		add_action( 'admin_init', array( $this, 'add_capability' ) );
 		// add_action( 'admin_init', array( $this, 'sponsor_user_settings' ) );
-		add_action( 'wp_ajax_save_protocols', array( $this, 'save_protocols' ) );
+		add_action( 'wp_ajax_save_protocol', array( $this, 'save_protocol' ) );
 		add_action( 'wp_ajax_get_protocol_by_id', array( $this, 'get_protocol_by_id' ) );
 		add_action( 'wp_ajax_get_selected_protocol', array( $this, 'get_selected_protocol' ) );
+		add_action( 'wp_ajax_get_protocol_by_name', array( $this, 'get_protocol_by_name' ) );
 
 	}
 
@@ -81,7 +82,19 @@ class SponsorForm {
 	 */
 	public function get_selected_protocol() {
 		global $wpdb;
-		$result = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}sp_protocol` WHERE `id` = %d", $_POST['protocol_id'] ) );
+		$result = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}sp_protocol` WHERE `id` = %d AND `type`='preset'", get_request( 'protocol_id' ) ) );
+		wp_send_json_success( $result );
+	}
+	/**
+	 * Function to get_protocol_by_id
+	 *
+	 * @param  mixed $id .
+	 * @return array
+	 */
+	public function get_protocol_by_name() {
+
+		global $wpdb;
+		$result = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}sp_protocol` WHERE `name` = %s", get_request( 'protocol_name' ) ) );
 		wp_send_json_success( $result );
 	}
 
@@ -98,11 +111,35 @@ class SponsorForm {
 	}
 
 	/**
-	 * Function to save_protocols
+	 * Function to save_protocol
 	 *
 	 * @return array
 	 */
-	public function save_protocols() {
+	public function save_protocol() {
+
+		global $wpdb;
+		$tablename = $wpdb->prefix . 'sp_protocol';
+		$fields    = array( 'type', 'name', 'mrna_first_injection', 'mrna_second_injection', 'mrna_twentyone_days_since_second_injection', 'mrna_three_months_since_second_injection', 'mrna_five_months_since_second_injection', 'mrna_eight_months_since_second_injection', 'single_dose_injection', 'single_dose_twentyone_days_since_injection', 'single_dose_three_months_since_injection', 'single_dose_five_months_since_injection', 'single_dose_eight_months_since_injection', 'booster_injection', 'booster_twentyone_days_since_injection', 'booster_three_months_since_injection', 'booster_five_months_since_injection', 'booster_eight_months_since_injection', 'recovery_negative_test_after_positive_test', 'recovery_six_months_after_negative_test', 'recovery_ten_months_after_negative_test', 'recovery_fourteen_months_since_negative_test', 'recovery_eighteen_months_since_negative_test', 'pcr_voice_test_within_hour', 'pcr_smell_test_within_hour', 'antigen_voice_test_within_hour', 'antigen_smell_test_within_hour', 'home_rapid_voice_test_within_hour', 'home_rapid_smell_test_within_hour' );
+
+		$data_array = array();
+		foreach ( $fields as $field ) {
+			$data_array[ $field ] = $_POST[ $field ];
+		}
+
+		$data_array['user_id'] = get_current_user_id();
+
+		$query         = "SELECT * FROM $tablename WHERE 'name'= `{$data_array['name']}`";
+		$query_results = $wpdb->get_results( $query );
+		if ( count( $query_results ) == 0 ) {
+			wp_send_json_error( 'Error' );
+		} else {
+			$wpdb->insert( $tablename, $data_array );
+			wp_send_json_success( $query_results );
+		}
+
+	}
+
+	public function update_protocols( $id ) {
 
 		global $wpdb;
 		$tablename = $wpdb->prefix . 'sp_protocol';
@@ -115,24 +152,9 @@ class SponsorForm {
 
 		$data_array['user_id'] = get_current_user_id();
 
-		$wpdb->insert( $tablename, $data_array );
+		$where = array( 'id' => $id );
 
-		wp_send_json_success( $_REQUEST );
-	}
-
-	public function update_protocols( $id ) {
-
-		global $wpdb;
-		$tablename = $wpdb->prefix . 'sp_protocol';
-		$data      = array(
-			'user_id'                   => get_current_user_id(),
-			'mRNAvaxFirstInjectionRate' => sanitize_text_field( wp_unslash( $_POST['mrna_first_injection'] ) ),
-			'mRNAvaxSecondIncetionRate' => sanitize_text_field( $_POST['mrna_second_injection'] ),
-		);
-		$where     = array( 'id' => $id );
-		pr( $data );
-		die;
-		$wpdb->update( $tablename, $data, $where );
+		$wpdb->update( $tablename, $data_array, $where );
 
 		wp_send_json_success( $_REQUEST );
 	}
@@ -456,7 +478,7 @@ class SponsorForm {
 		$output       = '';
 		if ( $options ) {
 			foreach ( $options as $key => $option ) {
-				if ( ! empty( $option->name ) && ( $option->user_id == $current_user ) ) {
+				if ( ! empty( $option->name ) && ( $option->user_id == $current_user ) && 'preset' !== $option->type ) {
 					$output .= "<option value='{$option->id}'>{$option->$field} </option>";
 				}
 			}

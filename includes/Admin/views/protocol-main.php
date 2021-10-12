@@ -7,10 +7,16 @@
 				</h1>
 			</div>
 			<div>
-				<?php if ( get_request( 'nav' ) == 'protocols' ) : ?>
-				<button class="btn btn-success bg-gradient shadow border btn-lg" id="save_protocol">
+				<?php if ( get_request( 'nav' ) == 'protocol' ) : ?>
+				<button class="btn btn-success bg-gradient shadow border btn-lg" id="update_protocol">
 					<i class="fad fa-edit me-2"></i>
 					<?php esc_html_e( 'Update Protocol', 'sponsor' ); ?>
+				</button>
+				<?php endif; ?>
+				<?php if ( get_request( 'nav' ) == 'protocol-new' ) : ?>
+				<button class="btn btn-success bg-gradient shadow border btn-lg" id="save_protocol">
+				<i class="fad fa-save me-2"></i>
+					<?php esc_html_e( 'Save Protocol', 'sponsor' ); ?>
 				</button>
 				<?php endif; ?>
 			</div>

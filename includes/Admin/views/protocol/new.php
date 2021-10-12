@@ -1,58 +1,56 @@
 <div class="sp-heading d-flex justify-content-between align-items-end">
 	<div>
-		<h2 class="page-heading">Protocol Settings</h2>
-		<p class="m-0">Set entry protocol requirements and thresholds</p>
+		<h2 class="page-heading"><?php echo _e( 'New Protocol', 'sponsor' ); ?> </h2>
+		<p class="m-0"><?php echo _e( 'Add entry protocol requirements and thresholds', 'sponsor' ); ?></p>
 	</div>
-	<h6 class="m-0">Your Protocol: <span class="text-success fw-bold">UF 243.Arts&Science</span></h6>
 </div>
 
 <?php
 $protocols = $this->get_protocols();
-// pr( $protocols );
 ?>
 <hr>
-
-<div class="sp-block mb-4">
-	<div class="d-flex justify-content-between align-items-center">
-		<h5 class="m-0 text-nowrap me-3"><?php echo esc_html( 'Protocol Name:' ); ?></h5>
-		<input class="form-control" placeholder="type your protocol name" name="protocol_name">
+<form id="protocol_form">
+	<input type="hidden" name="type" value="user">
+	<div class="sp-block mb-4">
+		<div class="d-flex justify-content-between align-items-center">
+			<h5 class="m-0 text-nowrap me-3"><?php echo esc_html( 'Protocol Name:' ); ?></h5>
+			<input class="form-control" placeholder="type your protocol name" name="name">
+		</div>
 	</div>
-</div>
 
-<div class="sp-block bg-secondary p-3 rounded-3 mb-4 shadow-sm">
-	<h5 class="text-white">Protocol Presets <i class="far me-2 fa-info-circle" data-bs-toggle="tooltip" title="Chose any of the following presets to create your own over it."></i></h5>
-	<div class="sp-preset">
-		<div class="row">
-			<div class="col">
-				<span class="d-block present-item active">
-					<img src="<?php echo sponsor()->assets; ?>/images/protocol_incl_button_unchecked@2x.png"
-						alt="preset1">
-				</span>
-			</div>
-			<div class="col">
-				<span class="d-block present-item">
-					<img src="<?php echo sponsor()->assets; ?>/images/protocol_mod_button_unchecked@2x.png"
-						alt="preset1">
-				</span>
-			</div>
-			<div class="col">
-				<span class="d-block present-item">
-					<img src="<?php echo sponsor()->assets; ?>/images/protocol_vig_button_unchecked@2x.png"
-						alt="preset1">
-				</span>
-			</div>
-			<div class="col">
-				<span class="d-block present-item">
-					<img src="<?php echo sponsor()->assets; ?>/images/protocol_cust_button_unchecked@2x.png"
-						alt="preset1">
-				</span>
+	<div class="sp-block bg-secondary p-3 rounded-3 mb-4 shadow-sm">
+		<h5 class="text-white">Protocol Presets <i class="far me-2 fa-info-circle" data-bs-toggle="tooltip" title="Chose any of the following presets to create your own over it."></i></h5>
+		<div class="sp-preset">
+			<div class="row">
+				<div class="col">
+					<span class="d-block preset-item active" data-preset="inclusive">
+						<img src="<?php echo sponsor()->assets; ?>/images/protocol_incl_button_unchecked@2x.png"
+							alt="preset1">
+					</span>
+				</div>
+				<div class="col">
+					<span class="d-block preset-item" data-preset="moderate">
+						<img src="<?php echo sponsor()->assets; ?>/images/protocol_mod_button_unchecked@2x.png"
+							alt="preset1">
+					</span>
+				</div>
+				<div class="col">
+					<span class="d-block preset-item" data-preset="vigilant">
+						<img src="<?php echo sponsor()->assets; ?>/images/protocol_vig_button_unchecked@2x.png"
+							alt="preset1">
+					</span>
+				</div>
+				<div class="col">
+					<span class="d-block preset-item" data-preset="custom">
+						<img src="<?php echo sponsor()->assets; ?>/images/protocol_cust_button_unchecked@2x.png"
+							alt="preset1">
+					</span>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
-<div class="sp-blocks">
-	<form id="protocol_form">
+	<div class="sp-blocks">
 		<?php
 		$protocol_options = $this->protocol_options();
 		foreach ( $protocol_options as $option_key => $options ) :
@@ -120,5 +118,5 @@ $protocols = $this->get_protocols();
 
 			</div>
 		<?php endforeach; ?>
-	</form>
-</div>
+	</div>
+</form>
