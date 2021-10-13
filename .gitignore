@@ -8,6 +8,8 @@
 .history/*
 node_modules/
 vendor/
+build
+node_modules
 package-lock.json
 composer.lock
 !.gitignore
