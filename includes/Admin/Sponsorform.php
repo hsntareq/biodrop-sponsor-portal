@@ -130,11 +130,11 @@ class SponsorForm {
 
 		$query         = "SELECT * FROM $tablename WHERE 'name'= `{$data_array['name']}`";
 		$query_results = $wpdb->get_results( $query );
-		if ( count( $query_results ) == 0 ) {
+		if ( count( $query_results ) !== 0 ) {
 			wp_send_json_error( 'Error' );
 		} else {
-			$wpdb->insert( $tablename, $data_array );
-			wp_send_json_success( $query_results );
+			$insert = $wpdb->insert( $tablename, $data_array );
+			wp_send_json_success( $wpdb->insert_id );
 		}
 
 	}

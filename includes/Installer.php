@@ -182,20 +182,14 @@ class Installer {
 			PRIMARY KEY (`id`)
 			) $charset_collate";
 
-		  $schema_data_block = "CREATE TABLE `{$wpdb->prefix}sp_data_block` (
+		$schema_protocol_status = "CREATE TABLE `{$wpdb->prefix}sp_protocol_status` (
 			`id` int unsigned NOT NULL AUTO_INCREMENT,
-			`protocol_id` bigint NOT NULL,
-			`block_heading` varchar(100) DEFAULT NULL,
-			`block_within` varchar(100) DEFAULT NULL,
-			`voice_test` varchar(100) DEFAULT NULL,
-			`smell_test` varchar(100) DEFAULT NULL,
-			`symptom_track` varchar(100) DEFAULT NULL,
-			`saliva_direct` varchar(100) DEFAULT NULL,
-			`not_admit` int DEFAULT NULL,
-			`created_at` datetime DEFAULT NULL,
-			`created_by` bigint DEFAULT NULL,
+			`protocol_id` int NOT NULL,
+			`data_status` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+			`created_at` datetime NOT NULL,
+			`created_by` int NOT NULL,
 			PRIMARY KEY (`id`)
-		  ) $charset_collate";
+		  )  $charset_collate";
 
 		  $schema_status = "CREATE TABLE `{$wpdb->prefix}sp_status` (
 			`id` int unsigned NOT NULL AUTO_INCREMENT,
@@ -213,7 +207,7 @@ class Installer {
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		}
 		dbDelta( $schema_protocol );
-		dbDelta( $schema_data_block );
+		dbDelta( $schema_protocol_status );
 		dbDelta( $schema_sponsors );
 		dbDelta( $schema_status );
 	}
