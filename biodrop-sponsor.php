@@ -47,6 +47,7 @@ final class SponsorPortal {
 
 		add_action( 'plugins_loaded', array( $this, 'init_plugin' ) );
 		add_action( 'init', array( $this, 'update_anyone_can_register' ) );
+		add_action( 'init', array( $this, 'sponsor_portal_language_load' ) );
 		add_filter( 'login_init', array( $this, 'sponsor_registration_redirect' ) );
 	}
 
@@ -97,6 +98,7 @@ final class SponsorPortal {
 		define( 'SPONSOR_PATH', __DIR__ );
 		define( 'SPONSOR_URL', plugins_url( '', SPONSOR_FILE ) );
 		define( 'SPONSOR_ASSETS', SPONSOR_URL . '/assets' );
+		define( 'SPONSOR_DIR_PATH', plugin_dir_path( __FILE__ ) );
 	}
 
 	/**
@@ -184,6 +186,12 @@ final class SponsorPortal {
 		return $output;
 	}
 
+	/**
+	 * Load plugin text domain for translation
+	 */
+	public function sponsor_portal_language_load() {
+		load_plugin_textdomain( 'sponsor-portal', false, SPONSOR_DIR_PATH . '/languages' );
+	}
 }
 
 /**

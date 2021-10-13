@@ -1,33 +1,33 @@
-/******/ (() => { // webpackBootstrap
-var __webpack_exports__ = {};
-/*!***************************!*\
-  !*** ./assets/src/lib.js ***!
-  \***************************/
-const singleElement = el => {
+const singleElement = (el) => {
   return document.querySelector(el);
 };
-
-const multipleElement = el => {
+const multipleElement = (el) => {
   return document.querySelectorAll(el);
 };
 
-const nameElement = name => {
+const nameElement = (name) => {
   return document.getElementsByName(name);
 };
 
-const toogleDisabler = elem => {
+const toogleDisabler = (elem) => {
   let toBeChange = elem.closest(".sp-row").querySelectorAll(".change-field");
 
   for (let i = 0; i < toBeChange.length; i++) {
-    null != toBeChange[i] ? elem.checked == false ? toBeChange[i].disabled = true : toBeChange[i].disabled = false : false;
+    null != toBeChange[i]
+      ? elem.checked == false
+        ? (toBeChange[i].disabled = true)
+        : (toBeChange[i].disabled = false)
+      : false;
   }
 };
 
-const toogleInputValue = elem => {
+const toogleInputValue = (elem) => {
   elem.previousElementSibling.value = elem.checked == true ? "on" : "off";
 };
 
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+var tooltipTriggerList = [].slice.call(
+  document.querySelectorAll('[data-bs-toggle="tooltip"]')
+);
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl);
 });
@@ -38,6 +38,3 @@ const toastTrigger = (type, message) => {
   toastLiveExample.querySelector(".toast-body").innerText = message;
   toast.show();
 };
-/******/ })()
-;
-//# sourceMappingURL=lib.js.map
