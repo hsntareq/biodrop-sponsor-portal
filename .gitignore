@@ -15,7 +15,7 @@ composer.lock
 !.gitignore
 # ignore all files starting with .
 .*
-
+languages
 # track this file .gitignore (i.e. do NOT ignore it)
 !.gitignore
 
