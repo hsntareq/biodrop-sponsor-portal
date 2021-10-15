@@ -82,7 +82,7 @@ class SponsorForm {
 	 */
 	public function get_selected_protocol() {
 		global $wpdb;
-		$result = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}sp_protocol` WHERE `id` = %d AND `type`='preset'", get_request( 'protocol_id' ) ) );
+		$result = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}sp_protocol` WHERE `id` = %d", get_request( 'protocol_id' ) ) );
 		wp_send_json_success( $result );
 	}
 	/**
@@ -130,11 +130,11 @@ class SponsorForm {
 
 		$query         = "SELECT * FROM $tablename WHERE 'name'= `{$data_array['name']}`";
 		$query_results = $wpdb->get_results( $query );
-		if ( count( $query_results ) == 0 ) {
+		if ( count( $query_results ) !== 0 ) {
 			wp_send_json_error( 'Error' );
 		} else {
-			$wpdb->insert( $tablename, $data_array );
-			wp_send_json_success( $query_results );
+			$insert = $wpdb->insert( $tablename, $data_array );
+			wp_send_json_success( $wpdb->insert_id );
 		}
 
 	}

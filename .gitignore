@@ -8,12 +8,14 @@
 .history/*
 node_modules/
 vendor/
+build
+node_modules
 package-lock.json
 composer.lock
 !.gitignore
 # ignore all files starting with .
 .*
-
+languages
 # track this file .gitignore (i.e. do NOT ignore it)
 !.gitignore
 

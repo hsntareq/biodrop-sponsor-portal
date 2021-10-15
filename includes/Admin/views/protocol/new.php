@@ -82,13 +82,14 @@ $protocols = $this->get_protocols();
 									// pr( $field );
 									?>
 									<div class="sp-row d-flex align-items-center mb-4 justify-content-between">
-										<label class="form-toggle mr-1">
+										<!-- <label class="form-toggle mr-1">
 											<input type="hidden" value="off">
-											<input type="checkbox" value="on" class="form-toggle-input" <?php echo ( 'off' === $field['switch'] ) ? '' : 'checked'; ?>>
+											<input type="checkbox" value="on" class="form-toggle-input" <?php // echo ( 'off' === $field['switch'] ) ? '' : 'checked'; ?>>
 											<span class="form-toggle-control"></span>
-											<span class="label-before text-nowrap ms-3"><?php echo esc_attr( get_result( $field['label'] ) ); ?></span>
-										</label>
+											<span class="label-before text-nowrap ms-3"><?php // echo esc_attr( get_result( $field['label'] ) ); ?></span>
+										</label> -->
 										<?php // if ( false !== $field['value'] ) : ?>
+										<label><?php echo esc_attr( get_result( $field['label'] ) ); ?></label>
 										<div class="d-flex align-items-center justify-content-end">
 										<i class="far me-2 fa-info-circle" data-bs-toggle="tooltip" title="<?php echo esc_attr( get_result( $field['label'] ) ); ?>"></i>
 										<?php if ( $field['type'] == 'group' ) { ?>
