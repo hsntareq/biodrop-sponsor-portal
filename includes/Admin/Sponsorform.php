@@ -82,7 +82,7 @@ class SponsorForm {
 	 */
 	public function get_selected_protocol() {
 		global $wpdb;
-		$result = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}sp_protocol` WHERE `id` = %d AND `type`='preset'", get_request( 'protocol_id' ) ) );
+		$result = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}sp_protocol` WHERE `id` = %d", get_request( 'protocol_id' ) ) );
 		wp_send_json_success( $result );
 	}
 	/**

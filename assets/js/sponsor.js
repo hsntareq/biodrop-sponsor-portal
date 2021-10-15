@@ -1,18 +1,138 @@
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./assets/src/lib.js":
+/*!***************************!*\
+  !*** ./assets/src/lib.js ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "singleElement": () => (/* binding */ singleElement),
+/* harmony export */   "multipleElement": () => (/* binding */ multipleElement),
+/* harmony export */   "nameElement": () => (/* binding */ nameElement),
+/* harmony export */   "toogleDisabler": () => (/* binding */ toogleDisabler),
+/* harmony export */   "toogleInputValue": () => (/* binding */ toogleInputValue),
+/* harmony export */   "tooltipList": () => (/* binding */ tooltipList),
+/* harmony export */   "toastTrigger": () => (/* binding */ toastTrigger)
+/* harmony export */ });
+const singleElement = el => {
+  return document.querySelector(el);
+};
+
+const multipleElement = el => {
+  return document.querySelectorAll(el);
+};
+
+const nameElement = name => {
+  return document.getElementsByName(name);
+};
+
+const toogleDisabler = elem => {
+  let toBeChange = elem.closest(".sp-row").querySelectorAll(".change-field");
+
+  for (let i = 0; i < toBeChange.length; i++) {
+    null != toBeChange[i] ? elem.checked == false ? toBeChange[i].disabled = true : toBeChange[i].disabled = false : false;
+  }
+};
+
+const toogleInputValue = elem => {
+  elem.previousElementSibling.value = elem.checked == true ? "on" : "off";
+};
+
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+
+const toastTrigger = (type, message) => {
+  var toastLiveExample = document.getElementById("liveToast");
+  var toast = new bootstrap.Toast(toastLiveExample);
+  toastLiveExample.querySelector(".toast-body").innerText = message;
+  toast.show();
+};
+
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
 var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
 /*!*******************************!*\
   !*** ./assets/src/sponsor.js ***!
   \*******************************/
-let toggles = multipleElement("input.form-toggle-input");
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib */ "./assets/src/lib.js");
+
+let toggles = (0,_lib__WEBPACK_IMPORTED_MODULE_0__.multipleElement)("input.form-toggle-input");
 
 for (let i = 0; i < toggles.length; i++) {
   toggles[i].onchange = event => {
-    toogleDisabler(event.target);
-    toogleInputValue(event.target);
+    (0,_lib__WEBPACK_IMPORTED_MODULE_0__.toogleDisabler)(event.target);
+    (0,_lib__WEBPACK_IMPORTED_MODULE_0__.toogleInputValue)(event.target);
   };
 
-  toogleDisabler(toggles[i]);
-  toogleInputValue(toggles[i]);
+  (0,_lib__WEBPACK_IMPORTED_MODULE_0__.toogleDisabler)(toggles[i]);
+  (0,_lib__WEBPACK_IMPORTED_MODULE_0__.toogleInputValue)(toggles[i]);
 }
 
 String.prototype.toCapitalize = function () {
@@ -21,10 +141,10 @@ String.prototype.toCapitalize = function () {
   });
 };
 
-const present_item = multipleElement(".preset-item");
+const present_item = (0,_lib__WEBPACK_IMPORTED_MODULE_0__.multipleElement)(".preset-item");
 
 if (present_item) {
-  Array.from(multipleElement(".preset-item")).forEach(elm => elm.onclick = e => {
+  Array.from((0,_lib__WEBPACK_IMPORTED_MODULE_0__.multipleElement)(".preset-item")).forEach(elm => elm.onclick = e => {
     console.log(elm.dataset.preset);
     let presetName = elm.dataset.preset;
     Array.from(present_item).forEach(el => el.classList.remove("active"));
@@ -44,22 +164,22 @@ if (present_item) {
 
         if (getData.data) {
           Object.entries(getData.data).forEach(([key, value]) => {
-            var fieldValue = nameElement(key);
+            var fieldValue = (0,_lib__WEBPACK_IMPORTED_MODULE_0__.nameElement)(key);
 
             if (0 !== fieldValue.length) {
-              nameElement(key)[0].value = value;
+              (0,_lib__WEBPACK_IMPORTED_MODULE_0__.nameElement)(key)[0].value = value;
             }
           });
         }
 
-        toastTrigger("success", 'The "' + presetName.toCapitalize() + '" preset protocol is selected');
+        (0,_lib__WEBPACK_IMPORTED_MODULE_0__.toastTrigger)("success", 'The "' + presetName.toCapitalize() + '" preset protocol is selected');
       }
     };
   });
 }
 
-const saveProtocol = singleElement("#save_protocol");
-const protocolForm = singleElement("#protocol_form");
+const saveProtocol = (0,_lib__WEBPACK_IMPORTED_MODULE_0__.singleElement)("#save_protocol");
+const protocolForm = (0,_lib__WEBPACK_IMPORTED_MODULE_0__.singleElement)("#protocol_form");
 
 if (saveProtocol) {
   saveProtocol.onclick = e => {
@@ -76,16 +196,16 @@ if (saveProtocol) {
         console.log(getData.success);
 
         if (getData.success == false) {
-          toastTrigger("error", "This protocol already exists");
+          (0,_lib__WEBPACK_IMPORTED_MODULE_0__.toastTrigger)("error", "This protocol already exists");
         } else {
-          toastTrigger("success", "The protocol is saveed successfully");
+          (0,_lib__WEBPACK_IMPORTED_MODULE_0__.toastTrigger)("success", "The protocol is saveed successfully");
         }
       }
     };
   };
 }
 
-const selectProtocol = singleElement("#select_protocol");
+const selectProtocol = (0,_lib__WEBPACK_IMPORTED_MODULE_0__.singleElement)("#select_protocol");
 
 if (selectProtocol) {
   selectProtocol.onchange = e => {
@@ -100,23 +220,26 @@ if (selectProtocol) {
     xhttp.onreadystatechange = function () {
       if (xhttp.readyState === 4) {
         var getData = JSON.parse(xhttp.response);
+        console.log(getData);
 
         if (getData.data) {
           Object.entries(getData.data).forEach(([key, value]) => {
-            var fieldValue = nameElement(key);
+            var fieldValue = (0,_lib__WEBPACK_IMPORTED_MODULE_0__.nameElement)(key);
 
             if (0 !== fieldValue.length) {
-              nameElement(key)[0].value = value;
+              (0,_lib__WEBPACK_IMPORTED_MODULE_0__.nameElement)(key)[0].value = value;
             }
           });
         }
 
-        toastTrigger("success", "The protocol has been changed.");
+        (0,_lib__WEBPACK_IMPORTED_MODULE_0__.toastTrigger)("success", "The protocol has been changed.");
         console.log(JSON.parse(xhttp.response));
       }
     };
   };
 }
+})();
+
 /******/ })()
 ;
 //# sourceMappingURL=sponsor.js.map

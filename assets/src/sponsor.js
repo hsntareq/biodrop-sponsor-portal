@@ -1,3 +1,12 @@
+import {
+  singleElement,
+  multipleElement,
+  nameElement,
+  toogleDisabler,
+  toogleInputValue,
+  tooltipList,
+  toastTrigger,
+} from "./lib";
 let toggles = multipleElement("input.form-toggle-input");
 for (let i = 0; i < toggles.length; i++) {
   toggles[i].onchange = (event) => {
@@ -94,6 +103,7 @@ if (selectProtocol) {
     xhttp.onreadystatechange = function () {
       if (xhttp.readyState === 4) {
         var getData = JSON.parse(xhttp.response);
+        console.log(getData);
         if (getData.data) {
           Object.entries(getData.data).forEach(([key, value]) => {
             var fieldValue = nameElement(key);

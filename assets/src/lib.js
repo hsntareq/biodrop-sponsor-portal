@@ -38,3 +38,12 @@ const toastTrigger = (type, message) => {
   toastLiveExample.querySelector(".toast-body").innerText = message;
   toast.show();
 };
+export {
+  singleElement,
+  multipleElement,
+  nameElement,
+  toogleDisabler,
+  toogleInputValue,
+  tooltipList,
+  toastTrigger,
+};
