@@ -113,30 +113,47 @@ class SponsorForm {
 	/**
 	 * Function to save_protocol
 	 *
-	 * @return array
+	 * @return int|string
 	 */
 	public function save_protocol() {
 
 		global $wpdb;
-		$tablename = $wpdb->prefix . 'sp_protocol';
-		$fields    = array( 'type', 'name', 'mrna_first_injection', 'mrna_second_injection', 'mrna_twentyone_days_since_second_injection', 'mrna_three_months_since_second_injection', 'mrna_five_months_since_second_injection', 'mrna_eight_months_since_second_injection', 'single_dose_injection', 'single_dose_twentyone_days_since_injection', 'single_dose_three_months_since_injection', 'single_dose_five_months_since_injection', 'single_dose_eight_months_since_injection', 'booster_injection', 'booster_twentyone_days_since_injection', 'booster_three_months_since_injection', 'booster_five_months_since_injection', 'booster_eight_months_since_injection', 'recovery_negative_test_after_positive_test', 'recovery_six_months_after_negative_test', 'recovery_ten_months_after_negative_test', 'recovery_fourteen_months_since_negative_test', 'recovery_eighteen_months_since_negative_test', 'pcr_voice_test_within_hour', 'pcr_smell_test_within_hour', 'antigen_voice_test_within_hour', 'antigen_smell_test_within_hour', 'home_rapid_voice_test_within_hour', 'home_rapid_smell_test_within_hour' );
-
+		$tablename  = $wpdb->prefix . 'sp_protocol';
+		$fields     = array( 'name', 'mrna_first_injection', 'mrna_second_injection', 'mrna_twentyone_days_since_second_injection', 'mrna_three_months_since_second_injection', 'mrna_five_months_since_second_injection', 'mrna_eight_months_since_second_injection', 'single_dose_injection', 'single_dose_twentyone_days_since_injection', 'single_dose_three_months_since_injection', 'single_dose_five_months_since_injection', 'single_dose_eight_months_since_injection', 'booster_injection', 'booster_twentyone_days_since_injection', 'booster_three_months_since_injection', 'booster_five_months_since_injection', 'booster_eight_months_since_injection', 'recovery_negative_test_after_positive_test', 'recovery_six_months_after_negative_test', 'recovery_ten_months_after_negative_test', 'recovery_fourteen_months_since_negative_test', 'recovery_eighteen_months_since_negative_test', 'pcr_voice_test_within_hour', 'pcr_smell_test_within_hour', 'antigen_voice_test_within_hour', 'antigen_smell_test_within_hour', 'home_rapid_voice_test_within_hour', 'home_rapid_smell_test_within_hour' );
 		$data_array = array();
+		
+		// Map the fields with received data.
 		foreach ( $fields as $field ) {
 			$data_array[ $field ] = $_POST[ $field ];
 		}
 
-		$data_array['user_id'] = get_current_user_id();
+		// Set user_id.
+		$user_id               = get_current_user_id();
+		$data_array['user_id'] = $user_id;
+		
+		// Get existing names from the Database if available for the current user.
+		$query_name = $wpdb->get_results(
+			"SELECT `name` FROM {$tablename}
+			 WHERE `user_id` = $user_id"
+		);
 
-		$query         = "SELECT * FROM $tablename WHERE 'name'= `{$data_array['name']}`";
-		$query_results = $wpdb->get_results( $query );
-		if ( count( $query_results ) !== 0 ) {
+		$name_array = array();
+
+		// Push names in the $name_array to cross check later.
+		if ( ! empty( $query_name ) && count( $query_name ) > 0 ) {
+			foreach ( $query_name as $name ) {
+				array_push( $name_array, $name->name );
+			}
+		}
+
+		// Bail out if the name already exists.
+		if ( in_array( $data_array['name'], $name_array ) ) {
 			wp_send_json_error( 'Error' );
 		} else {
+			// Save the data and send response.
 			$insert = $wpdb->insert( $tablename, $data_array );
 			wp_send_json_success( $wpdb->insert_id );
 		}
-
 	}
 
 	public function update_protocols( $id ) {

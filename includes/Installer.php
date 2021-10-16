@@ -103,9 +103,10 @@ class Installer {
 			`created_at` datetime DEFAULT NULL,
 			PRIMARY KEY (`id`)
 		) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;";
-		  $schema_protocol = "CREATE TABLE `{$wpdb->prefix}sp_protocol` (
+
+		  $schema_protocol = "CREATE TABLE {$wpdb->prefix}sp_protocol (
 			`id` int unsigned NOT NULL AUTO_INCREMENT,
-			`name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+			`name` varchar(100) NOT NULL DEFAULT '',
 			`user_id` bigint NOT NULL,
 			`DoNotReportData` int DEFAULT NULL,
 			`mrna_first_injection` int DEFAULT NULL,
@@ -203,7 +204,7 @@ class Installer {
 			PRIMARY KEY (`id`)
 			) $charset_collate";
 
-		if ( ! function_exists( 'dbdelta' ) ) {
+		if ( ! function_exists( 'dbDelta' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		}
 		dbDelta( $schema_protocol );

@@ -21,10 +21,10 @@ msgstr ""
 msgid "Failed to insert data"
 msgstr ""
 
-#: includes/Admin/SponsorForm.php:562
+#: includes/Admin/SponsorForm.php:579
 msgid "Please provide a name"
 msgstr ""
 
-#: includes/Admin/SponsorForm.php:565
+#: includes/Admin/SponsorForm.php:582
 msgid "Please provide a phone"
 msgstr ""
