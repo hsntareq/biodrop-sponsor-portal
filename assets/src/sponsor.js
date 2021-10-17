@@ -94,7 +94,13 @@ const selectProtocol = singleElement("#select_protocol");
 if (selectProtocol) {
   selectProtocol.onchange = (e) => {
     var formData = new FormData();
-    formData.append("protocol_id", e.target.value);
+    // console.log(window.location.search);
+    var searchParams = new URLSearchParams(window.location.search);
+    searchParams.set("edit", e.target.value);
+
+    console.log(searchParams.toString());
+
+    /* formData.append("protocol_id", e.target.value);
     formData.append("action", "get_selected_protocol");
     formData.append(_appObject.nonce_key, _appObject._sponsor_nonce);
     const xhttp = new XMLHttpRequest();
@@ -115,6 +121,6 @@ if (selectProtocol) {
         toastTrigger("success", "The protocol has been changed.");
         console.log(JSON.parse(xhttp.response));
       }
-    };
+    }; */
   };
 }

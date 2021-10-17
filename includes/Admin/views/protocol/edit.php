@@ -7,9 +7,16 @@
 </div>
 
 <?php
-$protocols = $this->get_protocols();
-// pr( $protocols );
+$edit_id        = get_request( 'edit' );
+$protocols      = $this->get_protocols();
+$edit_protocol  = $this->get_edit_protocol( $edit_id );
+$user_protocols = $this->get_protocol_by_current_user();
+if ( ! isset( $_GET['edit'] ) ) {
+	$protocol_edit = $user_protocols[ array_key_first( $user_protocols ) ];
+	// pr( $user_protocols );
+}
 ?>
+
 <hr>
 
 <div class="sp-block mb-4">
@@ -17,7 +24,9 @@ $protocols = $this->get_protocols();
 		<div class="d-flex align-items-center">
 			<h4 class="m-0 text-nowrap">Select your Protocol:</h4>
 			<select class="form-select select2 ms-2" id="select_protocol">
-				<?php echo $this->select_options_by_key( $protocols, 'name' ); ?>
+				<?php foreach ( $user_protocols as $key => $protocol ) { ?>
+					<option <?php echo $protocol->id == $edit_id ? 'selected' : null; ?> value="<?php echo $protocol->name; ?>"><?php echo $protocol->name; ?></option>
+				<?php } ?>
 			</select>
 		</div>
 
@@ -60,6 +69,7 @@ $protocols = $this->get_protocols();
 							<?php
 							if ( isset( $block['fields'] ) ) :
 								foreach ( $block['fields'] as $field_key => $field ) :
+									  $field_key = $block_key . '_' . $field_key;
 									// pr( $field );
 									?>
 									<div class="sp-row d-flex align-items-center mb-4 justify-content-between">
@@ -80,7 +90,7 @@ $protocols = $this->get_protocols();
 											<?php
 										} else {
 											?>
-										<input type="number" class="form-control input-mw change-field text-right" placeholder="<?php echo esc_attr( 'input...' ); ?>" name="<?php echo esc_attr( get_result( $block_key ) ) . '_' . esc_attr( get_result( $field_key ) ); ?>" value="<?php echo esc_attr( get_result( $field['default'] ) ); ?>">
+										<input type="number" class="form-control input-mw change-field text-right" placeholder="<?php echo esc_attr( 'input...' ); ?>" name="<?php echo esc_attr( get_result( $block_key ) ) . '_' . esc_attr( get_result( $field_key ) ); ?>" value="<?php echo esc_attr( $protocol_edit->$field_key ); ?>">
 										<?php } ?>
 
 										</div>

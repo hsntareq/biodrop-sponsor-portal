@@ -26,11 +26,6 @@
 	<div class="sp-main p-5 row g-0">
 		<div class="sp-nav col-3 shadow">
 			<div class="list-group list-group-flush">
-				<a href="<?php echo esc_url( get_url( 'entry-status' ) ); ?>"
-					class="list-group-item list-group-item-action<?php echo esc_attr( get_active( 'entry-status' ) ); ?>">
-					<i class="fas fa-door-open"></i>
-					<?php echo esc_html( 'Entry Status' ); ?>
-				</a>
 				<a href="<?php echo esc_url( get_url( 'protocol' ) ); ?>"
 					class="list-group-item list-group-item-action<?php echo esc_attr( get_active( 'protocol' ) ); ?>">
 					<i class="far fa-shield-check"></i>
@@ -53,11 +48,6 @@
 			switch ( get_request( 'nav' ) ) {
 				case null:
 					include __DIR__ . '/welcome.php';
-					break;
-				case 'entry-status':
-					ob_flush();
-					include __DIR__ . '/entry-status.php';
-					ob_end_flush();
 					break;
 				case 'protocol-new':
 					include __DIR__ . '/protocol/new.php';

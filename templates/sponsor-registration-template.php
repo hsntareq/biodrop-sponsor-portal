@@ -7,7 +7,7 @@
 
 
 if ( $_POST ) {
-	$reg_data = array(
+	$reg_data     = array(
 		'user_pass'  => wp_hash_password( get_request( 'password' ) ),   // (string) The plain-text user password.
 		'user_login' => get_request( 'username' ),   // (string) The user's login username.
 		'user_email' => get_request( 'email' ),   // (string) The user email address.

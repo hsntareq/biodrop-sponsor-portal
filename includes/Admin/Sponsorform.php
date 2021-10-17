@@ -74,6 +74,16 @@ class SponsorForm {
 		return $results;
 	}
 
+	public function get_edit_protocol( $id ) {
+		$current_user = wp_get_current_user();
+		$protocols    = $this->get_protocols();
+		foreach ( $protocols as $key => $protocol ) {
+			if ( $protocol->id == $id && $protocol->user_id == $current_user->ID && $protocol->type !== 'preset' ) {
+				return $protocol;
+			}
+		}
+	}
+
 	/**
 	 * Function to get_protocol_by_id
 	 *
@@ -473,17 +483,17 @@ class SponsorForm {
 	 * @param  string $field .
 	 * @return html
 	 */
-	public function select_options_by_key( $options = array(), $field ) {
-		$current_user = get_current_user_id();
-		$output       = '';
-		if ( $options ) {
-			foreach ( $options as $key => $option ) {
-				if ( ! empty( $option->name ) && ( $option->user_id == $current_user ) && 'preset' !== $option->type ) {
-					$output .= "<option value='{$option->id}'>{$option->$field} </option>";
+	public function get_protocol_by_current_user() {
+		$current_user  = get_current_user_id();
+		$all_protocols = $this->get_protocols();
+		if ( $all_protocols ) {
+			foreach ( $all_protocols as $key => $option ) {
+				if ( ! empty( $option->name ) && ( $option->user_id == $current_user ) && 'user' == $option->type ) {
+					$protocols[] = $option;
 				}
 			}
 		}
-		return $output;
+		return $protocols;
 	}
 	/**
 	 * Function select_options

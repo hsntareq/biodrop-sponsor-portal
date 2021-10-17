@@ -209,33 +209,33 @@ const selectProtocol = (0,_lib__WEBPACK_IMPORTED_MODULE_0__.singleElement)("#sel
 
 if (selectProtocol) {
   selectProtocol.onchange = e => {
-    var formData = new FormData();
-    formData.append("protocol_id", e.target.value);
+    var formData = new FormData(); // console.log(window.location.search);
+
+    var searchParams = new URLSearchParams(window.location.search);
+    searchParams.set("edit", e.target.value);
+    console.log(searchParams.toString());
+    /* formData.append("protocol_id", e.target.value);
     formData.append("action", "get_selected_protocol");
     formData.append(_appObject.nonce_key, _appObject._sponsor_nonce);
     const xhttp = new XMLHttpRequest();
     xhttp.open("POST", _appObject.ajaxUrl, true);
     xhttp.send(formData);
-
     xhttp.onreadystatechange = function () {
       if (xhttp.readyState === 4) {
         var getData = JSON.parse(xhttp.response);
         console.log(getData);
-
         if (getData.data) {
           Object.entries(getData.data).forEach(([key, value]) => {
-            var fieldValue = (0,_lib__WEBPACK_IMPORTED_MODULE_0__.nameElement)(key);
-
+            var fieldValue = nameElement(key);
             if (0 !== fieldValue.length) {
-              (0,_lib__WEBPACK_IMPORTED_MODULE_0__.nameElement)(key)[0].value = value;
+              nameElement(key)[0].value = value;
             }
           });
         }
-
-        (0,_lib__WEBPACK_IMPORTED_MODULE_0__.toastTrigger)("success", "The protocol has been changed.");
+        toastTrigger("success", "The protocol has been changed.");
         console.log(JSON.parse(xhttp.response));
       }
-    };
+    }; */
   };
 }
 })();

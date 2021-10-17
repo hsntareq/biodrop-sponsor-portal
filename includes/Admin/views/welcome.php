@@ -1,6 +1,16 @@
 <div class="sp-heading d-flex justify-content-between align-items-end">
 	<div>
-		<h2 class="page-heading"><?php echo esc_html( 'Welcome, Worthington University' ); ?></h2>
+<?php
+$current_user = wp_get_current_user();
+// pr( $current_user );
+$protocols = $this->get_protocols();
+foreach ( $protocols as $key => $protocol ) {
+	if ( $protocol->user_id == $current_user->ID && $protocol->type !== 'preset' ) {
+		// pr( $protocol->name );
+	}
+}
+?>
+		<h2 class="page-heading"> Welcome, <?php echo $current_user->display_name; ?></h2>
 		<p class="m-0">This is the main entry page.</p>
 	</div>
 </div>
@@ -28,16 +38,31 @@
 			<div class="bg-success rounded-3 p-4 text-white ">
 				<h5>ACTIVE PROTOCOLS:</h5>
 				<ul class="list-group list-group-flush">
-					<a href="#" class="list-group-item list-group-item-success">1. On-Campus Students</a>
-					<a href="#" class="list-group-item list-group-item-danger">2. Front-line Faculty</a>
-					<a href="#" class="list-group-item list-group-item-warning">3. Administrative Staff</a>
-					<a href="#" class="list-group-item list-group-item-info">4. Athletic Department</a>
-					<a href="#" class="list-group-item list-group-item-light">5. Science Students</a>
+					<?php
+					$i = 1;
+					foreach ( $protocols as $key => $protocol ) {
+						if ( $protocol->user_id == $current_user->ID && $protocol->type !== 'preset' ) {
+							$edit_url = add_query_arg(
+								array(
+									'page' => 'sponsor',
+									'nav'  => 'protocol',
+									'edit' => $protocol->id,
+								),
+								admin_url( 'admin.php' )
+							)
+							?>
+							<a href="<?php echo $edit_url; ?>" class="list-group-item list-group-item-success">
+								<?php echo $i++ . '. ' . $protocol->name; ?>
+							</a>
+							<?php
+						}
+					}
+					?>
 				</ul>
 			</div>
 		</div>
 	</div>
 	<div class="d-flex justify-content-end mt-5">
-		<img width="300" src="<?php echo esc_url	( sponsor()->assets ); ?>/images/good_to_go_icon.svg" alt="good to go">
+		<img width="300" src="<?php echo esc_url( sponsor()->assets ); ?>/images/good_to_go_icon.svg" alt="good to go">
 	</div>
 </div>
