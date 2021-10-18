@@ -15,28 +15,34 @@ $protocol_edit  = ! isset( $_GET['edit'] ) ? $user_protocols[ array_key_first( $
 		<h2 class="page-heading">Protocol Settings</h2>
 		<p class="m-0">Set entry protocol requirements and thresholds</p>
 	</div>
-	<h6 class="m-0">Your Protocol: <span class="text-success fw-bold">UF 243.Arts&Science</span></h6>
+	<h6 class="m-0">Your Protocol: <span class="text-success fw-bold">
+	<?php echo $protocol_edit->name; ?>
+	</span></h6>
 </div>
 
 <hr>
 
 <div class="sp-block mb-4">
 	<div class="d-flex justify-content-between align-items-center">
-		<div class="d-flex align-items-center">
-			<h4 class="m-0 text-nowrap">Select your Protocol:</h4>
-			<select class="form-select select2 ms-2" id="select_protocol">
+		<div class="input-group">
+			<span class="input-group-text">Select Protocol</span>
+			<select style="max-width: 150px;" class="form-select" id="select_protocol"  data-bs-toggle="tooltip" title="Select a protocol">
 				<?php foreach ( $user_protocols as $key => $protocol ) { ?>
 					<option <?php echo $protocol->id == $edit_id ? 'selected' : null; ?> value="<?php echo $protocol->id; ?>"><?php echo $protocol->name; ?></option>
 				<?php } ?>
 			</select>
+			<button class="btn btn-danger btn-sm me-5" id="delete_protocol" data-bs-toggle="tooltip" title="Delete this protocol" data-id=<?php echo $protocol_edit->id; ?>>
+				<i class="fad fa-trash-alt"></i>
+			</button>
 		</div>
 
-
 		<a href="<?php echo esc_url( get_url( 'protocol-new' ) ); ?>"
-			class="btn btn-success">
+			class="btn btn-success text-nowrap" data-bs-toggle="tooltip" title="Click here to create a new protocol">
 			<i class="fa fa-plus me-2"></i>
 			<?php echo esc_html( 'New Protocol' ); ?>
 		</a>
+
+
 	</div>
 </div>
 
@@ -84,13 +90,13 @@ $protocol_edit  = ! isset( $_GET['edit'] ) ? $user_protocols[ array_key_first( $
 										<i class="far me-2 fa-info-circle" data-bs-toggle="tooltip" title="<?php echo esc_attr( get_result( $field['label'] ) ); ?>"></i>
 										<?php if ( $field['type'] == 'group' ) { ?>
 											<div class="input-group">
-												<input type="number" class="form-control border change-field input-mw" name="<?php echo esc_attr( get_result( $block_key ) ) . '_' . esc_attr( get_result( $field_key ) ); ?>" value="<?php echo $field['default']; ?>">
+												<input type="number" class="form-control border change-field input-mw" name="<?php echo esc_attr( get_result( $field_key ) ); ?>" value="<?php echo $field['default']; ?>">
 												<span class="input-group-text"> Within Hour</span>
 											</div>
 											<?php
 										} else {
 											?>
-										<input type="number" class="form-control input-mw change-field text-right" placeholder="<?php echo esc_attr( 'input...' ); ?>" name="<?php echo esc_attr( get_result( $block_key ) ) . '_' . esc_attr( get_result( $field_key ) ); ?>" value="<?php echo esc_attr( $protocol_edit->$field_key ); ?>">
+										<input type="number" class="form-control input-mw change-field text-right" placeholder="<?php echo esc_attr( 'input...' ); ?>" name="<?php echo esc_attr( get_result( $field_key ) ); ?>" value="<?php echo esc_attr( $protocol_edit->$field_key ); ?>">
 										<?php } ?>
 
 										</div>

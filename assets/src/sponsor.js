@@ -85,8 +85,75 @@ if (saveProtocol) {
         } else {
           toastTrigger("success", "The protocol is saveed successfully");
         }
+        const url = new URL(window.location);
+        console.log(url.origin + url.pathname);
+        let page = url.searchParams.get("page");
+        let nav = url.searchParams.get("nav");
+        const params = new URLSearchParams({
+          page: page,
+          nav: "protocol-new",
+        });
+        const pushUrl = `${url.origin + url.pathname}?${params.toString()}`;
+        setTimeout(() => {
+          window.location = pushUrl;
+        }, 1000);
       }
     };
+  };
+}
+
+const updateProtocol = singleElement("#update_protocol");
+const update_id = singleElement("#select_protocol").value;
+if (updateProtocol) {
+  updateProtocol.onclick = (e) => {
+    var formData = new FormData(protocolForm);
+    formData.append("action", "update_protocol");
+    formData.append("protocol_id", update_id);
+    formData.append(_appObject.nonce_key, _appObject._sponsor_nonce);
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("POST", _appObject.ajaxUrl, true);
+    xhttp.send(formData);
+    xhttp.onreadystatechange = function () {
+      if (xhttp.readyState === 4) {
+        var getData = JSON.parse(xhttp.response);
+        console.log(getData.success);
+        if (getData.success == false) {
+          toastTrigger("error", "This protocol already exists");
+        } else {
+          toastTrigger("success", "The protocol is updated successfully");
+        }
+      }
+    };
+  };
+}
+
+const deleteProtocol = singleElement("#delete_protocol");
+const delete_id = deleteProtocol.dataset.id;
+if (deleteProtocol) {
+  deleteProtocol.onclick = (e) => {
+    if (
+      confirm("Are you sure you want to " + delete_id + " from the database?")
+    ) {
+      var formData = new FormData();
+      formData.append("action", "update_protocol");
+      formData.append("protocol_id", update_id);
+      formData.append(_appObject.nonce_key, _appObject._sponsor_nonce);
+      const xhttp = new XMLHttpRequest();
+      xhttp.open("POST", _appObject.ajaxUrl, true);
+      xhttp.send(formData);
+      xhttp.onreadystatechange = function () {
+        if (xhttp.readyState === 4) {
+          var getData = JSON.parse(xhttp.response);
+          console.log(getData.success);
+          if (getData.success == false) {
+            toastTrigger("error", "This protocol already exists");
+          } else {
+            toastTrigger("success", "The protocol is updated successfully");
+          }
+        }
+      };
+    }
+    return false;
   };
 }
 
