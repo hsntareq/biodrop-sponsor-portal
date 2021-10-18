@@ -8,8 +8,12 @@
 $edit_id        = get_request( 'edit' );
 $protocols      = $this->get_protocols();
 $user_protocols = $this->get_protocol_by_current_user();
-$protocol_edit  = ! isset( $_GET['edit'] ) ? $user_protocols[ array_key_first( $user_protocols ) ] : $this->get_edit_protocol( $edit_id );
-?>
+
+if ( ! empty( $user_protocols ) ) {
+	$protocol_edit = ! isset( $_GET['edit'] ) ? $user_protocols[ array_key_first( $user_protocols ) ] : ( ! empty( $edit_id ) ? $this->get_edit_protocol( $edit_id ) : array() );
+}
+if ( isset( $protocol_edit ) && null !== $protocol_edit ) :
+	?>
 <div class="sp-heading d-flex justify-content-between align-items-end">
 	<div>
 		<h2 class="page-heading">Protocol Settings</h2>
@@ -117,3 +121,21 @@ $protocol_edit  = ! isset( $_GET['edit'] ) ? $user_protocols[ array_key_first( $
 		<?php endforeach; ?>
 	</form>
 </div>
+<?php elseif ( null == $edit_id ) : ?>
+		<div class="input-group">
+			<span class="input-group-text"><?php echo __( 'Click here to create new protocol:', 'textdomain' ); ?></span>
+			<a href="<?php echo esc_url( get_url( 'protocol-new' ) ); ?>"
+				class="btn btn-success text-nowrap" data-bs-toggle="tooltip" title="Click here to create a new protocol">
+				<i class="fa fa-plus me-2"></i>
+				<?php echo esc_html( 'New Protocol' ); ?>
+			</a>
+		</div>
+<?php else : ?>
+
+<div class="sp-heading d-flex justify-content-between align-items-end">
+	<div>
+		<h2 class="page-heading">Protocol not found</h2>
+		<p class="m-0">Sorry NO protocol found with the id "<?php echo $_GET['edit']; ?>"</p>
+	</div>
+</div>
+<?php endif; ?>

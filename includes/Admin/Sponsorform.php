@@ -63,6 +63,7 @@ class SponsorForm {
 		// add_action( 'admin_init', array( $this, 'sponsor_user_settings' ) );
 		add_action( 'wp_ajax_save_protocol', array( $this, 'save_protocol' ) );
 		add_action( 'wp_ajax_update_protocol', array( $this, 'update_protocol' ) );
+		add_action( 'wp_ajax_delete_protocol', array( $this, 'delete_protocol' ) );
 		add_action( 'wp_ajax_get_protocol_by_id', array( $this, 'get_protocol_by_id' ) );
 		add_action( 'wp_ajax_get_selected_protocol', array( $this, 'get_selected_protocol' ) );
 		add_action( 'wp_ajax_get_protocol_by_name', array( $this, 'get_protocol_by_name' ) );
@@ -149,6 +150,34 @@ class SponsorForm {
 		}
 
 	}
+
+
+	/**
+	 * Function delete_protocol
+	 *
+	 * @return success
+	 */
+	public function delete_protocol() {
+		/*
+		if ( ! wp_verify_nonce( $_REQUEST['_sponsor_nonce'], 'delete_protocol' ) ) {
+			wp_die( 'Are you cheating2?' );
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( 'Are you cheating1?' );
+		} */
+
+		 global $wpdb;
+		 $tablename = $wpdb->prefix . 'sp_protocol';
+		$delete_id  = $wpdb->delete(
+			$tablename,
+			array( 'id' => $_POST['protocol_id'] ),
+			array( '%d' ),
+		);
+		if ( $delete_id ) {
+			wp_send_json_success( $delete_id );
+		}
+	}
 	/**
 	 * Function to save_protocol
 	 *
@@ -166,8 +195,8 @@ class SponsorForm {
 				$data_array[ $field ] = $_POST[ $field ];
 			}
 		}
-		$data_array['user_id']  = get_current_user_id();
-		$where = array(
+		$data_array['user_id'] = get_current_user_id();
+		$where                 = array(
 			'id'      => $_POST['protocol_id'],
 			'user_id' => $data_array['user_id'],
 		);
@@ -519,10 +548,13 @@ class SponsorForm {
 			foreach ( $all_protocols as $key => $option ) {
 				if ( ! empty( $option->name ) && ( $option->user_id == $current_user ) && 'user' == $option->type ) {
 					$protocols[] = $option;
+				} else {
+					$protocols = array();
 				}
 			}
+			return $protocols;
 		}
-		return $protocols;
+		return array();
 	}
 	/**
 	 * Function select_options
@@ -645,7 +677,7 @@ class SponsorForm {
 		exit;
 	}
 
-	public function delete_protocol() {
+	public function delete_protocolS() {
 		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'sp-po-delete-action' ) ) {
 			wp_die( 'Are you cheating2?' );
 		}

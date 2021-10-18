@@ -253,7 +253,7 @@ if (deleteProtocol) {
   deleteProtocol.onclick = e => {
     if (confirm("Are you sure you want to " + delete_id + " from the database?")) {
       var formData = new FormData();
-      formData.append("action", "update_protocol");
+      formData.append("action", "delete_protocol");
       formData.append("protocol_id", update_id);
       formData.append(_appObject.nonce_key, _appObject._sponsor_nonce);
       const xhttp = new XMLHttpRequest();
@@ -263,12 +263,22 @@ if (deleteProtocol) {
       xhttp.onreadystatechange = function () {
         if (xhttp.readyState === 4) {
           var getData = JSON.parse(xhttp.response);
-          console.log(getData.success);
+          console.log(xhttp.response);
 
-          if (getData.success == false) {
-            (0,_lib__WEBPACK_IMPORTED_MODULE_0__.toastTrigger)("error", "This protocol already exists");
-          } else {
-            (0,_lib__WEBPACK_IMPORTED_MODULE_0__.toastTrigger)("success", "The protocol is updated successfully");
+          if (getData.success == true) {
+            (0,_lib__WEBPACK_IMPORTED_MODULE_0__.toastTrigger)("success", "The protocol is deleted successfully");
+            const url = new URL(window.location);
+            console.log(url.origin + url.pathname);
+            let page = url.searchParams.get("page");
+            let nav = url.searchParams.get("nav");
+            const params = new URLSearchParams({
+              page: page,
+              nav: "protocol"
+            });
+            const pushUrl = `${url.origin + url.pathname}?${params.toString()}`;
+            setTimeout(() => {
+              window.location = pushUrl;
+            }, 1000);
           }
         }
       };
