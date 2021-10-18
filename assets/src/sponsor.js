@@ -95,10 +95,23 @@ if (selectProtocol) {
   selectProtocol.onchange = (e) => {
     var formData = new FormData();
     // console.log(window.location.search);
-    var searchParams = new URLSearchParams(window.location.search);
-    searchParams.set("edit", e.target.value);
+    // History push
+    const url = new URL(window.location);
+    console.log(url.origin + url.pathname);
+    let page = url.searchParams.get("page");
+    let nav = url.searchParams.get("nav");
+    const params = new URLSearchParams({
+      page: page,
+      nav: nav,
+      edit: e.target.value,
+    });
+    const pushUrl = `${url.origin + url.pathname}?${params.toString()}`;
+    window.location = pushUrl;
 
-    console.log(searchParams.toString());
+    // var searchParams = new URLSearchParams(window.location.search);
+    // searchParams.set("edit", e.target.value);
+
+    // console.log(searchParams.toString());
 
     /* formData.append("protocol_id", e.target.value);
     formData.append("action", "get_selected_protocol");

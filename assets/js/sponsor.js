@@ -210,10 +210,22 @@ const selectProtocol = (0,_lib__WEBPACK_IMPORTED_MODULE_0__.singleElement)("#sel
 if (selectProtocol) {
   selectProtocol.onchange = e => {
     var formData = new FormData(); // console.log(window.location.search);
+    // History push
 
-    var searchParams = new URLSearchParams(window.location.search);
-    searchParams.set("edit", e.target.value);
-    console.log(searchParams.toString());
+    const url = new URL(window.location);
+    console.log(url.origin + url.pathname);
+    let page = url.searchParams.get("page");
+    let nav = url.searchParams.get("nav");
+    const params = new URLSearchParams({
+      page: page,
+      nav: nav,
+      edit: e.target.value
+    });
+    const pushUrl = `${url.origin + url.pathname}?${params.toString()}`;
+    window.location = pushUrl; // var searchParams = new URLSearchParams(window.location.search);
+    // searchParams.set("edit", e.target.value);
+    // console.log(searchParams.toString());
+
     /* formData.append("protocol_id", e.target.value);
     formData.append("action", "get_selected_protocol");
     formData.append(_appObject.nonce_key, _appObject._sponsor_nonce);

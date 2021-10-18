@@ -1,3 +1,15 @@
+<?php
+/**
+ * File name: Sponsor Edit form
+ *
+ * @package template
+ */
+
+$edit_id        = get_request( 'edit' );
+$protocols      = $this->get_protocols();
+$user_protocols = $this->get_protocol_by_current_user();
+$protocol_edit  = ! isset( $_GET['edit'] ) ? $user_protocols[ array_key_first( $user_protocols ) ] : $this->get_edit_protocol( $edit_id );
+?>
 <div class="sp-heading d-flex justify-content-between align-items-end">
 	<div>
 		<h2 class="page-heading">Protocol Settings</h2>
@@ -5,17 +17,6 @@
 	</div>
 	<h6 class="m-0">Your Protocol: <span class="text-success fw-bold">UF 243.Arts&Science</span></h6>
 </div>
-
-<?php
-$edit_id        = get_request( 'edit' );
-$protocols      = $this->get_protocols();
-$edit_protocol  = $this->get_edit_protocol( $edit_id );
-$user_protocols = $this->get_protocol_by_current_user();
-if ( ! isset( $_GET['edit'] ) ) {
-	$protocol_edit = $user_protocols[ array_key_first( $user_protocols ) ];
-	// pr( $user_protocols );
-}
-?>
 
 <hr>
 
@@ -25,7 +26,7 @@ if ( ! isset( $_GET['edit'] ) ) {
 			<h4 class="m-0 text-nowrap">Select your Protocol:</h4>
 			<select class="form-select select2 ms-2" id="select_protocol">
 				<?php foreach ( $user_protocols as $key => $protocol ) { ?>
-					<option <?php echo $protocol->id == $edit_id ? 'selected' : null; ?> value="<?php echo $protocol->name; ?>"><?php echo $protocol->name; ?></option>
+					<option <?php echo $protocol->id == $edit_id ? 'selected' : null; ?> value="<?php echo $protocol->id; ?>"><?php echo $protocol->name; ?></option>
 				<?php } ?>
 			</select>
 		</div>
@@ -70,7 +71,6 @@ if ( ! isset( $_GET['edit'] ) ) {
 							if ( isset( $block['fields'] ) ) :
 								foreach ( $block['fields'] as $field_key => $field ) :
 									  $field_key = $block_key . '_' . $field_key;
-									// pr( $field );
 									?>
 									<div class="sp-row d-flex align-items-center mb-4 justify-content-between">
 										<!-- <label class="form-toggle mr-1">
